@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Pertanyaan Diterima &#8212; MI Terpadu Ibnu Sina</title>
+    <title>Jawaban Konsultasi &#8212; MI Terpadu Ibnu Sina</title>
     <style>
         * {
             margin: 0;
@@ -52,6 +52,10 @@
             .footer-cell {
                 padding: 16px 20px !important;
             }
+
+            .h1 {
+                font-size: 18px !important;
+            }
         }
     </style>
 </head>
@@ -70,6 +74,7 @@
                         <td class="header-cell"
                             style="background:linear-gradient(135deg,#14532d 0%,#15803d 55%,#22c55e 100%);padding:36px 40px 32px;">
 
+                            <!-- Logo + Nama Sekolah -->
                             <table width="100%" cellpadding="0" cellspacing="0" border="0">
                                 <tr>
                                     <td width="60" valign="middle">
@@ -95,6 +100,7 @@
                                 </tr>
                             </table>
 
+                            <!-- Divider -->
                             <table width="100%" cellpadding="0" cellspacing="0" border="0"
                                 style="margin:18px 0 22px;">
                                 <tr>
@@ -103,13 +109,15 @@
                                 </tr>
                             </table>
 
-                            <p
+                            <!-- Judul -->
+                            <p class="h1"
                                 style="color:#ffffff;font-size:22px;font-weight:800;font-family:Arial,sans-serif;margin:0 0 6px;letter-spacing:-.3px;">
-                                Pertanyaan Diterima</p>
+                                Jawaban Konsultasi</p>
                             <p
                                 style="color:rgba(255,255,255,.62);font-size:13px;font-family:Arial,sans-serif;margin:0;">
-                                Kami telah menerima pertanyaan Anda dan akan segera menjawabnya.</p>
+                                Pertanyaan Anda telah dijawab oleh tim kami.</p>
 
+                            <!-- Badge -->
                             <table cellpadding="0" cellspacing="0" border="0" style="margin-top:16px;">
                                 <tr>
                                     <td
@@ -120,7 +128,7 @@
                                                     width="7">&nbsp;</td>
                                                 <td
                                                     style="padding-left:7px;color:#ffffff;font-size:11px;font-weight:700;font-family:Arial,sans-serif;letter-spacing:.05em;text-transform:uppercase;">
-                                                    Dalam Proses Peninjauan</td>
+                                                    Pertanyaan Anda Sudah Dijawab</td>
                                             </tr>
                                         </table>
                                     </td>
@@ -134,17 +142,19 @@
                     <tr>
                         <td class="body-cell" style="padding:32px 40px 36px;">
 
+                            <!-- Salam -->
                             <p
                                 style="font-size:15px;color:#374151;font-family:Arial,sans-serif;line-height:1.75;margin:0 0 28px;">
                                 Assalamu&#8217;alaikum, <strong
                                     style="color:#15803d;">{{ $consultation->name }}</strong>.<br>
-                                Terima kasih telah menghubungi MI Terpadu Ibnu Sina. Pertanyaan Anda telah kami terima
-                                dan akan dijawab dalam <strong>1&ndash;2 hari kerja</strong> ke email ini.
+                                Terima kasih telah menghubungi kami. Berikut adalah jawaban atas pertanyaan yang Anda
+                                kirimkan:
                             </p>
 
+                            <!-- Label: Pertanyaan -->
                             <p
                                 style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.14em;color:#9ca3af;font-family:Arial,sans-serif;margin:0 0 10px;">
-                                Pertanyaan yang Anda Kirimkan</p>
+                                Pertanyaan Anda</p>
 
                             @if ($consultation->subject)
                                 <p
@@ -152,6 +162,7 @@
                                     {{ $consultation->subject }}</p>
                             @endif
 
+                            <!-- Kotak Pertanyaan -->
                             <table width="100%" cellpadding="0" cellspacing="0" border="0"
                                 style="margin-bottom:24px;">
                                 <tr>
@@ -164,33 +175,52 @@
                                 </tr>
                             </table>
 
+                            <!-- Label: Jawaban -->
+                            <p
+                                style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.14em;color:#9ca3af;font-family:Arial,sans-serif;margin:0 0 10px;">
+                                Jawaban dari Kami</p>
+
+                            <!-- Kotak Jawaban -->
                             <table width="100%" cellpadding="0" cellspacing="0" border="0"
-                                style="margin-bottom:24px;">
+                                style="margin-bottom:10px;">
                                 <tr>
                                     <td
-                                        style="background:#f0fdf4;border:1px solid #bbf7d0;border-left:4px solid #15803d;border-radius:0 14px 14px 0;padding:16px 20px;">
+                                        style="background:#f0fdf4;border:1px solid #bbf7d0;border-left:4px solid #15803d;border-radius:0 14px 14px 0;padding:20px 22px;">
                                         <p
-                                            style="font-size:14px;color:#14532d;font-family:Arial,sans-serif;line-height:1.75;margin:0;">
-                                            &#128276; <strong>Harap simpan email ini</strong> sebagai bukti bahwa
-                                            pertanyaan Anda
-                                            telah diterima. Jawaban akan dikirimkan ke alamat email ini secara langsung.
-                                        </p>
+                                            style="font-size:14px;color:#14532d;font-family:Arial,sans-serif;line-height:1.9;margin:0;white-space:pre-line;">
+                                            {{ $consultation->reply }}</p>
                                     </td>
                                 </tr>
                             </table>
 
+                            <!-- Waktu balas -->
+                            <table cellpadding="0" cellspacing="0" border="0" style="margin:10px 0 28px;">
+                                <tr>
+                                    <td style="width:18px;height:18px;background:#dcfce7;border-radius:50%;text-align:center;vertical-align:middle;"
+                                        width="18">
+                                        <span
+                                            style="font-size:9px;color:#15803d;font-weight:900;font-family:Arial,sans-serif;">&#10003;</span>
+                                    </td>
+                                    <td
+                                        style="padding-left:7px;font-size:12px;color:#9ca3af;font-family:Arial,sans-serif;">
+                                        Dijawab pada: <strong
+                                            style="color:#15803d;">{{ $consultation->replied_at?->locale('id')->isoFormat('dddd, D MMMM YYYY [·] HH:mm') }}
+                                            WIB</strong>
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <!-- Penutup -->
                             <table width="100%" cellpadding="0" cellspacing="0" border="0">
                                 <tr>
                                     <td
                                         style="background:#f9fafb;border:1px solid #f3f4f6;border-radius:12px;padding:18px 20px;">
                                         <p
                                             style="font-size:13px;color:#6b7280;font-family:Arial,sans-serif;line-height:1.75;margin:0;">
-                                            Jika Anda memiliki pertanyaan mendesak, silakan hubungi kami langsung
-                                            melalui WhatsApp
-                                            atau kunjungi halaman
+                                            Jika Anda masih memiliki pertanyaan lain, silakan kunjungi halaman
                                             <a href="{{ config('app.url') }}/konsultasi"
                                                 style="color:#15803d;font-weight:700;text-decoration:none;">Konsultasi</a>
-                                            di website kami.<br><br>
+                                            di website kami &mdash; kami selalu siap membantu. &#128591;<br><br>
                                             <em>Wassalamu&#8217;alaikum warahmatullahi wabarakatuh.</em>
                                         </p>
                                     </td>

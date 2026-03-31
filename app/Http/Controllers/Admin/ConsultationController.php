@@ -49,19 +49,18 @@ class ConsultationController extends Controller
             'reply.min'      => 'Jawaban minimal 5 karakter.',
         ]);
 
-        // Simpan jawaban ke DB dulu sebelum kirim email
+        // Simpan jawaban ke DB sebelum kirim email
         $consultation->update([
             'reply'      => $request->reply,
             'replied_at' => now(),
             'status'     => 'replied',
         ]);
 
-        // Kirim email
         try {
             Mail::to($consultation->email)
                 ->send(new ConsultationReplyMail($consultation));
 
-            Log::info('Email konsultasi berhasil dikirim', [
+            Log::info('[ConsultationController] Email balasan berhasil dikirim', [
                 'consultation_id' => $consultation->id,
                 'to'              => $consultation->email,
             ]);
@@ -70,13 +69,13 @@ class ConsultationController extends Controller
                 ->route('admin.consultations.index')
                 ->with('success', "Jawaban berhasil dikirim ke {$consultation->email}.");
         } catch (\Exception $e) {
-            Log::error('Gagal kirim email konsultasi', [
+            Log::error('[ConsultationController] Gagal kirim email balasan', [
                 'consultation_id' => $consultation->id,
                 'to'              => $consultation->email,
                 'error'           => $e->getMessage(),
             ]);
 
-            // Jawaban sudah tersimpan di DB, tapi email gagal
+            // Jawaban sudah tersimpan di DB meski email gagal
             return redirect()
                 ->route('admin.consultations.index')
                 ->with('warning', 'Jawaban tersimpan, tapi email gagal dikirim: ' . $e->getMessage());

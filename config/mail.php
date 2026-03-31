@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'default' => env('MAIL_MAILER', 'log'),
+    'default' => env('MAIL_MAILER', 'smtp'),
 
     'mailers' => [
         'smtp' => [
@@ -9,7 +9,7 @@ return [
             'scheme'       => env('MAIL_SCHEME', null),
             'url'          => env('MAIL_URL'),
             'host'         => env('MAIL_HOST', '127.0.0.1'),
-            'port'         => env('MAIL_PORT', 587),
+            'port'         => env('MAIL_PORT', 465),
             'username'     => env('MAIL_USERNAME'),
             'password'     => env('MAIL_PASSWORD'),
             'timeout'      => env('MAIL_TIMEOUT', 30),
@@ -43,14 +43,14 @@ return [
         ],
 
         'failover' => [
-            'transport' => 'failover',
-            'mailers'   => ['smtp', 'log'],
+            'transport'   => 'failover',
+            'mailers'     => ['smtp', 'log'],
             'retry_after' => 60,
         ],
 
         'roundrobin' => [
-            'transport' => 'roundrobin',
-            'mailers'   => ['ses', 'postmark'],
+            'transport'   => 'roundrobin',
+            'mailers'     => ['ses', 'postmark'],
             'retry_after' => 60,
         ],
     ],
