@@ -10,10 +10,6 @@
             <h3 class="text-lg font-semibold text-gray-800">Konten Tentang Sekolah</h3>
             <p class="text-sm text-gray-500">Total {{ $abouts->count() }} konten</p>
         </div>
-        <a href="{{ route('admin.about.create') }}"
-            class="hidden flex items-center gap-2 px-4 py-2 font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700">
-            <i class="fas fa-plus"></i> Tambah Konten
-        </a>
     </div>
 
     <div class="overflow-hidden bg-white rounded-lg shadow">
@@ -70,8 +66,15 @@
                                 @if ($about->featured_image)
                                     <img src="{{ asset('storage/' . $about->featured_image) }}" alt="{{ $about->title }}"
                                         class="object-cover w-12 h-12 rounded-lg">
+                                @elseif ($about->key === 'school_info')
+                                    @php $info = json_decode($about->content, true) ?: []; @endphp
+                                    <span class="text-xs text-gray-500">
+                                        {{ $info['nama_sekolah'] ?? '—' }} · NPSN: {{ $info['npsn'] ?? '—' }}
+                                    </span>
                                 @else
-                                    {{ Str::limit($about->content, 60) ?: '—' }}
+                                    <span class="text-xs text-gray-500">
+                                        {{ Str::limit(strip_tags($about->content), 60) ?: '—' }}
+                                    </span>
                                 @endif
                             </td>
                             <td class="px-6 py-4">

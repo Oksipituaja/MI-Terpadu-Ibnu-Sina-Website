@@ -40,13 +40,16 @@ class Konsultasi extends Component
     public function submit(): void
     {
         $validated = $this->validate();
-
         $consultation = Consultation::create($validated);
 
-        // Kirim email konfirmasi — form tetap sukses meski email gagal
         try {
             Mail::to($consultation->email)
                 ->send(new ConsultationReceivedMail($consultation));
+
+            Log::info('[Konsultasi] Email konfirmasi berhasil dikirim', [
+                'consultation_id' => $consultation->id,
+                'to'              => $consultation->email,
+            ]);
         } catch (\Exception $e) {
             Log::warning('[Konsultasi] Email konfirmasi gagal dikirim: ' . $e->getMessage(), [
                 'consultation_id' => $consultation->id,

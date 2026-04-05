@@ -29,14 +29,14 @@
                     <option value="">-- Pilih Tipe --</option>
                     <option value="home_hero_image" {{ old('key') === 'home_hero_image' ? 'selected' : '' }}>Gambar Hero
                         Beranda</option>
-                    <option value="hero_image" {{ old('key') === 'hero_image' ? 'selected' : '' }}>Gambar Hero
-                        Tentang Kami</option>
+                    <option value="hero_image" {{ old('key') === 'hero_image' ? 'selected' : '' }}>Gambar Hero Tentang
+                        Kami</option>
                     <option value="principal_greeting" {{ old('key') === 'principal_greeting' ? 'selected' : '' }}>Sambutan
                         Kepala Sekolah</option>
-                    <option value="school_profile" {{ old('key') === 'school_profile' ? 'selected' : '' }}>Profil
-                        Sekolah</option>
-                    <option value="school_info" {{ old('key') === 'school_info' ? 'selected' : '' }}>Informasi
-                        Sekolah (JSON)</option>
+                    <option value="school_profile" {{ old('key') === 'school_profile' ? 'selected' : '' }}>Profil Sekolah
+                    </option>
+                    <option value="school_info" {{ old('key') === 'school_info' ? 'selected' : '' }}>Informasi Sekolah
+                        (JSON)</option>
                     <option value="vision" {{ old('key') === 'vision' ? 'selected' : '' }}>Visi</option>
                     <option value="mission" {{ old('key') === 'mission' ? 'selected' : '' }}>Misi</option>
                 </select>
@@ -45,15 +45,96 @@
 
             {{-- JSON Fields --}}
             <div id="schoolInfoFields" class="hidden p-4 space-y-4 border border-blue-200 rounded-lg bg-blue-50">
-                <div class="grid grid-cols-2 gap-4">
+                <p class="text-xs font-semibold text-blue-700">Data Informasi Sekolah</p>
+                <div class="grid grid-cols-2 gap-3">
                     <div>
                         <label class="block mb-1 text-xs font-medium text-gray-700">NPSN</label>
                         <input type="text" id="si_npsn"
                             class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg si-input">
                     </div>
                     <div>
+                        <label class="block mb-1 text-xs font-medium text-gray-700">NSM</label>
+                        <input type="text" id="si_nsm"
+                            class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg si-input">
+                    </div>
+                    <div>
                         <label class="block mb-1 text-xs font-medium text-gray-700">Nama Sekolah</label>
-                        <input type="text" id="si_name"
+                        <input type="text" id="si_nama_sekolah"
+                            class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg si-input">
+                    </div>
+                    <div>
+                        <label class="block mb-1 text-xs font-medium text-gray-700">Naungan</label>
+                        <input type="text" id="si_naungan"
+                            class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg si-input">
+                    </div>
+                    <div>
+                        <label class="block mb-1 text-xs font-medium text-gray-700">Tanggal Berdiri</label>
+                        <input type="text" id="si_tanggal_berdiri"
+                            class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg si-input">
+                    </div>
+                    <div>
+                        <label class="block mb-1 text-xs font-medium text-gray-700">No. SK Pendirian</label>
+                        <input type="text" id="si_no_sk_pendirian"
+                            class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg si-input">
+                    </div>
+                    <div>
+                        <label class="block mb-1 text-xs font-medium text-gray-700">Tanggal Operasional</label>
+                        <input type="text" id="si_tanggal_operasional"
+                            class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg si-input">
+                    </div>
+                    <div>
+                        <label class="block mb-1 text-xs font-medium text-gray-700">No. SK Operasional</label>
+                        <input type="text" id="si_no_sk_operasional"
+                            class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg si-input">
+                    </div>
+                    <div>
+                        <label class="block mb-1 text-xs font-medium text-gray-700">Jenjang Pendidikan</label>
+                        <input type="text" id="si_jenjang_pendidikan"
+                            class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg si-input">
+                    </div>
+                    <div>
+                        <label class="block mb-1 text-xs font-medium text-gray-700">Status Sekolah</label>
+                        <input type="text" id="si_status_sekolah"
+                            class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg si-input">
+                    </div>
+                    <div>
+                        <label class="block mb-1 text-xs font-medium text-gray-700">Akreditasi</label>
+                        <input type="text" id="si_akreditasi"
+                            class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg si-input">
+                    </div>
+                    <div>
+                        <label class="block mb-1 text-xs font-medium text-gray-700">Tanggal Akreditasi</label>
+                        <input type="text" id="si_tanggal_akreditasi"
+                            class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg si-input">
+                    </div>
+                    <div class="col-span-2">
+                        <label class="block mb-1 text-xs font-medium text-gray-700">No. SK Akreditasi</label>
+                        <input type="text" id="si_no_sk_akreditasi"
+                            class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg si-input">
+                    </div>
+                    <div class="col-span-2">
+                        <label class="block mb-1 text-xs font-medium text-gray-700">Alamat</label>
+                        <input type="text" id="si_alamat"
+                            class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg si-input">
+                    </div>
+                    <div>
+                        <label class="block mb-1 text-xs font-medium text-gray-700">Desa</label>
+                        <input type="text" id="si_desa"
+                            class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg si-input">
+                    </div>
+                    <div>
+                        <label class="block mb-1 text-xs font-medium text-gray-700">Kecamatan</label>
+                        <input type="text" id="si_kecamatan"
+                            class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg si-input">
+                    </div>
+                    <div>
+                        <label class="block mb-1 text-xs font-medium text-gray-700">Kabupaten</label>
+                        <input type="text" id="si_kabupaten"
+                            class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg si-input">
+                    </div>
+                    <div>
+                        <label class="block mb-1 text-xs font-medium text-gray-700">Provinsi</label>
+                        <input type="text" id="si_provinsi"
                             class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg si-input">
                     </div>
                 </div>
@@ -86,20 +167,15 @@
                 @enderror
             </div>
 
-            {{-- ✅ Crop Component — rasio dinamis via Alpine + JS di bawah --}}
-            {{-- Wrapper visibility dikelola JS, component ini selalu dirender tapi disembunyikan --}}
+            {{-- Crop Components --}}
             <div id="imageFieldWrapper" class="hidden">
-                {{--
-                    Kita tidak bisa mengubah aspect-ratio component secara dinamis karena Blade
-                    di-render server-side. Solusi: render 3 varian, tampilkan sesuai key.
-                --}}
                 <div id="crop169" class="hidden">
-                    <x-image-crop-upload id="crop169input" name="featured_image" label="Gambar" aspect-ratio="16/9"
-                        :optional="false" :error="$errors->first('featured_image')" />
+                    <x-image-crop-upload name="featured_image" label="Gambar" aspect-ratio="16/9" :optional="false"
+                        :error="$errors->first('featured_image')" />
                 </div>
                 <div id="crop11" class="hidden">
-                    <x-image-crop-upload id="crop11input" name="featured_image" label="Foto Kepala Sekolah"
-                        aspect-ratio="1/1" preview-class="w-40 h-40" :optional="false" :error="$errors->first('featured_image')" />
+                    <x-image-crop-upload name="featured_image" label="Foto Kepala Sekolah" aspect-ratio="1/1"
+                        preview-class="w-40 h-40" :optional="false" :error="$errors->first('featured_image')" />
                 </div>
             </div>
 
@@ -137,15 +213,38 @@
                 'principal_greeting': 'Foto & sambutan kepala sekolah ditampilkan di Beranda dan halaman Tentang.',
             };
 
+            const siFields = {
+                npsn: 'si_npsn',
+                nsm: 'si_nsm',
+                nama_sekolah: 'si_nama_sekolah',
+                naungan: 'si_naungan',
+                tanggal_berdiri: 'si_tanggal_berdiri',
+                no_sk_pendirian: 'si_no_sk_pendirian',
+                tanggal_operasional: 'si_tanggal_operasional',
+                no_sk_operasional: 'si_no_sk_operasional',
+                jenjang_pendidikan: 'si_jenjang_pendidikan',
+                status_sekolah: 'si_status_sekolah',
+                akreditasi: 'si_akreditasi',
+                tanggal_akreditasi: 'si_tanggal_akreditasi',
+                no_sk_akreditasi: 'si_no_sk_akreditasi',
+                alamat: 'si_alamat',
+                desa: 'si_desa',
+                kecamatan: 'si_kecamatan',
+                kabupaten: 'si_kabupaten',
+                provinsi: 'si_provinsi',
+            };
+
             let tinymceReady = false;
 
             function buildJson() {
-                const data = {
-                    npsn: document.getElementById('si_npsn').value,
-                    nama_sekolah: document.getElementById('si_name').value
-                };
+                const data = {};
+                Object.entries(siFields).forEach(([key, id]) => {
+                    const el = document.getElementById(id);
+                    if (el) data[key] = el.value;
+                });
                 contentField.value = JSON.stringify(data);
             }
+
             document.querySelectorAll('.si-input').forEach(el => el.addEventListener('input', buildJson));
 
             function initTinyMCE() {
@@ -179,29 +278,18 @@
                 const hasContent = key !== '' && !isSchoolInfo && !isImageOnly;
                 const showImage = !noImageKeys.includes(key) && key !== '';
                 const isPrincipal = key === 'principal_greeting';
-                const isHero = key === 'home_hero_image' || key === 'hero_image';
 
-                // Hint
                 keyHint.textContent = hints[key] ?? '';
                 keyHint.classList.toggle('hidden', !hints[key]);
-
-                // Principal name
                 document.getElementById('principalNameField').classList.toggle('hidden', !isPrincipal);
-
-                // School info fields
                 document.getElementById('schoolInfoFields').classList.toggle('hidden', !isSchoolInfo);
-
-                // Content wrapper
                 contentWrapper.classList.toggle('hidden', !hasContent);
-
-                // Image — show/hide wrapper and correct crop variant
                 imageWrapper.classList.toggle('hidden', !showImage);
                 if (showImage) {
                     crop169.classList.toggle('hidden', isPrincipal);
                     crop11.classList.toggle('hidden', !isPrincipal);
                 }
 
-                // TinyMCE logic
                 if (isSchoolInfo) {
                     if (typeof tinymce !== 'undefined' && tinymce.get('contentField')) {
                         tinymce.get('contentField').remove();

@@ -57,6 +57,18 @@ class ConsultationController extends Controller
         ]);
 
         try {
+            // Force mail config untuk PHP-FPM web process
+            config([
+                'mail.mailers.smtp.host'       => 'mild.jagoanhosting.id',
+                'mail.mailers.smtp.port'       => 587,
+                'mail.mailers.smtp.encryption' => 'tls',
+                'mail.mailers.smtp.username'   => 'info@mitisjepara.com',
+                'mail.mailers.smtp.password'   => 'DashboardInfo10',
+                'mail.from.address'            => 'info@mitisjepara.com',
+                'mail.from.name'               => 'MI Terpadu Ibnu Sina',
+            ]);
+            Mail::purge('smtp');
+
             Mail::to($consultation->email)
                 ->send(new ConsultationReplyMail($consultation));
 
@@ -75,7 +87,6 @@ class ConsultationController extends Controller
                 'error'           => $e->getMessage(),
             ]);
 
-            // Jawaban sudah tersimpan di DB meski email gagal
             return redirect()
                 ->route('admin.consultations.index')
                 ->with('warning', 'Jawaban tersimpan, tapi email gagal dikirim: ' . $e->getMessage());

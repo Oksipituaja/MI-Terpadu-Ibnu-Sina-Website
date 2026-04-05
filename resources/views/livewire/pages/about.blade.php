@@ -1,6 +1,5 @@
 <div class="min-h-screen" style="background: #F0F4ED">
     @php
-        // Pastikan path ini sesuai dengan key 'hero_featured_image' dari Admin
         $heroImagePath = $heroImage?->featured_image ? asset('storage/' . $heroImage->featured_image) : null;
     @endphp
 
@@ -28,7 +27,6 @@
         @if ($principalGreeting)
             <div id="sambutan" class="relative py-16 my-12 overflow-hidden rounded-xl scroll-mt-32"
                 style="background: linear-gradient(to bottom right, #F0F4ED, #dcfce7, #F0F4ED)">
-                {{-- Decorative Background --}}
                 <div class="absolute inset-0 opacity-5">
                     <div class="absolute top-0 left-0 rounded-full w-96 h-96 blur-3xl" style="background: #15803d">
                     </div>
@@ -100,18 +98,18 @@
                 <div id="visi-misi" class="grid gap-8 pt-12 my-16 border-t md:grid-cols-2 scroll-mt-32"
                     style="border-color: #15803d26">
                     @if ($vision)
-                        <div class="p-8 rounded-2xl shadow-sm"
+                        <div class="p-8 shadow-sm rounded-2xl"
                             style="background: white; border-left: 8px solid #15803d">
                             <h3 class="mb-4 text-2xl font-bold" style="color: #14532d">{{ $vision->title }}</h3>
-                            <div class="leading-relaxed text-gray-700 prose-sm prose">{!! $vision->content !!}</div>
+                            <div class="leading-relaxed prose-sm prose text-gray-700">{!! $vision->content !!}</div>
                         </div>
                     @endif
 
                     @if ($mission)
-                        <div class="p-8 rounded-2xl shadow-sm"
+                        <div class="p-8 shadow-sm rounded-2xl"
                             style="background: white; border-left: 8px solid #EAB308">
                             <h3 class="mb-4 text-2xl font-bold" style="color: #854d0e">{{ $mission->title }}</h3>
-                            <div class="leading-relaxed text-gray-700 prose-sm prose">{!! $mission->content !!}</div>
+                            <div class="leading-relaxed prose-sm prose text-gray-700">{!! $mission->content !!}</div>
                         </div>
                     @endif
                 </div>
@@ -119,23 +117,34 @@
 
             {{-- Looping Sections Lainnya --}}
             @forelse($aboutSections as $section)
-                {{-- Kita lewati key yang sudah ditampilkan secara khusus di atas --}}
-                @if (!in_array($section->key, ['vision', 'mission', 'hero_featured_image', 'principal_greeting', 'school_profile']))
-                    <div class="pt-12 mb-16 border-t scroll-mt-32" style="border-color: #15803d26">
-                        <h2 class="mb-8 text-3xl font-bold" style="color: #14532d">{{ $section->title }}</h2>
+                <div class="pt-12 mb-16 border-t scroll-mt-32" style="border-color: #15803d26">
+                    <h2 class="mb-8 text-3xl font-bold" style="color: #14532d">{{ $section->title }}</h2>
 
-                        @if ($section->featured_image)
-                            <div class="mb-8 overflow-hidden shadow-lg rounded-2xl">
-                                <img src="{{ asset('storage/' . $section->featured_image) }}"
-                                    class="object-cover w-full max-h-96" alt="{{ $section->title }}">
-                            </div>
-                        @endif
+                    @if ($section->featured_image)
+                        <div class="mb-8 overflow-hidden shadow-lg rounded-2xl">
+                            <img src="{{ asset('storage/' . $section->featured_image) }}"
+                                class="object-cover w-full max-h-96" alt="{{ $section->title }}">
+                        </div>
+                    @endif
 
-                        <div class="leading-relaxed text-gray-700 prose-lg prose max-w-none">
+                    @if ($section->key === 'school_info')
+                        @php $info = json_decode($section->content, true) ?: []; @endphp
+                        <div class="grid grid-cols-2 gap-6 p-6 bg-white shadow-sm rounded-2xl">
+                            @foreach ($info as $key => $val)
+                                <div>
+                                    <span class="block mb-1 text-xs font-bold tracking-widest text-gray-400 uppercase">
+                                        {{ str_replace('_', ' ', $key) }}
+                                    </span>
+                                    <p class="text-base font-semibold text-gray-800">{{ $val }}</p>
+                                </div>
+                            @endforeach
+                        </div>
+                    @else
+                        <div class="leading-relaxed prose prose-lg text-gray-700 max-w-none">
                             {!! $section->content !!}
                         </div>
-                    </div>
-                @endif
+                    @endif
+                </div>
             @empty
             @endforelse
 

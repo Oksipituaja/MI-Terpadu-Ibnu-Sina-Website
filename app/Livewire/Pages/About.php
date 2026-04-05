@@ -28,10 +28,18 @@ class About extends Component
     {
         $heroImage         = AboutModel::where('key', 'hero_image')->first();
         $principalGreeting = AboutModel::where('key', 'principal_greeting')->first();
-        $aboutSections     = AboutModel::where('key', '!=', 'hero_image')->get();
         $schoolProfile     = AboutModel::where('key', 'school_profile')->first();
         $vision            = AboutModel::where('key', 'vision')->first();
         $mission           = AboutModel::where('key', 'mission')->first();
+
+        $aboutSections = AboutModel::whereNotIn('key', [
+            'hero_image',
+            'home_hero_image',
+            'principal_greeting',
+            'vision',
+            'mission',
+            'school_profile',
+        ])->get();
 
         return view('livewire.pages.about', [
             'heroImage'         => $heroImage,
