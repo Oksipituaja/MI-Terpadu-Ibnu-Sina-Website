@@ -9,7 +9,7 @@ namespace App\Models {
      * @property \Illuminate\Support\Carbon|null $created_at
      * @property string $key
      * @property string|null $featured_image
-     * @property string $content
+     * @property string|null $content
      * @property string|null $principal_name
      * @property string $title
      * @property int $id

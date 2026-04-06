@@ -64,8 +64,9 @@
                             </td>
                             <td class="px-6 py-4 text-sm text-gray-600">
                                 @if ($about->featured_image)
-                                    <img src="{{ asset('storage/' . $about->featured_image) }}" alt="{{ $about->title }}"
-                                        class="object-cover w-12 h-12 rounded-lg">
+                                    <img src="{{ asset('storage/' . $about->featured_image) }}"
+                                        onerror="this.onerror=null;this.src='/files/{{ $about->featured_image }}'"
+                                        alt="{{ $about->title }}" class="object-cover w-12 h-12 rounded-lg">
                                 @elseif ($about->key === 'school_info')
                                     @php $info = json_decode($about->content, true) ?: []; @endphp
                                     <span class="text-xs text-gray-500">

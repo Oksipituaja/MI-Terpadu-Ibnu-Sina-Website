@@ -5,16 +5,15 @@
 
 @section('content')
     <div class="max-w-2xl p-6 mx-auto bg-white rounded-lg shadow">
-        <form action="{{ route('admin.prestasis.update', $prestasi) }}" method="POST" enctype="multipart/form-data"
-            class="space-y-5">
+        <form action="{{ route('admin.prestasis.update', $prestasi) }}" method="POST" class="space-y-5">
             @csrf @method('PUT')
 
             <input type="hidden" name="slug" id="prestasiSlug" value="{{ old('slug', $prestasi->slug) }}">
 
             <div>
                 <label class="block mb-1 text-sm font-medium text-gray-700">Judul Prestasi</label>
-                <input type="text" name="title" id="prestasiTitle" value="{{ old('title', $prestasi->title) }}"
-                    required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                <input type="text" name="title" id="prestasiTitle" value="{{ old('title', $prestasi->title) }}" required
+                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
                 @error('title')
                     <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
                 @enderror
@@ -86,9 +85,8 @@
                 @enderror
             </div>
 
-            {{-- ✅ Crop Upload Component --}}
             <x-image-crop-upload name="featured_image" label="Gambar Prestasi" aspect-ratio="16/9" :optional="true"
-                :current-image="$prestasi->featured_image ? asset('storage/' . $prestasi->featured_image) : null" :current-alt="$prestasi->title" :error="$errors->first('featured_image')" />
+                :current-image="$prestasi->featured_image ? url('/files/' . $prestasi->featured_image) : null" :current-alt="$prestasi->title" :error="$errors->first('featured_image_base64')" />
 
             <div>
                 <label class="block mb-1 text-sm font-medium text-gray-700">Status</label>
@@ -129,7 +127,8 @@
                 height: 300,
                 menubar: false,
                 plugins: 'lists link autolink',
-                toolbar: ['undo redo | bold italic underline | forecolor',
+                toolbar: [
+                    'undo redo | bold italic underline | forecolor',
                     'bullist numlist | link | removeformat'
                 ],
                 toolbar_mode: 'wrap',
@@ -144,6 +143,7 @@
                 init_instance_callback: function() {
                     const sk = document.getElementById('tinymce-skeleton');
                     if (sk) sk.remove();
+                    document.getElementById('description').classList.remove('hidden');
                 }
             });
 
@@ -166,10 +166,11 @@
                 onChange: function(selectedDates) {
                     if (selectedDates[0]) {
                         const d = selectedDates[0];
-                        hiddenInput.value = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2,
-                            '0') + '-' + String(d.getDate()).padStart(2, '0');
-                        display.textContent = String(d.getDate()).padStart(2, '0') + ' ' + months[d
-                            .getMonth()] + ' ' + d.getFullYear();
+                        hiddenInput.value = d.getFullYear() + '-' +
+                            String(d.getMonth() + 1).padStart(2, '0') + '-' +
+                            String(d.getDate()).padStart(2, '0');
+                        display.textContent = String(d.getDate()).padStart(2, '0') + ' ' +
+                            months[d.getMonth()] + ' ' + d.getFullYear();
                         display.classList.remove('text-gray-400');
                         display.classList.add('text-gray-800');
                     }
@@ -183,7 +184,7 @@
                 e.stopPropagation();
                 const rect = btnPickDate.getBoundingClientRect();
                 fpContainer.style.cssText =
-                    `position:fixed;z-index:99999;top:${rect.bottom+8}px;left:${rect.left}px;display:block;`;
+                    `position:fixed;z-index:99999;top:${rect.bottom + 8}px;left:${rect.left}px;display:block;`;
                 fp.open();
             });
 

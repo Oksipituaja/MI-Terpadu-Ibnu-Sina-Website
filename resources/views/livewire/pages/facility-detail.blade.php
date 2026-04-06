@@ -9,7 +9,7 @@
         <div class="flex items-center justify-center mb-8 overflow-hidden rounded-lg h-96"
             style="background: linear-gradient(to bottom right, #dcfce7, #F0F4ED)">
             @if($facility->featured_image)
-                <img src="{{ asset('storage/' . $facility->featured_image) }}"
+                <img src="{{ url('/files/' . $facility->featured_image) }}"
                     alt="{{ $facility->name }}"
                     class="object-cover w-full h-full">
             @else
@@ -55,7 +55,7 @@
                             <div class="relative flex items-center justify-center h-48 overflow-hidden transition rounded-lg"
                                 style="background: linear-gradient(to bottom right, #dcfce7, #F0F4ED)">
                                 @if($other->featured_image)
-                                    <img src="{{ asset('storage/' . $other->featured_image) }}" alt="{{ $other->name }}"
+                                    <img src="{{ url('/files/' . $other->featured_image) }}" alt="{{ $other->name }}"
                                         class="object-cover w-full h-full transition-transform duration-300 group-hover:scale-105">
                                 @else
                                     <i class="{{ $other->icon ?? 'fas fa-building' }} text-4xl opacity-40" style="color: #15803d"></i>

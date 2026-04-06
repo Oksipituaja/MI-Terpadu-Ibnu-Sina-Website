@@ -30,7 +30,7 @@
             <div class="lg:col-span-2">
                 @if ($prestasi->featured_image)
                     <div class="w-full mb-8 overflow-hidden shadow-lg rounded-xl">
-                        <img src="{{ Storage::url($prestasi->featured_image) }}" alt="{{ $prestasi->title }}"
+                        <img src="{{ url('/files/' . $prestasi->featured_image) }}" alt="{{ $prestasi->title }}"
                             class="object-cover w-full h-auto">
                     </div>
                 @else
@@ -41,7 +41,6 @@
                     </div>
                 @endif
 
-                {{-- FIX: Use {!! !!} instead of {{ }} to render TinyMCE HTML content --}}
                 <div class="prose prose-lg max-w-none">
                     <h2 class="mb-4 text-2xl font-bold" style="color: #14532d">Deskripsi</h2>
                     <div class="leading-relaxed text-gray-700 tinymce-content">

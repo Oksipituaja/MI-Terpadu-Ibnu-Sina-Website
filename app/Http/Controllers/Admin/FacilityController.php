@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Facility;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Illuminate\View\View;
 
 class FacilityController extends Controller
@@ -12,7 +14,6 @@ class FacilityController extends Controller
     public function index(): View
     {
         $facilities = Facility::latest()->paginate(15);
-
         return view('admin.facilities.index', compact('facilities'));
     }
 
@@ -24,21 +25,25 @@ class FacilityController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'slug' => 'required|string|unique:facilities',
-            'description' => 'nullable|string',
-            'icon' => 'nullable|string',
-            'featured_image' => 'nullable|file|mimes:jpeg,png,jpg,gif,svg,webp,avif|max:5120',
-            'kondisi' => 'required|in:tersedia,perbaikan,belum_ada,akan_ada',
+            'name'                  => 'required|string|max:255',
+            'slug'                  => 'required|string|unique:facilities',
+            'description'           => 'nullable|string',
+            'icon'                  => 'nullable|string',
+            'featured_image_base64' => 'nullable|string',
+            'kondisi'               => 'required|in:tersedia,perbaikan,belum_ada,akan_ada',
         ]);
 
-        if ($request->hasFile('featured_image')) {
-            $validated['featured_image'] = $request->file('featured_image')->store('facilities', 'public');
+        $newImage = $this->handleBase64Image($request->input('featured_image_base64'));
+        if ($newImage) {
+            $validated['featured_image'] = $newImage;
         }
+
+        unset($validated['featured_image_base64']);
 
         Facility::create($validated);
 
-        return redirect()->route('admin.facilities.index')->with('success', 'Facility added successfully!');
+        return redirect()->route('admin.facilities.index')
+            ->with('success', 'Fasilitas berhasil ditambahkan!');
     }
 
     public function edit(Facility $facility): View
@@ -49,34 +54,65 @@ class FacilityController extends Controller
     public function update(Request $request, Facility $facility)
     {
         $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'slug' => 'required|string|unique:facilities,slug,'.$facility->id,
-            'description' => 'nullable|string',
-            'icon' => 'nullable|string',
-            'featured_image' => 'nullable|file|mimes:jpeg,png,jpg,gif,svg,webp,avif|max:5120',
-            'kondisi' => 'required|in:tersedia,perbaikan,belum_ada,akan_ada',
+            'name'                  => 'required|string|max:255',
+            'slug'                  => 'required|string|unique:facilities,slug,' . $facility->id,
+            'description'           => 'nullable|string',
+            'icon'                  => 'nullable|string',
+            'featured_image_base64' => 'nullable|string',
+            'kondisi'               => 'required|in:tersedia,perbaikan,belum_ada,akan_ada',
         ]);
 
-        if ($request->hasFile('featured_image')) {
-            // Check if old featured_image exists before deleting
-            if ($facility->featured_image && \Storage::disk('public')->exists($facility->featured_image)) {
-                \Storage::disk('public')->delete($facility->featured_image);
-            }
-            $validated['featured_image'] = $request->file('featured_image')->store('facilities', 'public');
+        $newImage = $this->handleBase64Image(
+            $request->input('featured_image_base64'),
+            $facility->featured_image
+        );
+        if ($newImage) {
+            $validated['featured_image'] = $newImage;
         }
+
+        unset($validated['featured_image_base64']);
 
         $facility->update($validated);
 
-        return redirect()->route('admin.facilities.index')->with('success', 'Facility updated successfully!');
+        return redirect()->route('admin.facilities.index')
+            ->with('success', 'Fasilitas berhasil diperbarui!');
     }
 
     public function destroy(Facility $facility)
     {
-        if ($facility->featured_image && \Storage::disk('public')->exists($facility->featured_image)) {
-            \Storage::disk('public')->delete($facility->featured_image);
+        if ($facility->featured_image) {
+            Storage::disk('public')->delete($facility->featured_image);
         }
         $facility->delete();
 
-        return redirect()->route('admin.facilities.index')->with('success', 'Facility deleted successfully!');
+        return redirect()->route('admin.facilities.index')
+            ->with('success', 'Fasilitas berhasil dihapus!');
+    }
+
+    private function handleBase64Image(?string $base64, ?string $oldImage = null): ?string
+    {
+        if (empty($base64)) {
+            return null;
+        }
+
+        if (!preg_match('/^data:image\/(jpeg|jpg|png|webp|gif);base64,/i', $base64)) {
+            return null;
+        }
+
+        $imageData = substr($base64, strpos($base64, ',') + 1);
+        $decoded   = base64_decode($imageData, true);
+
+        if ($decoded === false || strlen($decoded) < 100) {
+            return null;
+        }
+
+        if ($oldImage) {
+            Storage::disk('public')->delete($oldImage);
+        }
+
+        $filename = 'facilities/crop_' . time() . '_' . Str::random(8) . '.jpg';
+        Storage::disk('public')->put($filename, $decoded);
+
+        return $filename;
     }
 }

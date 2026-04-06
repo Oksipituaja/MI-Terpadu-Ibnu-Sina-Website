@@ -3,7 +3,7 @@
 @section('page_subtitle', 'Perbarui informasi tentang sekolah')
 @section('content')
     <div class="max-w-2xl p-6 mx-auto bg-white rounded-lg shadow">
-        <form action="{{ route('admin.about.update', $about) }}" method="POST" enctype="multipart/form-data" class="space-y-5">
+        <form id="aboutForm" action="{{ route('admin.about.update', $about) }}" method="POST" class="space-y-5">
             @csrf @method('PUT')
 
             <div>
@@ -28,14 +28,14 @@
                     class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 bg-gray-50">
                     <option value="home_hero_image" {{ $about->key === 'home_hero_image' ? 'selected' : '' }}>Gambar Hero
                         Beranda</option>
-                    <option value="hero_image" {{ $about->key === 'hero_image' ? 'selected' : '' }}>Gambar Hero
-                        Tentang Kami</option>
+                    <option value="hero_image" {{ $about->key === 'hero_image' ? 'selected' : '' }}>Gambar Hero Tentang Kami
+                    </option>
                     <option value="principal_greeting" {{ $about->key === 'principal_greeting' ? 'selected' : '' }}>Sambutan
                         Kepala Sekolah</option>
-                    <option value="school_profile" {{ $about->key === 'school_profile' ? 'selected' : '' }}>Profil
-                        Sekolah</option>
-                    <option value="school_info" {{ $about->key === 'school_info' ? 'selected' : '' }}>Informasi
-                        Sekolah (JSON)</option>
+                    <option value="school_profile" {{ $about->key === 'school_profile' ? 'selected' : '' }}>Profil Sekolah
+                    </option>
+                    <option value="school_info" {{ $about->key === 'school_info' ? 'selected' : '' }}>Informasi Sekolah
+                        (JSON)</option>
                     <option value="vision" {{ $about->key === 'vision' ? 'selected' : '' }}>Visi</option>
                     <option value="mission" {{ $about->key === 'mission' ? 'selected' : '' }}>Misi</option>
                 </select>
@@ -180,12 +180,12 @@
             <div id="imageFieldWrapper" class="{{ in_array($about->key, $noImageKeys) ? 'hidden' : '' }}">
                 <div id="crop169" class="{{ $about->key === 'principal_greeting' ? 'hidden' : '' }}">
                     <x-image-crop-upload name="featured_image" label="Gambar" aspect-ratio="16/9" :optional="true"
-                        :current-image="$about->featured_image && $about->key !== 'principal_greeting' ? asset('storage/' . $about->featured_image) : null" :current-alt="$about->title" :error="$errors->first('featured_image')" />
+                        :current-image="$about->featured_image && $about->key !== 'principal_greeting' ? url('/files/' . $about->featured_image) : null" :current-alt="$about->title" :error="$errors->first('featured_image_base64')" />
                 </div>
                 <div id="crop11" class="{{ $about->key !== 'principal_greeting' ? 'hidden' : '' }}">
                     <x-image-crop-upload name="featured_image" label="Foto Kepala Sekolah" aspect-ratio="1/1"
-                        preview-class="w-40 h-40" :optional="true" :current-image="$about->featured_image && $about->key === 'principal_greeting' ? asset('storage/' . $about->featured_image) : null" :current-alt="$about->title"
-                        :error="$errors->first('featured_image')" />
+                        preview-class="w-40 h-40" :optional="true" :current-image="$about->featured_image && $about->key === 'principal_greeting' ? url('/files/' . $about->featured_image) : null" :current-alt="$about->title"
+                        :error="$errors->first('featured_image_base64')" />
                 </div>
             </div>
 
@@ -324,6 +324,19 @@
 
             keySelect.addEventListener('change', toggleFields);
             toggleFields();
+
+            // FIX: Disable input base64 yang ada di div hidden saat submit
+            // Supaya browser hanya mengirim satu input featured_image_base64 yang aktif
+            document.getElementById('aboutForm').addEventListener('submit', function() {
+                [crop169, crop11].forEach(function(div) {
+                    if (div.classList.contains('hidden')) {
+                        div.querySelectorAll('input[name="featured_image_base64"]').forEach(
+                            function(input) {
+                                input.disabled = true;
+                            });
+                    }
+                });
+            });
         });
     </script>
 @endpush

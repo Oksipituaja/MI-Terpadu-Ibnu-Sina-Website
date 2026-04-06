@@ -16,6 +16,19 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
+
+        // FIX: Jangan trim field base64
+        $middleware->trimStrings(except: [
+            'featured_image_base64',
+        ]);
+
+        // FIX: Jangan ubah base64 jadi null
+        // Di Laravel 12, except menggunakan array of field names atau closures
+        // Closure: return true = skip (jangan convert), return false = convert
+        $middleware->convertEmptyStringsToNull(except: [
+            fn($request) => $request->has('featured_image_base64'),
+        ]);
+
         $middleware->append(ContentSecurityPolicy::class);
         $middleware->append(CachePageResponse::class);
         $middleware->append(OptimizeCaching::class);

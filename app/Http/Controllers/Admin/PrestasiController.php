@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Prestasi;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
 
@@ -37,24 +38,27 @@ class PrestasiController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'title'            => 'required|string|max:255',
-            'description'      => 'required|string',
-            'category'         => 'nullable|string|max:100',
-            'achievement_date' => 'nullable|date',
-            'featured_image'   => 'nullable|file|mimes:jpeg,png,jpg,gif,svg,webp,avif|max:5120',
-            'status'           => 'required|in:draft,published',
+            'title'                 => 'required|string|max:255',
+            'description'           => 'required|string',
+            'category'              => 'nullable|string|max:100',
+            'achievement_date'      => 'nullable|date',
+            'featured_image_base64' => 'nullable|string',
+            'status'                => 'required|in:draft,published',
         ]);
 
         $validated['slug'] = $this->generateUniqueSlug($validated['title']);
 
-        if ($request->hasFile('featured_image')) {
-            // Store under 'prestasi' folder in public disk → accessible via asset('storage/prestasi/...')
-            $validated['featured_image'] = $request->file('featured_image')->store('prestasi', 'public');
+        $newImage = $this->handleBase64Image($request->input('featured_image_base64'));
+        if ($newImage) {
+            $validated['featured_image'] = $newImage;
         }
+
+        unset($validated['featured_image_base64']);
 
         Prestasi::create($validated);
 
-        return redirect()->route('admin.prestasis.index')->with('success', 'Prestasi berhasil ditambahkan!');
+        return redirect()->route('admin.prestasis.index')
+            ->with('success', 'Prestasi berhasil ditambahkan!');
     }
 
     public function edit(Prestasi $prestasi): View
@@ -62,47 +66,46 @@ class PrestasiController extends Controller
         return view('admin.prestasi.edit', compact('prestasi'));
     }
 
-    public function update(Prestasi $prestasi, Request $request)
+    public function update(Request $request, Prestasi $prestasi)
     {
         $validated = $request->validate([
-            'title'            => 'required|string|max:255',
-            'description'      => 'required|string',
-            'category'         => 'nullable|string|max:100',
-            'achievement_date' => 'nullable|date',
-            'featured_image'   => 'nullable|file|mimes:jpeg,png,jpg,gif,svg,webp,avif|max:5120',
-            'status'           => 'required|in:draft,published',
+            'title'                 => 'required|string|max:255',
+            'description'           => 'required|string',
+            'category'              => 'nullable|string|max:100',
+            'achievement_date'      => 'nullable|date',
+            'featured_image_base64' => 'nullable|string',
+            'status'                => 'required|in:draft,published',
         ]);
 
         $validated['slug'] = $this->generateUniqueSlug($validated['title'], $prestasi->id);
 
-        if ($request->hasFile('featured_image')) {
-            // Delete old image if exists
-            if ($prestasi->featured_image) {
-                \Storage::disk('public')->delete($prestasi->featured_image);
-            }
-            $validated['featured_image'] = $request->file('featured_image')->store('prestasi', 'public');
+        $newImage = $this->handleBase64Image(
+            $request->input('featured_image_base64'),
+            $prestasi->featured_image
+        );
+        if ($newImage) {
+            $validated['featured_image'] = $newImage;
         }
+
+        unset($validated['featured_image_base64']);
 
         $prestasi->update($validated);
 
-        return redirect()->route('admin.prestasis.index')->with('success', 'Prestasi berhasil diperbarui!');
+        return redirect()->route('admin.prestasis.index')
+            ->with('success', 'Prestasi berhasil diperbarui!');
     }
 
     public function destroy(Prestasi $prestasi)
     {
         if ($prestasi->featured_image) {
-            \Storage::disk('public')->delete($prestasi->featured_image);
+            Storage::disk('public')->delete($prestasi->featured_image);
         }
         $prestasi->delete();
 
-        return redirect()->route('admin.prestasis.index')->with('success', 'Prestasi berhasil dihapus!');
+        return redirect()->route('admin.prestasis.index')
+            ->with('success', 'Prestasi berhasil dihapus!');
     }
 
-    /**
-     * Generate unique slug with collision detection.
-     *
-     * @param  ?int  $excludeId  Exclude this ID from uniqueness check (for updates)
-     */
     private function generateUniqueSlug(string $title, ?int $excludeId = null): string
     {
         $slug     = Str::slug($title);
@@ -119,5 +122,32 @@ class PrestasiController extends Controller
         }
 
         return $slug;
+    }
+
+    private function handleBase64Image(?string $base64, ?string $oldImage = null): ?string
+    {
+        if (empty($base64)) {
+            return null;
+        }
+
+        if (!preg_match('/^data:image\/(jpeg|jpg|png|webp|gif);base64,/i', $base64)) {
+            return null;
+        }
+
+        $imageData = substr($base64, strpos($base64, ',') + 1);
+        $decoded   = base64_decode($imageData, true);
+
+        if ($decoded === false || strlen($decoded) < 100) {
+            return null;
+        }
+
+        if ($oldImage) {
+            Storage::disk('public')->delete($oldImage);
+        }
+
+        $filename = 'prestasi/crop_' . time() . '_' . Str::random(8) . '.jpg';
+        Storage::disk('public')->put($filename, $decoded);
+
+        return $filename;
     }
 }

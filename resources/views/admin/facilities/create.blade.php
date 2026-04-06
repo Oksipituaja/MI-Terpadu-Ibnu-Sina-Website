@@ -3,7 +3,7 @@
 @section('page_subtitle', 'Tambah data fasilitas sekolah baru')
 @section('content')
     <div class="max-w-2xl p-6 mx-auto bg-white rounded-lg shadow">
-        <form action="{{ route('admin.facilities.store') }}" method="POST" enctype="multipart/form-data" class="space-y-5">
+        <form action="{{ route('admin.facilities.store') }}" method="POST" class="space-y-5">
             @csrf
             <input type="hidden" name="slug" id="facilitySlug" value="{{ old('slug') }}">
 
@@ -58,9 +58,8 @@
                 @enderror
             </div>
 
-            {{-- ✅ Crop Component --}}
             <x-image-crop-upload name="featured_image" label="Gambar Fasilitas" aspect-ratio="16/9" :optional="true"
-                :error="$errors->first('featured_image')" />
+                :max-size-mb="5" :error="$errors->first('featured_image_base64')" />
 
             <div class="flex gap-3 pt-4 border-t">
                 @include('components.admin-submit-btn', [

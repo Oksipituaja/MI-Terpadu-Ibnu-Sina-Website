@@ -4,7 +4,7 @@
 @section('content')
     <div class="max-w-4xl mx-auto">
         <div class="p-6 bg-white rounded-lg shadow">
-            <form action="{{ route('admin.news.store') }}" method="POST" enctype="multipart/form-data" class="space-y-6">
+            <form action="{{ route('admin.news.store') }}" method="POST" class="space-y-6">
                 @csrf
                 <input type="hidden" id="slug" name="slug" value="{{ old('slug') }}">
 
@@ -90,9 +90,8 @@
                     </div>
                 </div>
 
-                {{-- ✅ Crop Component --}}
                 <x-image-crop-upload name="featured_image" label="Gambar Utama" aspect-ratio="16/9" :optional="true"
-                    :max-size-mb="2" :error="$errors->first('featured_image')" />
+                    :max-size-mb="5" :error="$errors->first('featured_image_base64')" />
 
                 <div class="flex gap-3 pt-4 border-t">
                     @include('components.admin-submit-btn', [
@@ -113,7 +112,7 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
 
-            // ── AUTO SLUG ─────────────────────────────────────────────────────
+            // ── AUTO SLUG
             const titleInput = document.getElementById('title');
             const slugInput = document.getElementById('slug');
 
@@ -127,7 +126,7 @@
                 slugInput.value = generateSlug(this.value);
             });
 
-            // ── TINYMCE ───────────────────────────────────────────────────────
+            // ── TINYMCE
             tinymce.init({
                 selector: '#content',
                 license_key: 'gpl',
@@ -150,7 +149,7 @@
                 }
             });
 
-            // ── DATE PICKER ───────────────────────────────────────────────────
+            // ── DATE PICKER
             const months = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
             const display = document.getElementById('publishDateDisplay');
             const hiddenInput = document.getElementById('published_at_input');
@@ -192,7 +191,7 @@
                 e.stopPropagation();
                 const r = btnPickDate.getBoundingClientRect();
                 fpContainer.style.cssText =
-                    `position:fixed;z-index:99999;top:${r.bottom+8}px;left:${r.left}px;display:block;`;
+                    `position:fixed;z-index:99999;top:${r.bottom + 8}px;left:${r.left}px;display:block;`;
                 fp.open();
             });
 

@@ -3,8 +3,7 @@
 @section('page_subtitle', 'Perbarui informasi fasilitas sekolah')
 @section('content')
     <div class="max-w-2xl p-6 mx-auto bg-white rounded-lg shadow">
-        <form action="{{ route('admin.facilities.update', $facility) }}" method="POST" enctype="multipart/form-data"
-            class="space-y-5">
+        <form action="{{ route('admin.facilities.update', $facility) }}" method="POST" class="space-y-5">
             @csrf @method('PUT')
             <input type="hidden" name="slug" value="{{ old('slug', $facility->slug) }}">
 
@@ -57,7 +56,7 @@
                         @endforeach
                     </div>
                 </div>
-                <textarea name="description" id="description" class="hidden">{{ old('description', $facility->description) }}</textarea>
+                <textarea id="description" name="description" class="hidden">{{ old('description', $facility->description) }}</textarea>
             </div>
 
             <div>
@@ -79,9 +78,8 @@
                 @enderror
             </div>
 
-            {{-- ✅ Crop Component --}}
             <x-image-crop-upload name="featured_image" label="Gambar Fasilitas" aspect-ratio="16/9" :optional="true"
-                :current-image="$facility->featured_image ? asset('storage/' . $facility->featured_image) : null" :current-alt="$facility->name" :error="$errors->first('featured_image')" />
+                :max-size-mb="5" :current-image="$facility->featured_image ? url('/files/' . $facility->featured_image) : null" :current-alt="$facility->name" :error="$errors->first('featured_image_base64')" />
 
             <div class="flex gap-3 pt-4 border-t">
                 @include('components.admin-submit-btn', [
@@ -105,6 +103,7 @@
                 document.getElementById('iconPreviewEl').className = (val || 'fas fa-question') +
                     ' text-blue-600 text-lg';
             };
+
             tinymce.init({
                 selector: '#description',
                 license_key: 'gpl',
@@ -122,6 +121,7 @@
                 init_instance_callback: () => {
                     const s = document.getElementById('tinymce-skeleton');
                     if (s) s.remove();
+                    document.getElementById('description').classList.remove('hidden');
                 }
             });
         });

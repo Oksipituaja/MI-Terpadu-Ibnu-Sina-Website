@@ -6,8 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Models\Teacher;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\View\View;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
+use Illuminate\View\View;
 
 class TeacherController extends Controller
 {
@@ -25,22 +26,26 @@ class TeacherController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'slug' => 'required|string|unique:teachers',
-            'email' => 'required|email|unique:teachers',
-            'phone' => 'nullable|string',
-            'subject' => 'nullable|string',
-            'featured_image' => 'nullable|file|mimes:jpeg,png,jpg,gif,svg,webp,avif|max:2048',
+            'name'                  => 'required|string|max:255',
+            'slug'                  => 'required|string|unique:teachers',
+            'email'                 => 'required|email|unique:teachers',
+            'phone'                 => 'nullable|string',
+            'subject'               => 'nullable|string',
+            'featured_image_base64' => 'nullable|string',
         ]);
 
-        if ($request->hasFile('featured_image')) {
-            $validated['featured_image'] = $request->file('featured_image')->store('teachers', 'public');
+        $newImage = $this->handleBase64Image($request->input('featured_image_base64'));
+        if ($newImage) {
+            $validated['featured_image'] = $newImage;
         }
+
+        unset($validated['featured_image_base64']);
 
         Teacher::create($validated);
         Cache::forget('home.featured_teachers');
 
-        return redirect()->route('admin.teachers.index')->with('success', 'Teacher added successfully!');
+        return redirect()->route('admin.teachers.index')
+            ->with('success', 'Guru berhasil ditambahkan!');
     }
 
     public function edit(Teacher $teacher): View
@@ -51,35 +56,67 @@ class TeacherController extends Controller
     public function update(Teacher $teacher, Request $request)
     {
         $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'slug' => 'required|string|unique:teachers,slug,' . $teacher->id,
-            'email' => 'required|email|unique:teachers,email,' . $teacher->id,
-            'phone' => 'nullable|string',
-            'subject' => 'nullable|string',
-            'featured_image' => 'nullable|file|mimes:jpeg,png,jpg,gif,svg,webp,avif|max:2048',
+            'name'                  => 'required|string|max:255',
+            'slug'                  => 'required|string|unique:teachers,slug,' . $teacher->id,
+            'email'                 => 'required|email|unique:teachers,email,' . $teacher->id,
+            'phone'                 => 'nullable|string',
+            'subject'               => 'nullable|string',
+            'featured_image_base64' => 'nullable|string',
         ]);
 
-        if ($request->hasFile('featured_image')) {
-            if ($teacher->featured_image && Storage::disk('public')->exists($teacher->featured_image)) {
-                Storage::disk('public')->delete($teacher->featured_image);
-            }
-            $validated['featured_image'] = $request->file('featured_image')->store('teachers', 'public');
+        $newImage = $this->handleBase64Image(
+            $request->input('featured_image_base64'),
+            $teacher->featured_image
+        );
+        if ($newImage) {
+            $validated['featured_image'] = $newImage;
         }
+
+        unset($validated['featured_image_base64']);
 
         $teacher->update($validated);
         Cache::forget('home.featured_teachers');
 
-        return redirect()->route('admin.teachers.index')->with('success', 'Teacher updated successfully!');
+        return redirect()->route('admin.teachers.index')
+            ->with('success', 'Guru berhasil diperbarui!');
     }
 
     public function destroy(Teacher $teacher)
     {
-        if ($teacher->featured_image && Storage::disk('public')->exists($teacher->featured_image)) {
+        if ($teacher->featured_image) {
             Storage::disk('public')->delete($teacher->featured_image);
         }
         $teacher->delete();
         Cache::forget('home.featured_teachers');
 
-        return redirect()->route('admin.teachers.index')->with('success', 'Teacher deleted successfully!');
+        return redirect()->route('admin.teachers.index')
+            ->with('success', 'Guru berhasil dihapus!');
+    }
+
+    private function handleBase64Image(?string $base64, ?string $oldImage = null): ?string
+    {
+        if (empty($base64)) {
+            return null;
+        }
+
+        if (!preg_match('/^data:image\/(jpeg|jpg|png|webp|gif);base64,/i', $base64)) {
+            return null;
+        }
+
+        $imageData = substr($base64, strpos($base64, ',') + 1);
+        $decoded   = base64_decode($imageData, true);
+
+        if ($decoded === false || strlen($decoded) < 100) {
+            return null;
+        }
+
+        if ($oldImage) {
+            Storage::disk('public')->delete($oldImage);
+        }
+
+        $filename = 'teachers/crop_' . time() . '_' . Str::random(8) . '.jpg';
+        Storage::disk('public')->put($filename, $decoded);
+
+        return $filename;
     }
 }

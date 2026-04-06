@@ -1,6 +1,5 @@
 <div style="background: #F0F4ED; min-height: 100vh">
 
-    {{-- Hero --}}
     <div class="text-white" style="background: linear-gradient(to right, #15803d, #166534)">
         <div class="container px-6 py-12 mx-auto">
             <nav class="flex items-center mb-4 space-x-2 text-sm" style="color: #86efac">
@@ -11,7 +10,6 @@
             <h1 class="text-4xl font-bold text-white font-display">Berita & Agenda Sekolah</h1>
             <p class="mt-2" style="color: #bbf7d0">Informasi terkini, pengumuman, dan jadwal kegiatan sekolah</p>
 
-            {{-- Tab Switcher --}}
             <div class="flex gap-3 mt-8">
                 <button wire:click="setTab('berita')"
                     class="px-6 py-2.5 text-sm font-bold rounded-xl transition-all duration-200"
@@ -31,12 +29,10 @@
         </div>
     </div>
 
-    {{-- ===== TAB BERITA ===== --}}
     @if ($tab === 'berita')
         <section class="py-12">
             <div class="container px-6 mx-auto">
 
-                {{-- Search --}}
                 <div class="max-w-xl mb-10">
                     <div class="relative">
                         <i class="absolute text-sm -translate-y-1/2 fas fa-search left-4 top-1/2"
@@ -48,7 +44,6 @@
                     </div>
                 </div>
 
-                {{-- Grid Berita --}}
                 <div class="grid gap-6 mb-10 md:grid-cols-2 lg:grid-cols-3"
                     wire:loading.class="transition-opacity opacity-50">
                     @forelse($news as $item)
@@ -58,7 +53,7 @@
                             <div class="relative flex items-center justify-center h-48 overflow-hidden"
                                 style="background: linear-gradient(to bottom right, #dcfce7, #F0F4ED)">
                                 @if ($item->featured_image)
-                                    <img src="{{ asset('storage/' . $item->featured_image) }}" alt="{{ $item->title }}"
+                                    <img src="{{ url('/files/' . $item->featured_image) }}" alt="{{ $item->title }}"
                                         loading="lazy"
                                         class="object-cover w-full h-full transition-transform duration-300 group-hover:scale-105">
                                 @else
@@ -109,12 +104,10 @@
         </section>
     @endif
 
-    {{-- ===== TAB AGENDA ===== --}}
     @if ($tab === 'agenda')
         <section class="py-12">
             <div class="container px-6 mx-auto">
 
-                {{-- Filter --}}
                 <div class="flex flex-wrap gap-3 mb-8">
                     @foreach (['all' => 'Semua', 'upcoming' => 'Mendatang', 'completed' => 'Selesai'] as $val => $label)
                         <button wire:click="$set('filter', '{{ $val }}')"
@@ -134,7 +127,6 @@
                     @endforeach
                 </div>
 
-                {{-- List Agenda --}}
                 <div class="space-y-4" wire:loading.class="transition-opacity opacity-50">
                     @forelse($agendas as $agenda)
                         @php $showTime = $agenda->formatted_time && $agenda->formatted_time !== '00:00'; @endphp

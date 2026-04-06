@@ -21,7 +21,7 @@
                         <div class="relative flex items-center justify-center h-56 overflow-hidden"
                             style="background: linear-gradient(to bottom right, #dcfce7, #F0F4ED)">
                             @if($facility->featured_image)
-                                <img src="{{ asset('storage/' . $facility->featured_image) }}"
+                                <img src="{{ url('/files/' . $facility->featured_image) }}"
                                     alt="{{ $facility->name }}"
                                     class="object-cover w-full h-full transition-transform duration-300 group-hover:scale-105">
                             @else
@@ -50,7 +50,8 @@
                             </div>
 
                             <p class="mb-4 text-sm leading-relaxed text-gray-600">
-                                {{ Str::limit($facility->description, 120) }}
+                                {{-- {{ Str::limit($facility->description, 120) }} --}}
+                                {{ Str::limit(strip_tags($facility->description), 120) }}
                             </p>
 
                             @if($facility->kondisi)

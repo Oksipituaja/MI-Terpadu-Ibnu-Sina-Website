@@ -20,6 +20,7 @@ class CachePageResponse
         '/admin',
         '/livewire',
         '/ppdb',        // form pendaftaran — ada CSRF
+        '/files',       // FIX: binary file serving — jangan cache ke DB
     ];
 
     public function handle(Request $request, Closure $next): Response
@@ -46,6 +47,12 @@ class CachePageResponse
         }
 
         $response = $next($request);
+
+        // FIX: Hanya cache response text/html — skip binary (image, file, dll)
+        $contentType = $response->headers->get('Content-Type', '');
+        if (! str_contains($contentType, 'text/html')) {
+            return $response;
+        }
 
         // Jangan cache halaman yang mengandung Livewire component
         // karena wire:id berisi CSRF token dan state component

@@ -33,9 +33,8 @@
                         <tr class="hover:bg-gray-50">
                             <td class="px-6 py-4">
                                 <div class="flex items-center gap-3">
-                                    {{-- FIX: Use asset('storage/...') consistent with public storage symlink --}}
                                     @if ($prestasi->featured_image)
-                                        <img src="{{ asset('storage/' . $prestasi->featured_image) }}"
+                                        <img src="{{ url('/files/' . $prestasi->featured_image) }}"
                                             alt="{{ $prestasi->title }}" class="object-cover w-10 h-10 rounded-lg shrink-0"
                                             onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
                                         <div
@@ -51,7 +50,6 @@
                                     <div>
                                         <p class="text-sm font-medium text-gray-900 line-clamp-1">{{ $prestasi->title }}</p>
                                         @if ($prestasi->description)
-                                            {{-- FIX: strip_tags() to remove TinyMCE HTML from preview --}}
                                             <p class="mt-0.5 text-xs text-gray-400 line-clamp-1">
                                                 {{ Str::limit(strip_tags($prestasi->description), 80) }}</p>
                                         @endif

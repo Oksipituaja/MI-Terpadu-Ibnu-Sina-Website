@@ -4,7 +4,7 @@
 @section('page_subtitle', 'Tambah foto baru ke galeri sekolah')
 @section('content')
     <div class="max-w-2xl p-6 mx-auto bg-white rounded-lg shadow">
-        <form action="{{ route('admin.galleries.store') }}" method="POST" enctype="multipart/form-data" class="space-y-5">
+        <form action="{{ route('admin.galleries.store') }}" method="POST" class="space-y-5">
             @csrf
             <input type="hidden" name="slug" id="gallerySlug" value="{{ old('slug') }}">
 
@@ -42,9 +42,8 @@
                 <textarea name="description" id="description">{{ old('description') }}</textarea>
             </div>
 
-            {{-- ✅ Crop Component --}}
-            <x-image-crop-upload name="featured_image" label="Foto" aspect-ratio="4/3" :optional="true"
-                :error="$errors->first('featured_image')" />
+            <x-image-crop-upload name="featured_image" label="Foto" aspect-ratio="4/3" :optional="true" :max-size-mb="5"
+                :error="$errors->first('featured_image_base64')" />
 
             <div class="flex gap-3 pt-4 border-t">
                 @include('components.admin-submit-btn', [
@@ -82,7 +81,8 @@
                 height: 250,
                 menubar: false,
                 plugins: 'lists link autolink',
-                toolbar: ['undo redo | bold italic underline | forecolor',
+                toolbar: [
+                    'undo redo | bold italic underline | forecolor',
                     'bullist numlist | link | removeformat'
                 ],
                 toolbar_mode: 'wrap',

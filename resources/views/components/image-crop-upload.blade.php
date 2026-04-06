@@ -99,8 +99,13 @@
     </div>
 </div>
 
-{{-- Output hidden file input --}}
-<input type="file" name="{{ $name }}" id="{{ $outputId }}" class="hidden" aria-hidden="true">
+{{--
+    PENTING: Menggunakan hidden TEXT input (bukan file input) untuk mengirim
+    hasil crop sebagai base64 string. Ini lebih reliable di shared hosting
+    karena DataTransfer API untuk set file input via JS tidak selalu berfungsi.
+    Controller akan decode base64 ini dan simpan ke storage.
+--}}
+<input type="hidden" name="{{ $name }}_base64" id="{{ $outputId }}" aria-hidden="true">
 
 @if ($error)
     <p class="mt-1 text-xs text-red-600">{{ $error }}</p>
@@ -171,7 +176,7 @@
         var MAX_MB = {{ $maxSizeMb }};
 
         var fileInput = document.getElementById('{{ $fileId }}');
-        var outputInput = document.getElementById('{{ $outputId }}');
+        var outputInput = document.getElementById('{{ $outputId }}'); // hidden text input
         var dropZone = document.getElementById('{{ $dropId }}');
         var modal = document.getElementById('{{ $modalId }}');
         var cropImg = document.getElementById('{{ $cropImgId }}');
@@ -235,14 +240,12 @@
 
         function openModal() {
             modal.style.display = 'flex';
-            // destroy previous cropper if any
             if (cropper) {
                 cropper.destroy();
                 cropper = null;
             }
             scaleX = 1;
             scaleY = 1;
-            // wait for image to be visible
             setTimeout(function() {
                 if (typeof window.Cropper === 'undefined') {
                     alert('Cropper tidak tersedia. Coba refresh halaman.');
@@ -277,38 +280,39 @@
             if (e.key === 'Escape' && modal.style.display === 'flex') closeModal();
         });
 
-        // ── Confirm crop
+        // ── Confirm crop — simpan sebagai base64 ke hidden text input
         confirmBtn.addEventListener('click', function() {
             if (!cropper) return;
+
             var canvas = cropper.getCroppedCanvas({
                 maxWidth: 1920,
                 maxHeight: 1920,
                 imageSmoothingEnabled: true,
                 imageSmoothingQuality: 'high',
             });
-            canvas.toBlob(function(blob) {
-                var fname = 'crop_' + Date.now() + '.jpg';
-                var dt = new DataTransfer();
-                dt.items.add(new File([blob], fname, {
-                    type: 'image/jpeg'
-                }));
-                outputInput.files = dt.files;
 
-                previewImg.src = canvas.toDataURL('image/jpeg', 0.92);
-                previewInfo.textContent = fname + ' · ' + (blob.size / 1024).toFixed(0) + ' KB';
-                previewBox.classList.remove('hidden');
-                previewBox.classList.add('flex');
+            // Konversi ke base64 dan simpan ke hidden input
+            // Tidak pakai DataTransfer/File API yang tidak reliable di shared hosting
+            var base64 = canvas.toDataURL('image/jpeg', 0.92);
+            outputInput.value = base64;
 
-                // dim current image if exists
-                var ci = document.getElementById('currentImgEl_' + UID);
-                if (ci) ci.style.opacity = '0.3';
+            // Tampilkan preview
+            previewImg.src = base64;
+            // Estimasi ukuran: base64 ~75% dari size asli
+            var sizeKb = Math.round((base64.length * 0.75) / 1024);
+            previewInfo.textContent = 'crop_' + Date.now() + '.jpg · ~' + sizeKb + ' KB';
+            previewBox.classList.remove('hidden');
+            previewBox.classList.add('flex');
 
-                if (cropper) {
-                    cropper.destroy();
-                    cropper = null;
-                }
-                modal.style.display = 'none';
-            }, 'image/jpeg', 0.92);
+            // Dim gambar lama
+            var ci = document.getElementById('currentImgEl_' + UID);
+            if (ci) ci.style.opacity = '0.3';
+
+            if (cropper) {
+                cropper.destroy();
+                cropper = null;
+            }
+            modal.style.display = 'none';
         });
 
         // ── Reset

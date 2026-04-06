@@ -3,7 +3,7 @@
 @section('page_subtitle', 'Tambah informasi tentang sekolah')
 @section('content')
     <div class="max-w-2xl p-6 mx-auto bg-white rounded-lg shadow">
-        <form action="{{ route('admin.about.store') }}" method="POST" enctype="multipart/form-data" class="space-y-5">
+        <form id="aboutForm" action="{{ route('admin.about.store') }}" method="POST" class="space-y-5">
             @csrf
 
             <div>
@@ -29,8 +29,8 @@
                     <option value="">-- Pilih Tipe --</option>
                     <option value="home_hero_image" {{ old('key') === 'home_hero_image' ? 'selected' : '' }}>Gambar Hero
                         Beranda</option>
-                    <option value="hero_image" {{ old('key') === 'hero_image' ? 'selected' : '' }}>Gambar Hero Tentang
-                        Kami</option>
+                    <option value="hero_image" {{ old('key') === 'hero_image' ? 'selected' : '' }}>Gambar Hero Tentang Kami
+                    </option>
                     <option value="principal_greeting" {{ old('key') === 'principal_greeting' ? 'selected' : '' }}>Sambutan
                         Kepala Sekolah</option>
                     <option value="school_profile" {{ old('key') === 'school_profile' ? 'selected' : '' }}>Profil Sekolah
@@ -171,11 +171,11 @@
             <div id="imageFieldWrapper" class="hidden">
                 <div id="crop169" class="hidden">
                     <x-image-crop-upload name="featured_image" label="Gambar" aspect-ratio="16/9" :optional="false"
-                        :error="$errors->first('featured_image')" />
+                        :error="$errors->first('featured_image_base64')" />
                 </div>
                 <div id="crop11" class="hidden">
                     <x-image-crop-upload name="featured_image" label="Foto Kepala Sekolah" aspect-ratio="1/1"
-                        preview-class="w-40 h-40" :optional="false" :error="$errors->first('featured_image')" />
+                        preview-class="w-40 h-40" :optional="false" :error="$errors->first('featured_image_base64')" />
                 </div>
             </div>
 
@@ -313,6 +313,19 @@
 
             keySelect.addEventListener('change', toggleFields);
             toggleFields();
+
+            // FIX: Disable input base64 yang ada di div hidden saat submit
+            // Supaya browser hanya mengirim satu input featured_image_base64 yang aktif
+            document.getElementById('aboutForm').addEventListener('submit', function() {
+                [crop169, crop11].forEach(function(div) {
+                    if (div.classList.contains('hidden')) {
+                        div.querySelectorAll('input[name="featured_image_base64"]').forEach(
+                            function(input) {
+                                input.disabled = true;
+                            });
+                    }
+                });
+            });
         });
     </script>
 @endpush

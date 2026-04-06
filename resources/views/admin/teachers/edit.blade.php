@@ -3,8 +3,7 @@
 @section('page_subtitle', 'Perbarui informasi guru')
 @section('content')
     <div class="max-w-2xl p-6 mx-auto bg-white rounded-lg shadow">
-        <form action="{{ route('admin.teachers.update', $teacher) }}" method="POST" enctype="multipart/form-data"
-            class="space-y-5">
+        <form action="{{ route('admin.teachers.update', $teacher) }}" method="POST" class="space-y-5">
             @csrf @method('PUT')
             <input type="hidden" name="slug" value="{{ old('slug', $teacher->slug) }}">
 
@@ -40,9 +39,8 @@
                     class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
             </div>
 
-            {{-- ✅ Crop Component 1:1 --}}
             <x-image-crop-upload name="featured_image" label="Foto Guru" aspect-ratio="1/1" preview-class="w-40 h-40"
-                :optional="true" :current-image="$teacher->featured_image ? asset('storage/' . $teacher->featured_image) : null" :current-alt="$teacher->name" :error="$errors->first('featured_image')" />
+                :optional="true" :current-image="$teacher->featured_image ? url('/files/' . $teacher->featured_image) : null" :current-alt="$teacher->name" :error="$errors->first('featured_image_base64')" />
 
             <div class="flex gap-3 pt-4 border-t">
                 @include('components.admin-submit-btn', [

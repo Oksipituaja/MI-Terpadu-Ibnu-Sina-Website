@@ -90,7 +90,8 @@
                         <div class="hero-img-wrap relative rounded-[18px] sm:rounded-[22px] overflow-hidden w-full"
                             style="aspect-ratio:16/9;box-shadow:0 8px 28px rgba(0,0,0,.11)">
                             @if ($heroImage && $heroImage->featured_image)
-                                <img src="{{ asset('storage/' . $heroImage->featured_image) }}"
+                                {{-- <linkg /files/asset('storage/' . $heroImage->featured_image) }}" --}}
+                                <img src="{{ url('/files/' . $heroImage->featured_image) }}"
                                     alt="{{ config('app.name') }}"
                                     class="w-full h-full object-cover transition-transform duration-700 hover:scale-[1.03]">
                             @else
@@ -201,7 +202,6 @@
         </section>
     @endif
 
-
     {{-- ═══════════ GURU ═══════════ --}}
     <section id="guru" class="py-20 bg-[#F0F4ED]">
         <div class="max-w-screen-xl px-6 mx-auto">
@@ -220,7 +220,7 @@
                         <div class="w-[88px] h-[88px] rounded-full overflow-hidden mb-5 flex-shrink-0"
                             style="background:linear-gradient(135deg,#15803d,#22c55e);box-shadow:0 6px 18px rgba(21,128,61,.26)">
                             @if ($teacher->featured_image)
-                                <img src="{{ asset('storage/' . $teacher->featured_image) }}"
+                                <img src="{{ url('/files/' . $teacher->featured_image) }}"
                                     alt="{{ $teacher->name }}" class="object-cover w-full h-full">
                             @else
                                 <div class="flex items-center justify-center w-full h-full">
@@ -247,7 +247,6 @@
         </div>
     </section>
 
-
     {{-- ═══════════ BERITA ═══════════ --}}
     <section id="berita" class="py-20 bg-white border-t border-[#e8f5e9]">
         <div class="max-w-screen-xl px-6 mx-auto">
@@ -271,7 +270,7 @@
                         style="box-shadow:0 1px 8px rgba(0,0,0,.05)">
                         <div class="h-[200px] overflow-hidden flex-shrink-0 bg-gray-100">
                             @if ($news->featured_image)
-                                <img src="{{ asset('storage/' . $news->featured_image) }}" alt="{{ $news->title }}"
+                                <img src="{{ url('/files/' . $news->featured_image) }}" alt="{{ $news->title }}"
                                     class="w-full h-full object-cover transition-transform duration-500 hover:scale-[1.04]">
                             @else
                                 <div class="flex items-center justify-center w-full h-full text-5xl font-black text-white/25"

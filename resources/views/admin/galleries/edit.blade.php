@@ -3,8 +3,7 @@
 @section('page_subtitle', 'Perbarui informasi foto galeri')
 @section('content')
     <div class="max-w-2xl p-6 mx-auto bg-white rounded-lg shadow">
-        <form action="{{ route('admin.galleries.update', $gallery) }}" method="POST" enctype="multipart/form-data"
-            class="space-y-5">
+        <form action="{{ route('admin.galleries.update', $gallery) }}" method="POST" class="space-y-5">
             @csrf @method('PUT')
             <input type="hidden" name="slug" value="{{ old('slug', $gallery->slug) }}">
 
@@ -59,9 +58,8 @@
                 <textarea name="description" id="description" class="hidden">{{ old('description', $gallery->description) }}</textarea>
             </div>
 
-            {{-- ✅ Crop Component --}}
-            <x-image-crop-upload name="featured_image" label="Foto" aspect-ratio="4/3" :optional="true" :current-image="$gallery->featured_image ? asset('storage/' . $gallery->featured_image) : null"
-                :current-alt="$gallery->title" :error="$errors->first('featured_image')" />
+            <x-image-crop-upload name="featured_image" label="Foto" aspect-ratio="4/3" :optional="true" :max-size-mb="5"
+                :current-image="$gallery->featured_image ? url('/files/' . $gallery->featured_image) : null" :current-alt="$gallery->title" :error="$errors->first('featured_image_base64')" />
 
             <div class="flex gap-3 pt-4 border-t">
                 @include('components.admin-submit-btn', [
@@ -86,7 +84,8 @@
                 height: 250,
                 menubar: false,
                 plugins: 'lists link autolink',
-                toolbar: ['undo redo | bold italic underline | forecolor',
+                toolbar: [
+                    'undo redo | bold italic underline | forecolor',
                     'bullist numlist | link | removeformat'
                 ],
                 toolbar_mode: 'wrap',
@@ -97,6 +96,7 @@
                 init_instance_callback: () => {
                     const s = document.getElementById('tinymce-skeleton');
                     if (s) s.remove();
+                    document.getElementById('description').classList.remove('hidden');
                 }
             });
         });

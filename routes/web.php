@@ -32,6 +32,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Cache;
+use App\Models\About as AboutModel;
 
 // ===== Storage File Serving (Railway symlink workaround) =====
 Route::get('/files/{path}', function (string $path) {
@@ -81,6 +82,60 @@ Route::get('/test-500', fn() => abort(500));
 Route::get('/test-419', fn() => abort(419));
 Route::get('/test-429', fn() => abort(429));
 
+// ===== DEBUG HERO — cek DB dan file di disk =====
+Route::get('/debug-hero', function () {
+    $homeHero  = AboutModel::where('key', 'home_hero_image')->first();
+    $aboutHero = AboutModel::where('key', 'hero_image')->first();
+
+    $check = function ($record) {
+        if (!$record) return ['record' => null];
+        $path     = storage_path('app/public/' . $record->featured_image);
+        $filesUrl = $record->featured_image ? url('/files/' . $record->featured_image) : null;
+        return [
+            'id'             => $record->id,
+            'key'            => $record->key,
+            'featured_image' => $record->featured_image,
+            'file_exists'    => $record->featured_image ? file_exists($path) : false,
+            'file_path'      => $path,
+            'storage_url'    => $record->featured_image ? asset('storage/' . $record->featured_image) : null,
+            'files_url'      => $filesUrl,
+            'cache_value'    => Cache::get('about.' . $record->key)?->featured_image,
+        ];
+    };
+
+    return response()->json([
+        'home_hero_image' => $check($homeHero),
+        'hero_image'      => $check($aboutHero),
+    ]);
+});
+
+Route::get('/debug-file-direct', function () {
+    $path = 'facilities/crop_1775489658_cmii5re9.jpg';
+    $fullPath = storage_path('app/public/' . $path);
+    return response()->json([
+        'full_path'   => $fullPath,
+        'file_exists' => file_exists($fullPath),
+        'readable'    => is_readable($fullPath),
+        'filesize'    => file_exists($fullPath) ? filesize($fullPath) : null,
+        'mime'        => file_exists($fullPath) ? mime_content_type($fullPath) : null,
+    ]);
+});
+
+Route::get('/debug-facilities', function () {
+    $base = storage_path('app/public');
+    return response()->json([
+        'facilities' => is_dir("$base/facilities") ? scandir("$base/facilities") : 'DIR NOT FOUND',
+        'facility_records' => \App\Models\Facility::whereNotNull('featured_image')->get(['id','name','featured_image']),
+    ]);
+});
+
+Route::get('/debug-flush-hero', function () {
+    Cache::forget('about.home_hero_image');
+    Cache::forget('about.hero_image');
+    Cache::forget('about.principal_greeting');
+    return response()->json(['flushed' => true]);
+});
+
 Route::get('/debug-categories', function () {
     return response()->json([
         'cached'   => Cache::get('gallery.all_categories'),
@@ -121,7 +176,7 @@ Route::get('/debug-cache', function () {
         'cache_store'  => config('cache.default'),
         'cache_path'   => storage_path('framework/cache'),
         'key_exists'   => Cache::has($key),
-        'cached_value' => $cached ? ['id' => $cached->id, 'image' => $cached->image] : null,
+        'cached_value' => $cached ? ['id' => $cached->id, 'image' => $cached->featured_image] : null,
     ]);
 });
 
@@ -150,8 +205,10 @@ Route::get('/debug-storage', function () {
 Route::get('/debug-files', function () {
     $base = storage_path('app/public');
     return response()->json([
-        'about'   => is_dir("$base/about") ? scandir("$base/about") : [],
-        'gallery' => is_dir("$base/gallery") ? scandir("$base/gallery") : [],
+        'about'      => is_dir("$base/about") ? scandir("$base/about") : [],
+        'hero_home'  => is_dir("$base/hero/home") ? scandir("$base/hero/home") : [],
+        'hero_about' => is_dir("$base/hero/about") ? scandir("$base/hero/about") : [],
+        'gallery'    => is_dir("$base/gallery") ? scandir("$base/gallery") : [],
     ]);
 });
 

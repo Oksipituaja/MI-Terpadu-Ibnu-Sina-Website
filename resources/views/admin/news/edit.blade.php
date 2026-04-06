@@ -1,11 +1,10 @@
 @extends('admin.layout')
 @section('page_title', 'Edit Berita')
-@section('page_subtitle', 'Perbarui informasi artikel berita')
+@section('page_subtitle', 'Perbarui artikel berita')
 @section('content')
     <div class="max-w-4xl mx-auto">
         <div class="p-6 bg-white rounded-lg shadow">
-            <form action="{{ route('admin.news.update', $news) }}" method="POST" enctype="multipart/form-data"
-                class="space-y-6">
+            <form action="{{ route('admin.news.update', $news) }}" method="POST" class="space-y-6">
                 @csrf @method('PUT')
                 <input type="hidden" id="slug" name="slug" value="{{ old('slug', $news->slug) }}">
 
@@ -20,8 +19,8 @@
 
                 <div>
                     <label for="excerpt" class="block mb-1 text-sm font-medium text-gray-700">
-                        Ringkasan <span class="ml-1 text-xs font-normal text-gray-400">(ditampilkan di halaman daftar
-                            berita)</span>
+                        Ringkasan
+                        <span class="ml-1 text-xs font-normal text-gray-400">(ditampilkan di halaman daftar berita)</span>
                     </label>
                     <textarea id="excerpt" name="excerpt" rows="3"
                         class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">{{ old('excerpt', $news->excerpt) }}</textarea>
@@ -60,10 +59,12 @@
                         <label for="status" class="block mb-1 text-sm font-medium text-gray-700">Status</label>
                         <select id="status" name="status" required
                             class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
-                            <option value="draft" {{ old('status', $news->status) === 'draft' ? 'selected' : '' }}>Draft
-                                (Belum Tayang)</option>
+                            <option value="draft" {{ old('status', $news->status) === 'draft' ? 'selected' : '' }}>
+                                Draft (Belum Tayang)
+                            </option>
                             <option value="published" {{ old('status', $news->status) === 'published' ? 'selected' : '' }}>
-                                Publikasi (Tayang)</option>
+                                Publikasi (Tayang)
+                            </option>
                         </select>
                         @error('status')
                             <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
@@ -73,8 +74,12 @@
                         <label class="block mb-1 text-sm font-medium text-gray-700">Tanggal Publikasi</label>
                         <div class="flex gap-2">
                             <div id="publishDateDisplay"
-                                class="flex-1 px-4 py-2 text-sm border border-gray-300 rounded-lg select-none bg-gray-50 {{ old('published_at', $news->published_at) ? 'text-gray-800' : 'text-gray-400' }}">
-                                {{ old('published_at', $news->published_at?->format('d M Y, H:i')) ?? 'Belum dipilih' }}
+                                class="flex-1 px-4 py-2 text-sm border border-gray-300 rounded-lg select-none bg-gray-50 {{ $news->published_at ? 'text-gray-800' : 'text-gray-400' }}">
+                                @if ($news->published_at)
+                                    {{ $news->published_at->format('d M Y, H:i') }}
+                                @else
+                                    Belum dipilih
+                                @endif
                             </div>
                             <input type="hidden" name="published_at" id="published_at_input"
                                 value="{{ old('published_at', $news->published_at?->format('Y-m-d H:i')) }}">
@@ -89,9 +94,8 @@
                     </div>
                 </div>
 
-                {{-- ✅ Crop Component --}}
                 <x-image-crop-upload name="featured_image" label="Gambar Utama" aspect-ratio="16/9" :optional="true"
-                    :max-size-mb="2" :current-image="$news->featured_image ? asset('storage/' . $news->featured_image) : null" :current-alt="$news->title" :error="$errors->first('featured_image')" />
+                    :max-size-mb="5" :current-image="$news->featured_image ? url('/files/' . $news->featured_image) : null" :current-alt="$news->title" :error="$errors->first('featured_image_base64')" />
 
                 <div class="flex gap-3 pt-4 border-t">
                     @include('components.admin-submit-btn', [
@@ -111,14 +115,16 @@
 @push('scripts')
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // TINYMCE
+
+            // ── TINYMCE
             tinymce.init({
                 selector: '#content',
                 license_key: 'gpl',
                 height: 450,
                 menubar: false,
                 plugins: 'lists link autolink',
-                toolbar: ['undo redo | bold italic underline strikethrough | forecolor backcolor',
+                toolbar: [
+                    'undo redo | bold italic underline strikethrough | forecolor backcolor',
                     'bullist numlist | outdent indent | blockquote | link | alignleft aligncenter alignright | removeformat'
                 ],
                 toolbar_mode: 'wrap',
@@ -129,17 +135,20 @@
                 init_instance_callback: () => {
                     const s = document.getElementById('tinymce-skeleton');
                     if (s) s.remove();
+                    document.getElementById('content').classList.remove('hidden');
                 }
             });
 
-            // DATE PICKER
+            // ── DATE PICKER
             const months = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
             const display = document.getElementById('publishDateDisplay');
             const hiddenInput = document.getElementById('published_at_input');
             const btnPickDate = document.getElementById('btn-pick-date');
+
             const fpContainer = document.createElement('div');
             fpContainer.style.cssText = 'position:fixed;z-index:99999;display:none;';
             document.body.appendChild(fpContainer);
+
             const fp = flatpickr(fpContainer, {
                 enableTime: true,
                 dateFormat: 'Y-m-d H:i',
@@ -150,25 +159,32 @@
                 onChange(selectedDates) {
                     if (!selectedDates[0]) return;
                     const d = selectedDates[0];
-                    hiddenInput.value = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') +
-                        '-' + String(d.getDate()).padStart(2, '0') + ' ' + String(d.getHours()).padStart(2,
-                            '0') + ':' + String(d.getMinutes()).padStart(2, '0');
-                    display.textContent = String(d.getDate()).padStart(2, '0') + ' ' + months[d
-                    .getMonth()] + ' ' + d.getFullYear() + ', ' + String(d.getHours()).padStart(2, '0') +
-                        ':' + String(d.getMinutes()).padStart(2, '0');
+                    hiddenInput.value =
+                        d.getFullYear() + '-' +
+                        String(d.getMonth() + 1).padStart(2, '0') + '-' +
+                        String(d.getDate()).padStart(2, '0') + ' ' +
+                        String(d.getHours()).padStart(2, '0') + ':' +
+                        String(d.getMinutes()).padStart(2, '0');
+                    display.textContent =
+                        String(d.getDate()).padStart(2, '0') + ' ' +
+                        months[d.getMonth()] + ' ' + d.getFullYear() + ', ' +
+                        String(d.getHours()).padStart(2, '0') + ':' +
+                        String(d.getMinutes()).padStart(2, '0');
                     display.classList.replace('text-gray-400', 'text-gray-800');
                 },
                 onClose() {
                     fpContainer.style.display = 'none';
                 }
             });
+
             btnPickDate.addEventListener('click', e => {
                 e.stopPropagation();
                 const r = btnPickDate.getBoundingClientRect();
                 fpContainer.style.cssText =
-                    `position:fixed;z-index:99999;top:${r.bottom+8}px;left:${r.left}px;display:block;`;
+                    `position:fixed;z-index:99999;top:${r.bottom + 8}px;left:${r.left}px;display:block;`;
                 fp.open();
             });
+
             document.addEventListener('click', e => {
                 const cal = document.querySelector('.flatpickr-calendar');
                 if (!fpContainer.contains(e.target) && !(cal?.contains(e.target)) && e.target.id !==
