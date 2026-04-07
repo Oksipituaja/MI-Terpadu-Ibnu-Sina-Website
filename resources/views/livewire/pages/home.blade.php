@@ -1,129 +1,118 @@
 <div>
 
-    {{-- ═══════════ HERO ═══════════ --}}
-    <section class="relative overflow-hidden bg-[#F0F4ED]">
+{{-- ═══════════ HERO — Full Background Image ═══════════ --}}
+<section class="relative overflow-hidden" style="min-height:92vh;">
 
-        {{-- Subtle bg blobs --}}
-        <div class="absolute inset-0 overflow-hidden pointer-events-none">
-            <div class="absolute -top-40 -right-40 w-[560px] h-[560px] rounded-full"
-                style="background:radial-gradient(circle,rgba(21,128,61,.07) 0%,transparent 60%)"></div>
-            <div class="absolute rounded-full -bottom-28 -left-28 w-96 h-96"
-                style="background:radial-gradient(circle,rgba(234,179,8,.05) 0%,transparent 60%)"></div>
+    {{-- Background Image --}}
+    <div class="absolute inset-0">
+        @if ($heroImage && $heroImage->featured_image)
+            <img src="{{ url('/files/' . $heroImage->featured_image) }}"
+                alt="{{ config('app.name') }}"
+                class="object-cover object-center w-full h-full">
+        @else
+            <img src="{{ asset('hero_image.png') }}"
+                alt="{{ config('app.name') }}"
+                class="object-cover object-center w-full h-full">
+        @endif
+
+        <div class="absolute inset-0"
+            style="background:linear-gradient(
+                to bottom,
+                rgba(5,25,12,0.70) 0%,
+                rgba(5,25,12,0.38) 45%,
+                rgba(5,25,12,0.82) 100%
+            )"></div>
+
+        <div class="absolute inset-0 pointer-events-none"
+            style="background:
+                radial-gradient(ellipse at 70% 10%, rgba(234,179,8,0.10) 0%, transparent 55%),
+                radial-gradient(ellipse at 20% 90%, rgba(21,128,61,0.15) 0%, transparent 50%)">
+        </div>
+    </div>
+
+    {{-- Content wrapper — flex column, full height --}}
+    <div class="relative z-10 flex flex-col items-center justify-center px-6 text-center sm:px-8"
+        style="min-height:92vh; padding-top:100px; padding-bottom:80px; gap:0;">
+
+        {{-- 1. Badge --}}
+        <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full"
+            style="background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.20);backdrop-filter:blur(10px);margin-bottom:28px;">
+            <span class="flex-shrink-0 w-2 h-2 bg-green-400 rounded-full"
+                style="box-shadow:0 0 0 4px rgba(74,222,128,.20)"></span>
+            <span class="text-[11px] font-bold tracking-[.15em] uppercase text-green-100">Terakreditasi B</span>
         </div>
 
-        <div class="relative z-10 max-w-screen-xl px-4 pt-8 pb-10 mx-auto sm:px-6 lg:py-20">
-            <div class="grid items-center grid-cols-1 gap-8 lg:grid-cols-2 lg:gap-14">
-
-                {{-- LEFT ── Copy --}}
-                <div class="flex flex-col order-1 gap-5 lg:gap-6 lg:order-1">
-
-                    <div class="inline-flex items-center gap-2 w-fit px-3.5 py-1.5 rounded-full bg-white border border-[#15803d]/15"
-                        style="box-shadow:0 1px 8px rgba(21,128,61,.09)">
-                        <span class="w-1.5 h-1.5 rounded-full flex-shrink-0 bg-[#22c55e]"></span>
-                        <span class="text-[11.5px] font-semibold text-[#15803d] tracking-wide">Terakreditasi B</span>
-                    </div>
-
-                    <div class="-mt-1">
-                        <h1
-                            class="text-[1.9rem] sm:text-[2.2rem] lg:text-[2.75rem] xl:text-[3rem] font-extrabold leading-[1.18] tracking-tight text-gray-900">
-                            Membentuk Generasi
-                        </h1>
-                        <h1 class="text-[1.9rem] sm:text-[2.2rem] lg:text-[2.75rem] xl:text-[3rem] font-extrabold leading-[1.18] tracking-tight"
-                            style="background:linear-gradient(90deg,#15803d,#22c55e);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">
-                            Unggul &amp; Berkarakter
-                        </h1>
-                    </div>
-
-                    <p class="text-[14.5px] lg:text-[15px] leading-relaxed text-gray-500">
-                        {{ config('app.name') }} berkomitmen memberikan pendidikan berkualitas
-                        dengan fasilitas modern dan tenaga pendidik profesional.
-                    </p>
-
-                    <div class="flex flex-col gap-3 sm:flex-row">
-                        <a href="{{ route('ppdb') }}"
-                            class="flex items-center justify-center gap-2 px-6 py-3 text-sm font-bold rounded-xl transition-all hover:-translate-y-0.5 active:scale-[.98]"
-                            style="background:#EAB308;color:#14532d;box-shadow:0 4px 16px rgba(234,179,8,.35)">
-                            Daftar Sekarang
-                            <i class="text-xs fas fa-arrow-right"></i>
-                        </a>
-                        <a href="{{ route('about') }}"
-                            class="flex items-center justify-center gap-2 px-6 py-3 text-sm font-bold rounded-xl border transition-all hover:-translate-y-0.5 active:scale-[.98] bg-white"
-                            style="color:#15803d;border-color:rgba(21,128,61,.2)">
-                            Pelajari Lebih Lanjut
-                            <i class="text-xs fas fa-arrow-right"></i>
-                        </a>
-                    </div>
-
-                    <div class="grid grid-cols-3 gap-2.5 sm:flex sm:items-stretch sm:gap-3 pt-1">
-                        @foreach ([['357+', 'Siswa Aktif'], ['35+', 'Guru Profesional'], ['19+', 'Tahun Berpengalaman']] as [$num, $label])
-                            <div class="flex flex-col items-center text-center px-2 sm:px-5 py-3.5 rounded-2xl bg-white border border-[#15803d]/10"
-                                style="box-shadow:0 2px 10px rgba(21,128,61,.07)">
-                                <span
-                                    class="text-xl sm:text-[1.55rem] font-extrabold text-[#15803d] leading-none tracking-tight">{{ $num }}</span>
-                                <span
-                                    class="text-[10px] sm:text-[11px] text-gray-400 font-medium mt-1.5 leading-snug">{{ $label }}</span>
-                            </div>
-                        @endforeach
-                    </div>
-                </div>
-
-                {{-- RIGHT ── Image --}}
-                <div class="order-2 lg:order-2">
-                    <div class="relative px-4 pt-1 pb-6 sm:px-5 lg:px-0 lg:pt-0 lg:pb-5">
-                        <div class="hidden lg:block absolute rounded-[28px] border-2 border-dashed border-[#15803d]/14"
-                            style="inset:-14px;transform:rotate(1.5deg)"></div>
-
-                        <div class="absolute top-0 left-4 sm:left-5 lg:left-0 z-10 px-3.5 py-1.5 rounded-tl-[22px] rounded-br-xl text-xs sm:text-sm font-bold"
-                            style="background:#EAB308;color:#14532d;box-shadow:0 4px 12px rgba(234,179,8,.3)">
-                            Unggul &amp; Berkarakter
-                        </div>
-
-                        <style>
-                            @media(min-width:1024px) {
-                                .hero-img-wrap {
-                                    aspect-ratio: 5/6 !important;
-                                    max-height: 520px;
-                                    box-shadow: 0 16px 48px rgba(0, 0, 0, .13) !important
-                                }
-                            }
-                        </style>
-                        <div class="hero-img-wrap relative rounded-[18px] sm:rounded-[22px] overflow-hidden w-full"
-                            style="aspect-ratio:16/9;box-shadow:0 8px 28px rgba(0,0,0,.11)">
-                            @if ($heroImage && $heroImage->featured_image)
-                                {{-- <linkg /files/asset('storage/' . $heroImage->featured_image) }}" --}}
-                                <img src="{{ url('/files/' . $heroImage->featured_image) }}"
-                                    alt="{{ config('app.name') }}"
-                                    class="w-full h-full object-cover transition-transform duration-700 hover:scale-[1.03]">
-                            @else
-                                <img src="{{ asset('hero_image.png') }}" alt="{{ config('app.name') }}"
-                                    class="w-full h-full object-cover transition-transform duration-700 hover:scale-[1.03]">
-                            @endif
-                            <div class="absolute inset-0"
-                                style="background:linear-gradient(to top,rgba(14,83,45,.2) 0%,transparent 45%)"></div>
-                        </div>
-
-                        <div class="absolute bottom-0 right-4 sm:right-5 lg:right-4 z-10 flex items-center gap-2.5 px-3.5 py-2.5 rounded-2xl bg-white"
-                            style="box-shadow:0 6px 24px rgba(0,0,0,.11);border:1px solid rgba(21,128,61,.08)">
-                            <div class="flex items-center justify-center flex-shrink-0 w-8 h-8 rounded-full lg:w-9 lg:h-9"
-                                style="background:#15803d;box-shadow:0 3px 10px rgba(21,128,61,.38)">
-                                <svg width="14" height="14" fill="none" stroke="white" stroke-width="2.5"
-                                    viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-                                </svg>
-                            </div>
-                            <div>
-                                <p
-                                    class="text-[8px] uppercase tracking-widest text-gray-400 font-bold leading-none mb-1">
-                                    Status Resmi</p>
-                                <p class="text-[13px] font-extrabold text-gray-900 leading-none">Terakreditasi B</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
+        {{-- 2. Headline --}}
+        <div style="margin-bottom:20px;">
+            <h1 class="font-black tracking-tight text-white"
+                style="font-size:clamp(2.4rem,5.5vw,4.2rem);line-height:1.08;margin-bottom:6px;">
+                Membentuk Generasi
+            </h1>
+            <h1 class="font-black tracking-tight"
+                style="font-size:clamp(2.4rem,5.5vw,4.2rem);line-height:1.08;background:linear-gradient(90deg,#EAB308 20%,#fde68a 80%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">
+                Unggul &amp; Berkarakter
+            </h1>
         </div>
-    </section>
+
+        {{-- 3. Subtext --}}
+        <p class="max-w-lg" style="font-size:15.5px;line-height:1.75;color:rgba(255,255,255,.68);margin-bottom:36px;">
+            {{ config('app.name') }} berkomitmen memberikan pendidikan berkualitas
+            dengan fasilitas modern dan tenaga pendidik profesional.
+        </p>
+
+        {{-- 4. CTA Buttons --}}
+        <div class="flex flex-wrap items-center justify-center gap-3" style="margin-bottom:48px;">
+            <a href="{{ route('ppdb') }}"
+                class="inline-flex items-center gap-2 text-sm font-extrabold rounded-xl transition-all duration-200 hover:-translate-y-0.5 active:scale-[.98]"
+                style="padding:14px 28px;background:#EAB308;color:#14532d;box-shadow:0 5px 22px rgba(234,179,8,.42)">
+                Daftar Sekarang
+                <i class="text-xs fas fa-arrow-right"></i>
+            </a>
+            <a href="{{ route('about') }}"
+                class="inline-flex items-center gap-2 text-sm font-bold rounded-xl transition-all duration-200 hover:-translate-y-0.5 active:scale-[.98]"
+                style="padding:14px 28px;background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.28);color:#fff;backdrop-filter:blur(8px)">
+                Pelajari Lebih Lanjut
+                <i class="text-xs fas fa-arrow-right"></i>
+            </a>
+        </div>
+
+        {{-- 5. Divider --}}
+        <div style="width:48px;height:1px;background:rgba(255,255,255,.18);margin-bottom:36px;"></div>
+
+        {{-- 6. Stats Bar --}}
+        <div class="inline-flex overflow-hidden rounded-2xl"
+            style="border:1px solid rgba(255,255,255,.12);backdrop-filter:blur(14px);background:rgba(0,0,0,.28);">
+            @foreach ([['357+', 'Siswa Aktif'], ['35+', 'Guru Profesional'], ['19+', 'Tahun Berpengalaman']] as [$num, $label])
+                <div class="flex flex-col items-center justify-center text-center"
+                    style="padding:18px 36px;{{ !$loop->last ? 'border-right:1px solid rgba(255,255,255,.10);' : '' }}">
+                    <span class="font-black text-white" style="font-size:1.75rem;line-height:1;letter-spacing:-0.02em;">
+                        {{ $num }}
+                    </span>
+                    <span style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;margin-top:7px;color:rgba(255,255,255,.45);">
+                        {{ $label }}
+                    </span>
+                </div>
+            @endforeach
+        </div>
+
+    </div>
+
+    {{-- Badge Akreditasi — FIXED position supaya tidak terdorong layout --}}
+    <div style="position:absolute;bottom:28px;right:28px;z-index:20;display:flex;align-items:center;gap:12px;padding:12px 16px;border-radius:16px;background:rgba(255,255,255,.96);box-shadow:0 8px 30px rgba(0,0,0,.18);border:1px solid rgba(21,128,61,.10);">
+        <div style="display:flex;align-items:center;justify-content:center;flex-shrink:0;width:36px;height:36px;border-radius:50%;background:#15803d;box-shadow:0 3px 10px rgba(21,128,61,.38);">
+            <svg width="15" height="15" fill="none" stroke="white" stroke-width="2.6" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+            </svg>
+        </div>
+        <div>
+            <p style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:#9ca3af;line-height:1;margin-bottom:4px;">Status Resmi</p>
+            <p style="font-size:13px;font-weight:900;color:#111827;line-height:1;">Terakreditasi B</p>
+        </div>
+    </div>
+
+</section>
+
+    
 
 
     {{-- ═══════════ SAMBUTAN ═══════════ --}}
@@ -143,7 +132,7 @@
                             <div class="relative w-56 h-72 md:w-64 md:h-80 rounded-[22px] overflow-hidden border-4 border-white bg-[#dcfce7]"
                                 style="box-shadow:0 16px 48px rgba(0,0,0,.12)">
                                 @if ($principalGreeting?->featured_image)
-                                    <img src="{{ asset('storage/' . $principalGreeting->featured_image) }}"
+                                    <img src="{{ url('/files/' . $principalGreeting->featured_image) }}"
                                         alt="{{ $principalGreeting->principal_name ?? 'Kepala Sekolah' }}"
                                         class="object-cover object-top w-full h-full">
                                 @else
@@ -388,7 +377,7 @@
         <div class="absolute inset-0 overflow-hidden pointer-events-none">
             <div class="absolute -top-32 -right-32 w-[480px] h-[480px] rounded-full"
                 style="background:radial-gradient(circle,rgba(21,128,61,.06) 0%,transparent 65%)"></div>
-            <div class="absolute -bottom-24 -left-24 w-80 h-80 rounded-full"
+            <div class="absolute rounded-full -bottom-24 -left-24 w-80 h-80"
                 style="background:radial-gradient(circle,rgba(234,179,8,.05) 0%,transparent 65%)"></div>
         </div>
 
@@ -414,7 +403,7 @@
                         @foreach ([['fas fa-bolt', 'Respons Cepat', 'Jawaban dikirim dalam 1–2 hari kerja'], ['fas fa-envelope-open-text', 'Langsung ke Email', 'Jawaban dikirim ke inbox Anda'], ['fas fa-shield-alt', 'Privasi Terjaga', 'Data Anda aman dan tidak disebarkan']] as [$icon, $title, $desc])
                             <div
                                 class="flex items-start gap-4 p-4 rounded-2xl bg-[#f8fdf9] border border-[#15803d]/10">
-                                <div class="flex items-center justify-center w-9 h-9 rounded-xl flex-shrink-0"
+                                <div class="flex items-center justify-center flex-shrink-0 w-9 h-9 rounded-xl"
                                     style="background:#15803d;box-shadow:0 4px 12px rgba(21,128,61,.28)">
                                     <i class="{{ $icon }} text-white text-sm"></i>
                                 </div>
@@ -427,18 +416,18 @@
                     </div>
 
                     {{-- CTA --}}
-                    <div class="flex flex-col sm:flex-row gap-3">
+                    <div class="flex flex-col gap-3 sm:flex-row">
                         <a href="{{ route('konsultasi') }}"
                             class="inline-flex items-center justify-center gap-2 px-6 py-3 text-sm font-bold text-white rounded-xl transition-all hover:-translate-y-0.5 active:scale-[.98]"
                             style="background:#15803d;box-shadow:0 4px 16px rgba(21,128,61,.3)">
-                            <i class="fas fa-comments text-xs"></i>
+                            <i class="text-xs fas fa-comments"></i>
                             Mulai Konsultasi
                         </a>
                         {{-- ✅ FIX: "Lihat FAQ" → /konsultasi#faq (bukan /konsultasi saja) --}}
                         <a href="{{ route('konsultasi') }}#faq"
                             class="inline-flex items-center justify-center gap-2 px-6 py-3 text-sm font-bold rounded-xl border transition-all hover:-translate-y-0.5 active:scale-[.98] bg-white"
                             style="color:#15803d;border-color:rgba(21,128,61,.2)">
-                            <i class="fas fa-question-circle text-xs"></i>
+                            <i class="text-xs fas fa-question-circle"></i>
                             Lihat FAQ
                         </a>
                     </div>
@@ -453,10 +442,10 @@
                         style="box-shadow:0 12px 40px rgba(21,128,61,.10)">
 
                         {{-- Header card --}}
-                        <div class="px-7 py-5" style="background:linear-gradient(90deg,#15803d,#22c55e)">
+                        <div class="py-5 px-7" style="background:linear-gradient(90deg,#15803d,#22c55e)">
                             <div class="flex items-center gap-3">
                                 <div class="flex items-center justify-center w-9 h-9 rounded-xl bg-white/20">
-                                    <i class="fas fa-comments text-white text-base"></i>
+                                    <i class="text-base text-white fas fa-comments"></i>
                                 </div>
                                 <div>
                                     <p class="text-white font-extrabold text-[15px] leading-none">Formulir Konsultasi
@@ -467,13 +456,13 @@
                         </div>
 
                         {{-- Preview skeleton (dekoratif) --}}
-                        <div class="px-7 py-6 space-y-4">
+                        <div class="py-6 space-y-4 px-7">
                             <div class="grid grid-cols-2 gap-3">
                                 <div>
                                     <p class="text-[11px] font-semibold text-gray-400 mb-1.5 uppercase tracking-wide">
                                         Nama</p>
                                     <div
-                                        class="h-9 rounded-xl bg-gray-50 border border-gray-100 flex items-center px-3">
+                                        class="flex items-center px-3 border border-gray-100 h-9 rounded-xl bg-gray-50">
                                         <div class="h-2.5 w-24 rounded bg-gray-200"></div>
                                     </div>
                                 </div>
@@ -481,7 +470,7 @@
                                     <p class="text-[11px] font-semibold text-gray-400 mb-1.5 uppercase tracking-wide">
                                         Email</p>
                                     <div
-                                        class="h-9 rounded-xl bg-gray-50 border border-gray-100 flex items-center px-3">
+                                        class="flex items-center px-3 border border-gray-100 h-9 rounded-xl bg-gray-50">
                                         <div class="h-2.5 w-20 rounded bg-gray-200"></div>
                                     </div>
                                 </div>
@@ -489,36 +478,36 @@
                             <div>
                                 <p class="text-[11px] font-semibold text-gray-400 mb-1.5 uppercase tracking-wide">Topik
                                 </p>
-                                <div class="h-9 rounded-xl bg-gray-50 border border-gray-100 flex items-center px-3">
+                                <div class="flex items-center px-3 border border-gray-100 h-9 rounded-xl bg-gray-50">
                                     <div class="h-2.5 w-32 rounded bg-gray-200"></div>
                                 </div>
                             </div>
                             <div>
                                 <p class="text-[11px] font-semibold text-gray-400 mb-1.5 uppercase tracking-wide">
                                     Pertanyaan</p>
-                                <div class="h-24 rounded-xl bg-gray-50 border border-gray-100 p-3 space-y-2">
-                                    <div class="h-2 w-full rounded bg-gray-200"></div>
-                                    <div class="h-2 w-5/6 rounded bg-gray-200"></div>
-                                    <div class="h-2 w-4/6 rounded bg-gray-200"></div>
+                                <div class="h-24 p-3 space-y-2 border border-gray-100 rounded-xl bg-gray-50">
+                                    <div class="w-full h-2 bg-gray-200 rounded"></div>
+                                    <div class="w-5/6 h-2 bg-gray-200 rounded"></div>
+                                    <div class="w-4/6 h-2 bg-gray-200 rounded"></div>
                                 </div>
                             </div>
 
                             <a href="{{ route('konsultasi') }}"
                                 class="flex items-center justify-center gap-2 w-full py-3 text-sm font-bold rounded-xl transition-all hover:-translate-y-0.5 active:scale-[.98]"
                                 style="background:#EAB308;color:#14532d;box-shadow:0 4px 14px rgba(234,179,8,.35)">
-                                <i class="fas fa-paper-plane text-xs"></i> Kirim Pertanyaan
+                                <i class="text-xs fas fa-paper-plane"></i> Kirim Pertanyaan
                             </a>
 
                             {{-- ✅ FIX: Badge dipindah ke dalam card (tidak lagi floating -bottom-5 yang bisa terpotong) --}}
                             <div class="flex items-center justify-between pt-1">
                                 <p class="text-[11px] text-gray-400">
-                                    <i class="fas fa-lock mr-1"></i> Data Anda aman & tidak disebarkan
+                                    <i class="mr-1 fas fa-lock"></i> Data Anda aman & tidak disebarkan
                                 </p>
                                 <div class="flex items-center gap-1.5 px-3 py-1.5 rounded-full"
                                     style="background:rgba(21,128,61,.08)">
-                                    <div class="w-4 h-4 rounded-full flex items-center justify-center flex-shrink-0"
+                                    <div class="flex items-center justify-center flex-shrink-0 w-4 h-4 rounded-full"
                                         style="background:#15803d">
-                                        <i class="fas fa-check text-white" style="font-size:7px"></i>
+                                        <i class="text-white fas fa-check" style="font-size:7px"></i>
                                     </div>
                                     <div>
                                         <p

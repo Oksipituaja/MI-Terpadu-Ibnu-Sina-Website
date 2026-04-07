@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ config('app.name', 'MI Terpadu Ibnu Sina') }}</title>
+    <link rel="icon" href="{{ asset('MI-Terpadu-Ibnu-Sina-Kembang-Jepara-Logo.png') }}" type="image/png" sizes="96x96">
+    <link rel="apple-touch-icon" href="{{ asset('MI-Terpadu-Ibnu-Sina-Kembang-Jepara-Logo.png') }}" sizes="180x180">
     <link rel="shortcut icon" href="{{ asset('MI-Terpadu-Ibnu-Sina-Kembang-Jepara-Logo.png') }}" type="image/x-icon">
 
     @livewireStyles
@@ -446,9 +448,11 @@
                 {{-- Brand --}}
                 <div>
                     <div class="flex items-center gap-3 mb-5">
-                        <div class="flex items-center justify-center flex-shrink-0 w-11 h-11 rounded-xl"
-                            style="background:linear-gradient(135deg,#15803d,#22c55e);box-shadow:0 4px 14px rgba(21,128,61,.4)">
-                            <span class="text-xs font-black tracking-tight text-white">MI</span>
+                        <div class="flex items-center justify-center flex-shrink-0 w-11 h-11 rounded-xl">
+                            {{-- <span class="text-xs font-black tracking-tight text-white">MI</span> 
+                            style="background:linear-gradient(135deg,#15803d,#22c55e);box-shadow:0 4px 14px rgba(21,128,61,.4)"--}}
+                            <img src="{{ asset('MI-Terpadu-Ibnu-Sina-Kembang-Jepara-Logo.png') }}" alt="Logo" class="object-contain w-10 h-10">
+
                         </div>
                         <div>
                             <div class="text-sm font-bold leading-tight text-white">{{ config('app.name') }}</div>
@@ -521,10 +525,10 @@
                     <a href="{{ route('konsultasi') }}"
                         class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-bold transition-all hover:-translate-y-0.5"
                         style="background:rgba(21,128,61,.17);color:#4ade80">
-                        <i class="fas fa-comments text-xs"></i> Kirim Pertanyaan
+                        <i class="text-xs fas fa-comments"></i> Kirim Pertanyaan
                     </a>
 
-                    <div class="overflow-hidden mt-4 h-28 rounded-xl" style="outline:1px solid rgba(21,128,61,.18)">
+                    <div class="mt-4 overflow-hidden h-28 rounded-xl" style="outline:1px solid rgba(21,128,61,.18)">
                         <iframe src="https://maps.google.com/maps?q=-6.507694,110.794806&hl=id&z=16&output=embed"
                             allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"
                             class="w-full h-full border-0"></iframe>
@@ -564,8 +568,9 @@
             </div>
 
             <div class="flex flex-col items-center justify-between gap-3 md:flex-row pt-7">
-                <p class="text-xs text-gray-600">© {{ date('Y') }} <span
-                        class="font-semibold text-gray-500">{{ config('app.name') }}</span>. Semua hak dilindungi.</p>
+                <p class="text-xs text-gray-600">© {{ date('Y') }} 
+                    <span
+MITIS   class="font-semibold text-gray-500">{{ config('app.name') }}</span>. Semua hak dilindungi.</p>
                 <div class="flex items-center gap-1 text-xs">
                     <a href="{{ route('privacy') }}"
                         class="px-2.5 py-1 text-gray-500 hover:text-gray-300 rounded-lg transition-colors no-underline">Kebijakan
