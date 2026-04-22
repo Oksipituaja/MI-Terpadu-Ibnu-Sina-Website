@@ -9,19 +9,11 @@ use Livewire\Component;
 #[Layout('components.layouts.app')]
 class About extends Component
 {
-    public bool $expanded = false;
+    public string $activeSection = '';
 
     public function mount(): void
     {
-        $section = request('section');
-        if (in_array($section, ['tentang', 'visi-misi']) || request()->boolean('expanded')) {
-            $this->expanded = true;
-        }
-    }
-
-    public function expand(): void
-    {
-        $this->expanded = true;
+        $this->activeSection = request('section', '');
     }
 
     public function render()
@@ -44,11 +36,11 @@ class About extends Component
         return view('livewire.pages.about', [
             'heroImage'         => $heroImage,
             'principalGreeting' => $principalGreeting,
-            'aboutSections'     => $this->expanded ? $aboutSections : collect(),
-            'schoolProfile'     => $this->expanded ? $schoolProfile : null,
-            'vision'            => $this->expanded ? $vision : null,
-            'mission'           => $this->expanded ? $mission : null,
-            'expanded'          => $this->expanded,
+            'schoolProfile'     => $schoolProfile,
+            'aboutSections'     => $aboutSections,
+            'vision'            => $vision,
+            'mission'           => $mission,
+            'activeSection'     => $this->activeSection,
         ]);
     }
 }

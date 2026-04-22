@@ -17,75 +17,135 @@ class TeacherSeeder extends Seeder
 
         $teachers = [
             [
-                'name'    => 'Dr. Bambang Sutrisno, M.Pd',
+                'name'    => 'Miftahudin Al Faruq, S.Pd.I',
                 'subject' => 'Kepala Sekolah',
-                'email'   => 'bambang.sutrisno@mitis.sch.id',
-                'phone'   => '081234567890',
             ],
             [
-                'name'    => 'Siti Nurhaliza, S.Pd',
-                'subject' => 'Guru Kelas I',
-                'email'   => 'siti.nurhaliza@mitis.sch.id',
-                'phone'   => '081234567891',
+                'name'    => 'Nur Hasan, S.Pd.I',
+                'subject' => 'Guru',
             ],
             [
-                'name'    => 'Ahmad Wijaya, S.Pd',
-                'subject' => 'Matematika',
-                'email'   => 'ahmad.wijaya@mitis.sch.id',
-                'phone'   => '081234567892',
+                'name'    => 'Saryati, A.Md',
+                'subject' => 'Guru',
             ],
             [
-                'name'    => 'Dewi Lestari, S.Pd',
-                'subject' => 'Bahasa Indonesia',
-                'email'   => 'dewi.lestari@mitis.sch.id',
-                'phone'   => '081234567893',
+                'name'    => 'Eni Hartatik, S.Pd.I',
+                'subject' => 'Guru',
             ],
             [
-                'name'    => 'Roni Hermawan, S.Pd',
-                'subject' => 'Pendidikan Jasmani',
-                'email'   => 'roni.hermawan@mitis.sch.id',
-                'phone'   => '081234567894',
+                'name'    => 'Ahmad Syukri, S.Pd.I',
+                'subject' => 'Guru',
             ],
             [
-                'name'    => 'Rina Kusumawati, S.Pd',
-                'subject' => 'Guru Kelas II',
-                'email'   => 'rina.kusumawati@mitis.sch.id',
-                'phone'   => '081234567895',
+                'name'    => 'Ratih Widiyanti, S.Pd',
+                'subject' => 'Guru',
             ],
             [
-                'name'    => 'Hendra Prasetyo, S.Pd',
-                'subject' => 'IPA',
-                'email'   => 'hendra.prasetyo@mitis.sch.id',
-                'phone'   => '081234567896',
+                'name'    => 'Ichwatul Hasanah',
+                'subject' => 'Guru',
             ],
             [
-                'name'    => 'Yuni Astuti, S.Pd',
-                'subject' => 'Guru Kelas III',
-                'email'   => 'yuni.astuti@mitis.sch.id',
-                'phone'   => '081234567897',
+                'name'    => 'Diah Ayu Windasari, S.Pd',
+                'subject' => 'Guru',
             ],
             [
-                'name'    => 'Laila Rahmawati, S.Pd.I',
-                'subject' => 'Pendidikan Agama Islam',
-                'email'   => 'laila.rahmawati@mitis.sch.id',
-                'phone'   => '081234567898',
+                'name'    => 'Muhammad Zulkarnain, S.Pd',
+                'subject' => 'Guru',
             ],
             [
-                'name'    => 'Wahyu Hidayat, S.Pd',
-                'subject' => 'Guru Kelas IV',
-                'email'   => 'wahyu.hidayat@mitis.sch.id',
-                'phone'   => '081234567899',
+                'name'    => 'Luluk Atul Fadhillah',
+                'subject' => 'Guru',
+            ],
+            [
+                'name'    => 'Lina Mazaya, S.E',
+                'subject' => 'Guru',
+            ],
+            [
+                'name'    => 'Nikmatul Arivah, S.Pd',
+                'subject' => 'Guru',
+            ],
+            [
+                'name'    => 'Lutfiana Nabila, S.Pd',
+                'subject' => 'Guru',
+            ],
+            [
+                'name'    => 'Afthonul Afif, S.Pd',
+                'subject' => 'Guru',
+            ],
+            [
+                'name'    => 'Annisa Nuraini Hanik',
+                'subject' => 'Guru',
+            ],
+            [
+                'name'    => 'Sukron',
+                'subject' => 'Guru',
+            ],
+            [
+                'name'    => 'Dyah Wahyu Lestari, S.Kom',
+                'subject' => 'Guru',
+            ],
+            [
+                'name'    => 'Azzahro',
+                'subject' => 'Guru',
+            ],
+            [
+                'name'    => 'Muhammad Rozif',
+                'subject' => 'Guru',
+            ],
+            [
+                'name'    => 'Isniyati, S.Pd',
+                'subject' => 'Guru',
+            ],
+            [
+                'name'    => 'Nadia Atha Tsabita',
+                'subject' => 'Guru',
+            ],
+            [
+                'name'    => 'Syahidan Ulil Albab',
+                'subject' => 'Guru',
+            ],
+            [
+                'name'    => 'Fatimah Azzahro',
+                'subject' => 'Guru',
+            ],
+            [
+                'name'    => 'Amalia Nabil Ramadhani',
+                'subject' => 'Guru',
+            ],
+            [
+                'name'    => 'Chovivah Nur Khaniv',
+                'subject' => 'Guru',
+            ],
+            [
+                'name'    => 'Anggit Priyastuti',
+                'subject' => 'Guru',
+            ],
+            [
+                'name'    => "Muh. Sa'dan Assayaf",
+                'subject' => 'Guru',
+            ],
+            [
+                'name'    => 'Firman Sholih Abdillah',
+                'subject' => 'Guru',
+            ],
+            [
+                'name'    => 'Marsya Dwi Aristianti',
+                'subject' => 'Guru',
             ],
         ];
 
         foreach ($teachers as $data) {
+            $nameLower = Str::lower($data['name']);
+            $nameParts = explode(',', $nameLower)[0]; // ambil sebelum gelar
+            $emailSlug = Str::slug($nameParts, '.');   // misal: miftahudin.al.faruq
+
             Teacher::create([
-                'name'    => $data['name'],
-                'slug'    => Str::slug($data['name']),
-                'email'   => $data['email'],
-                'phone'   => $data['phone'],
-                'subject' => $data['subject'],
-                'featured_image'   => null,
+                'name'           => $data['name'],
+                'slug'           => Str::slug($data['name']),
+                'email'          => $emailSlug . '@gmail.com',
+                'phone'          => '081234567890',
+                'subject'        => $data['subject'],
+                'featured_image' => null,
             ]);
         }
     }

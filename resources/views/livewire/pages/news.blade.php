@@ -155,7 +155,7 @@
                                     </div>
                                     @if ($agenda->description)
                                         <p class="text-sm leading-relaxed text-gray-600">
-                                            {{ Str::limit($agenda->description, 200) }}
+                                            {{ Str::limit(strip_tags($agenda->description ?? ''), 200) }}
                                         </p>
                                     @endif
                                 </div>

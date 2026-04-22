@@ -238,19 +238,19 @@
                         Kab. Jepara 59457</span>
                 </div>
                 <div class="flex items-center flex-shrink-0 gap-4">
-                    <a href="tel:0225947234"
+                    <a href="https://api.whatsapp.com/send/?phone=%2B6282323561617&text&type=phone_number&app_absent=0"
                         class="hidden lg:flex items-center gap-1.5 text-white/70 hover:text-white text-xs transition-colors">
-                        <i class="fas fa-phone text-[#86efac] text-[10px]"></i>
-                        <span>(123) 4567-8901</span>
+                        <i class="fab fa-whatsapp text-[#86efac] text-[10px]"></i>
+                        <span>+62 823-2356-1617</span>
                     </a>
-                    <a href="mailto:info@miterpaduibnusina.sch.id"
+                    <a href="mailto:mitisjepara@gmail.com"
                         class="hidden xl:flex items-center gap-1.5 text-white/70 hover:text-white text-xs transition-colors">
                         <i class="fas fa-envelope text-[#86efac] text-[10px]"></i>
-                        <span>info&#64;miterpaduibnusina.sch.id</span>
+                        <span>mitisjepara@gmail.com</span>
                     </a>
                     <div class="w-px h-3.5 bg-white/15"></div>
                     <div class="flex items-center gap-3">
-                        <a href="https://www.facebook.com/mi.terpaduibnusina/" target="_blank" rel="noopener"
+                        <a href="https://www.facebook.com/profile.php?id=61552982001569" target="_blank" rel="noopener"
                             class="text-white/55 hover:text-[#EAB308] text-xs transition-colors"><i
                                 class="fab fa-facebook-f"></i></a>
                         <a href="https://www.instagram.com/mi_terpadu_ibnu_sina" target="_blank" rel="noopener"
@@ -275,7 +275,7 @@
                     <div class="hidden sm:block">
                         <div class="text-[14.5px] font-extrabold text-[#15803d] leading-tight tracking-tight">MI Terpadu
                             Ibnu Sina</div>
-                        <div class="text-[9px] font-bold tracking-[.16em] uppercase text-[#86efac] mt-0.5">Madrasah
+                        <div class="text-[9px] font-bold tracking-[.16em] uppercase text-[#3761b7] mt-0.5">Madrasah
                             Ibtidaiyah</div>
                     </div>
                 </a>
@@ -303,7 +303,7 @@
                             <a href="{{ route('about') }}?section=tentang&expanded=1" class="dd-item"><span
                                     class="dd-ic"><i class="fas fa-info-circle"></i></span> Tentang Kami</a>
                             <a href="{{ route('teachers') }}" class="dd-item"><span class="dd-ic"><i
-                                        class="fas fa-chalkboard-teacher"></i></span> Tenaga Pendidik</a>
+                                        class="fas fa-chalkboard-teacher"></i></span> Tendik & Staff</a>
                         </div>
                     </li>
 
@@ -463,7 +463,7 @@
                         generasi unggul, berakhlak mulia, dan berdaya saing melalui pendidikan Islami yang berkualitas.
                     </p>
                     <div class="flex gap-2">
-                        @foreach ([['fab fa-facebook-f', 'https://www.facebook.com/mi.terpaduibnusina/'], ['fab fa-instagram', 'https://www.instagram.com/mi_terpadu_ibnu_sina'], ['fab fa-youtube', 'https://www.youtube.com/@mitismedia5043']] as [$ic, $url])
+                        @foreach ([['fab fa-facebook-f', 'https://www.facebook.com/profile.php?id=61552982001569'], ['fab fa-instagram', 'https://www.instagram.com/mi_terpadu_ibnu_sina'], ['fab fa-youtube', 'https://www.youtube.com/@mitismedia5043']] as [$ic, $url])
                             <a href="{{ $url }}" target="_blank" rel="noopener"
                                 class="w-9 h-9 rounded-xl flex items-center justify-center text-[#4ade80] text-xs transition-all hover:-translate-y-0.5"
                                 style="background:rgba(21,128,61,.17)">
@@ -495,11 +495,11 @@
                     <h4 class="text-[10px] font-extrabold uppercase tracking-[.14em] text-[#4ade80]/50 mb-5">Kontak
                     </h4>
                     <div class="space-y-3.5 mb-4">
-                        @foreach ([['fa-phone', 'Telepon', 'tel:02259471234', '(022) 5947-1234'], ['fa-envelope', 'Email', 'mailto:info@miterpaduibnusina.sch.id', 'info&#64;miterpaduibnusina.sch.id']] as [$ic, $lbl, $href, $val])
+                        @foreach ([['fab fa-whatsapp', 'Telepon', 'https://api.whatsapp.com/send/?phone=%2B6282323561617&text&type=phone_number&app_absent=0', '+62 823-2356-1617'], ['fas fa-envelope', 'Email', 'mailto:mitisjepara@gmail.com', 'mitisjepara@gmail.com']] as [$ic, $lbl, $href, $val])
                             <div class="flex items-start gap-2.5">
                                 <div class="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5"
                                     style="background:rgba(21,128,61,.17)">
-                                    <i class="fas {{ $ic }} text-[10px] text-[#4ade80]"></i>
+                                    <i class="{{ $ic }} text-[10px] text-[#4ade80]"></i>
                                 </div>
                                 <div>
                                     <p class="text-[10px] text-gray-500 mb-0.5">{{ $lbl }}</p>
@@ -543,7 +543,7 @@
                 <div>
                     <h4 class="text-[10px] font-extrabold uppercase tracking-[.14em] text-[#4ade80]/50 mb-5">Jam
                         Operasional</h4>
-                    @foreach ([['Senin – Jumat', '07:00 – 14:00', false], ['Sabtu', '07:00 – 12:00', false], ['Minggu', 'Libur', true]] as [$d, $t, $off])
+                    @foreach ([['Senin – Jumat', '08:00 – 12:00', false], ['Sabtu - Minggu', 'Libur', true]] as [$d, $t, $off])
                         <div class="flex items-center justify-between py-2.5 border-b border-white/[.04]">
                             <span class="text-xs text-gray-500">{{ $d }}</span>
                             <span
@@ -572,11 +572,11 @@
                     <span
 MITIS   class="font-semibold text-gray-500">{{ config('app.name') }}</span>. Semua hak dilindungi.</p>
                 <div class="flex items-center gap-1 text-xs">
-                    <a href="{{ route('privacy') }}"
+                    <a href="#"
                         class="px-2.5 py-1 text-gray-500 hover:text-gray-300 rounded-lg transition-colors no-underline">Kebijakan
                         Privasi</a>
                     <span class="text-gray-700">·</span>
-                    <a href="{{ route('terms') }}"
+                    <a href="#"
                         class="px-2.5 py-1 text-gray-500 hover:text-gray-300 rounded-lg transition-colors no-underline">Syarat
                         & Ketentuan</a>
                 </div>

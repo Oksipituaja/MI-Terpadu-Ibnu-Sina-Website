@@ -67,8 +67,8 @@ Route::get('/facilities/{slug}', FacilityDetail::class)->name('facility.detail')
 Route::get('/prestasi', Prestasi::class)->name('prestasi.index');
 Route::get('/prestasi/{slug}', PrestasiDetail::class)->name('prestasi.detail');
 Route::get('/ppdb', PPDB::class)->name('ppdb');
-Route::get('/privacy-policy', Privacy::class)->name('privacy');
-Route::get('/terms-and-conditions', Terms::class)->name('terms');
+//Route::get('/privacy-policy', Privacy::class)->name('privacy');
+//Route::get('/terms-and-conditions', Terms::class)->name('terms');
 Route::get('/konsultasi', Konsultasi::class)->name('konsultasi');
 
 Route::get('/agenda', function () {

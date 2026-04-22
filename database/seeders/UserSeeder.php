@@ -39,11 +39,9 @@ class UserSeeder extends Seeder
             );
         }
 
-        // 3. AKUN DUMMY NAMA INDONESIA (Hanya 12 Akun)
+        // 3. AKUN DUMMY NAMA INDONESIA (Hanya 3 Akun)
         $namaIndo = [
-            'Budi Santoso', 'Siti Aminah', 'Ahmad Hidayat', 'Dewi Lestari',
-            'Rizky Pratama', 'Putri Utami', 'Eko Prasetyo', 'Lusi Rahmawati',
-            'Andi Wijaya', 'Maya Indah', 'Fajar Nugroho', 'Sari Kartika'
+            'Budi Santoso', 'Siti Aminah', 'Ahmad Hidayat'
         ];
 
         foreach ($namaIndo as $nama) {

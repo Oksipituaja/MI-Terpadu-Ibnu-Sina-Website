@@ -48,7 +48,8 @@
                                             {{ $article->title }}
                                         </a>
                                         @if ($article->excerpt)
-                                            <p class="mt-0.5 text-xs text-gray-400 line-clamp-1">{{ $article->excerpt }}</p>
+                                            <p class="mt-0.5 text-xs text-gray-400 line-clamp-1">
+                                                {{ Str::limit(strip_tags($article->excerpt ?? ''), 80) }}</p>
                                         @endif
                                     </div>
                                 </div>

@@ -1,123 +1,168 @@
 <div>
 
-{{-- ═══════════ HERO — Full Background Image ═══════════ --}}
-<section class="relative overflow-hidden" style="min-height:92vh;">
+    {{-- ═══════════ HERO — Full Background Image ═══════════ --}}
+    <section class="relative overflow-hidden" style="min-height:100svh;">
 
-    {{-- Background Image --}}
-    <div class="absolute inset-0">
-        @if ($heroImage && $heroImage->featured_image)
-            <img src="{{ url('/files/' . $heroImage->featured_image) }}"
-                alt="{{ config('app.name') }}"
-                class="object-cover object-center w-full h-full">
-        @else
-            <img src="{{ asset('hero_image.png') }}"
-                alt="{{ config('app.name') }}"
-                class="object-cover object-center w-full h-full">
-        @endif
+        {{-- Background Image --}}
+        <div class="absolute inset-0">
+            @if ($heroImage && $heroImage->featured_image)
+                <img src="{{ url('/files/' . $heroImage->featured_image) }}" alt="{{ config('app.name') }}"
+                    class="object-cover object-center w-full h-full">
+            @else
+                <img src="{{ asset('hero_image.png') }}" alt="{{ config('app.name') }}"
+                    class="object-cover object-center w-full h-full">
+            @endif
 
-        <div class="absolute inset-0"
-            style="background:linear-gradient(
+            {{-- Overlay --}}
+            <div class="absolute inset-0"
+                style="background:linear-gradient(
                 to bottom,
-                rgba(5,25,12,0.70) 0%,
-                rgba(5,25,12,0.38) 45%,
-                rgba(5,25,12,0.82) 100%
-            )"></div>
+                rgba(5,25,12,0.72) 0%,
+                rgba(5,25,12,0.35) 40%,
+                rgba(5,25,12,0.88) 100%
+            )">
+            </div>
 
-        <div class="absolute inset-0 pointer-events-none"
-            style="background:
+            {{-- Glow accents --}}
+            <div class="absolute inset-0 pointer-events-none"
+                style="background:
                 radial-gradient(ellipse at 70% 10%, rgba(234,179,8,0.10) 0%, transparent 55%),
                 radial-gradient(ellipse at 20% 90%, rgba(21,128,61,0.15) 0%, transparent 50%)">
-        </div>
-    </div>
-
-    {{-- Content wrapper — flex column, full height --}}
-    <div class="relative z-10 flex flex-col items-center justify-center px-6 text-center sm:px-8"
-        style="min-height:92vh; padding-top:100px; padding-bottom:80px; gap:0;">
-
-        {{-- 1. Badge --}}
-        <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full"
-            style="background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.20);backdrop-filter:blur(10px);margin-bottom:28px;">
-            <span class="flex-shrink-0 w-2 h-2 bg-green-400 rounded-full"
-                style="box-shadow:0 0 0 4px rgba(74,222,128,.20)"></span>
-            <span class="text-[11px] font-bold tracking-[.15em] uppercase text-green-100">Terakreditasi B</span>
+            </div>
         </div>
 
-        {{-- 2. Headline --}}
-        <div style="margin-bottom:20px;">
-            <h1 class="font-black tracking-tight text-white"
-                style="font-size:clamp(2.4rem,5.5vw,4.2rem);line-height:1.08;margin-bottom:6px;">
-                Membentuk Generasi
-            </h1>
-            <h1 class="font-black tracking-tight"
-                style="font-size:clamp(2.4rem,5.5vw,4.2rem);line-height:1.08;background:linear-gradient(90deg,#EAB308 20%,#fde68a 80%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">
-                Unggul &amp; Berkarakter
-            </h1>
-        </div>
+        {{-- Content --}}
+        <div class="relative z-10 flex flex-col items-center justify-center w-full px-5 text-center sm:px-8"
+            style="min-height:100svh; padding-top:80px; padding-bottom:32px;">
 
-        {{-- 3. Subtext --}}
-        <p class="max-w-lg" style="font-size:15.5px;line-height:1.75;color:rgba(255,255,255,.68);margin-bottom:36px;">
-            {{ config('app.name') }} berkomitmen memberikan pendidikan berkualitas
-            dengan fasilitas modern dan tenaga pendidik profesional.
-        </p>
+            {{-- 1. Badge --}}
+            <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full mb-6 sm:mb-7"
+                style="background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.22);backdrop-filter:blur(10px);">
+                <span class="flex-shrink-0 w-2 h-2 bg-green-400 rounded-full"
+                    style="box-shadow:0 0 0 4px rgba(74,222,128,.20)"></span>
+                <span
+                    style="font-family:'Plus Jakarta Sans',sans-serif;font-size:10px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:#bbf7d0;">
+                    Terakreditasi B
+                </span>
+            </div>
 
-        {{-- 4. CTA Buttons --}}
-        <div class="flex flex-wrap items-center justify-center gap-3" style="margin-bottom:48px;">
-            <a href="{{ route('ppdb') }}"
-                class="inline-flex items-center gap-2 text-sm font-extrabold rounded-xl transition-all duration-200 hover:-translate-y-0.5 active:scale-[.98]"
-                style="padding:14px 28px;background:#EAB308;color:#14532d;box-shadow:0 5px 22px rgba(234,179,8,.42)">
-                Daftar Sekarang
-                <i class="text-xs fas fa-arrow-right"></i>
-            </a>
-            <a href="{{ route('about') }}"
-                class="inline-flex items-center gap-2 text-sm font-bold rounded-xl transition-all duration-200 hover:-translate-y-0.5 active:scale-[.98]"
-                style="padding:14px 28px;background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.28);color:#fff;backdrop-filter:blur(8px)">
-                Pelajari Lebih Lanjut
-                <i class="text-xs fas fa-arrow-right"></i>
-            </a>
-        </div>
+            {{-- 2. Headline --}}
 
-        {{-- 5. Divider --}}
-        <div style="width:48px;height:1px;background:rgba(255,255,255,.18);margin-bottom:36px;"></div>
+            <div class="mb-4 sm:mb-5">
+                <h1 class="font-black tracking-tight text-white"
+                    style="font-family:'Plus Jakarta Sans',sans-serif;font-size:clamp(1.9rem,7vw,4.2rem);line-height:1.15;margin-bottom:4px;">
+                    Membentuk Generasi
+                </h1>
+                <h1 class="font-black tracking-tight"
+                    style="font-family:'Plus Jakarta Sans',sans-serif;font-size:clamp(1.9rem,7vw,4.2rem);line-height:1.20;padding-bottom:0.12em;background:linear-gradient(90deg,#EAB308 20%,#fde68a 80%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;display:inline-block;">
+                    Unggul &amp; Berkarakter
+                </h1>
+            </div>
 
-        {{-- 6. Stats Bar --}}
-        <div class="inline-flex overflow-hidden rounded-2xl"
-            style="border:1px solid rgba(255,255,255,.12);backdrop-filter:blur(14px);background:rgba(0,0,0,.28);">
-            @foreach ([['357+', 'Siswa Aktif'], ['35+', 'Guru Profesional'], ['19+', 'Tahun Berpengalaman']] as [$num, $label])
-                <div class="flex flex-col items-center justify-center text-center"
-                    style="padding:18px 36px;{{ !$loop->last ? 'border-right:1px solid rgba(255,255,255,.10);' : '' }}">
-                    <span class="font-black text-white" style="font-size:1.75rem;line-height:1;letter-spacing:-0.02em;">
-                        {{ $num }}
-                    </span>
-                    <span style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;margin-top:7px;color:rgba(255,255,255,.45);">
-                        {{ $label }}
-                    </span>
+            {{-- 3. Subtext --}}
+            <p class="max-w-sm sm:max-w-lg mb-7 sm:mb-9"
+                style="font-family:'Inter',sans-serif;font-size:14.5px;line-height:1.78;color:rgba(255,255,255,.65);">
+                {{ config('app.name') }} berkomitmen memberikan pendidikan berkualitas
+                dengan fasilitas modern dan tenaga pendidik profesional.
+            </p>
+
+            {{-- 4. CTA Buttons --}}
+
+            <div class="flex flex-row items-center justify-center w-full gap-3 mb-8 sm:mb-12">
+                <a href="{{ route('ppdb') }}"
+                    class="inline-flex items-center justify-center gap-2 whitespace-nowrap font-extrabold rounded-xl transition-all duration-200 hover:-translate-y-0.5 active:scale-[.98]"
+                    style="font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;padding:13px 20px;background:#EAB308;color:#14532d;box-shadow:0 5px 22px rgba(234,179,8,.40);">
+                    Daftar Sekarang
+                    <i class="fas fa-arrow-right" style="font-size:11px;"></i>
+                </a>
+                <a href="{{ route('about') }}"
+                    class="inline-flex items-center justify-center gap-2 whitespace-nowrap font-bold rounded-xl transition-all duration-200 hover:-translate-y-0.5 active:scale-[.98]"
+                    style="font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;padding:13px 20px;background:rgba(255,255,255,.12);border:1.5px solid rgba(255,255,255,.28);color:#fff;backdrop-filter:blur(8px);">
+                    Pelajari Lebih Lanjut
+                    <i class="fas fa-arrow-right" style="font-size:11px;"></i>
+                </a>
+            </div>
+
+            {{-- 5. Divider --}}
+            <div class="hidden mb-8 sm:block" style="width:44px;height:1px;background:rgba(255,255,255,.18);"></div>
+
+            {{-- 6. Stats Bar --}}
+            <div class="w-full max-w-sm overflow-hidden sm:max-w-xl sm:w-auto rounded-2xl"
+                style="border:1px solid rgba(255,255,255,.13);backdrop-filter:blur(14px);background:rgba(0,0,0,.30);">
+                <div class="grid grid-cols-3 divide-x divide-white/10">
+                    @foreach ([['350+', 'Siswa Aktif', 'Siswa Aktif'], ['30+', 'Guru Profesional', 'Guru Profesional'], ['2008', 'Thn. Berdiri', 'Tahun Berdiri']] as [$num, $labelShort, $labelFull])
+                        <div class="flex flex-col items-center justify-center px-2 py-4 text-center sm:py-5 sm:px-0"
+                            style="min-width:0;">
+                            <span class="font-black text-white"
+                                style="font-family:'Plus Jakarta Sans',sans-serif;font-size:clamp(1.2rem,5vw,1.75rem);line-height:1;letter-spacing:-0.02em;">
+                                {{ $num }}
+                            </span>
+                            {{-- Mobile label --}}
+                            <span class="sm:hidden"
+                                style="font-family:'Plus Jakarta Sans',sans-serif;font-size:8px;font-weight:600;text-transform:uppercase;letter-spacing:.04em;margin-top:5px;color:rgba(255,255,255,.45);white-space:nowrap;">
+                                {{ $labelShort }}
+                            </span>
+                            {{-- Desktop label --}}
+                            <span class="hidden sm:inline"
+                                style="font-family:'Plus Jakarta Sans',sans-serif;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-top:5px;color:rgba(255,255,255,.45);white-space:nowrap;">
+                                {{ $labelFull }}
+                            </span>
+                        </div>
+                    @endforeach
                 </div>
-            @endforeach
+            </div>
+
+            {{-- 7. Badge Akreditasi — Mobile: di bawah stats --}}
+            <div class="flex items-center gap-3 px-4 py-3 mt-5 sm:hidden rounded-2xl"
+                style="background:rgba(255,255,255,.95);box-shadow:0 6px 24px rgba(0,0,0,.18);border:1px solid rgba(21,128,61,.10);">
+                <div class="flex items-center justify-center flex-shrink-0 rounded-full w-9 h-9"
+                    style="background:#15803d;box-shadow:0 3px 10px rgba(21,128,61,.38);">
+                    <svg width="14" height="14" fill="none" stroke="white" stroke-width="2.8"
+                        viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                    </svg>
+                </div>
+                <div>
+                    <p
+                        style="font-family:'Plus Jakarta Sans',sans-serif;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:#9ca3af;line-height:1;margin-bottom:3px;">
+                        Status Resmi
+                    </p>
+                    <p
+                        style="font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;font-weight:900;color:#111827;line-height:1;">
+                        Terakreditasi B
+                    </p>
+                </div>
+            </div>
+
         </div>
 
-    </div>
-
-    {{-- Badge Akreditasi — FIXED position supaya tidak terdorong layout --}}
-    <div style="position:absolute;bottom:28px;right:28px;z-index:20;display:flex;align-items:center;gap:12px;padding:12px 16px;border-radius:16px;background:rgba(255,255,255,.96);box-shadow:0 8px 30px rgba(0,0,0,.18);border:1px solid rgba(21,128,61,.10);">
-        <div style="display:flex;align-items:center;justify-content:center;flex-shrink:0;width:36px;height:36px;border-radius:50%;background:#15803d;box-shadow:0 3px 10px rgba(21,128,61,.38);">
-            <svg width="15" height="15" fill="none" stroke="white" stroke-width="2.6" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
-            </svg>
+        {{-- Badge Akreditasi — Desktop only, absolute --}}
+        <div class="items-center hidden gap-3 sm:flex"
+            style="position:absolute;bottom:28px;right:28px;z-index:20;padding:11px 15px;border-radius:16px;background:rgba(255,255,255,.96);box-shadow:0 8px 30px rgba(0,0,0,.18);border:1px solid rgba(21,128,61,.10);">
+            <div
+                style="display:flex;align-items:center;justify-content:center;flex-shrink:0;width:36px;height:36px;border-radius:50%;background:#15803d;box-shadow:0 3px 10px rgba(21,128,61,.38);">
+                <svg width="15" height="15" fill="none" stroke="white" stroke-width="2.6" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                </svg>
+            </div>
+            <div>
+                <p
+                    style="font-family:'Plus Jakarta Sans',sans-serif;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:#9ca3af;line-height:1;margin-bottom:4px;">
+                    Status Resmi
+                </p>
+                <p
+                    style="font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;font-weight:900;color:#111827;line-height:1;">
+                    Terakreditasi B
+                </p>
+            </div>
         </div>
-        <div>
-            <p style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:#9ca3af;line-height:1;margin-bottom:4px;">Status Resmi</p>
-            <p style="font-size:13px;font-weight:900;color:#111827;line-height:1;">Terakreditasi B</p>
-        </div>
-    </div>
 
-</section>
-
-    
-
+    </section>
 
     {{-- ═══════════ SAMBUTAN ═══════════ --}}
+
     @if ($principalGreeting?->title)
-        <section id="sambutan" class="relative py-20 overflow-hidden bg-white">
+        <section id="sambutan" class="relative py-20 overflow-hidden bg-[#F0F4ED]">
             <div class="absolute top-0 right-0 rounded-full pointer-events-none w-96 h-96"
                 style="background:radial-gradient(circle,rgba(21,128,61,.05),transparent);transform:translate(35%,-35%)">
             </div>
@@ -142,8 +187,9 @@
                                             class="w-16 h-16 rounded-full flex items-center justify-center bg-[#15803d]/15">
                                             <i class="fas fa-user-tie text-3xl text-[#4ade80]"></i>
                                         </div>
-                                        <p class="text-[10px] font-bold uppercase tracking-widest text-[#4ade80]">Foto
-                                            Belum Tersedia</p>
+                                        <p class="text-[10px] font-bold uppercase tracking-widest text-[#4ade80]">
+                                            Foto Belum Tersedia
+                                        </p>
                                     </div>
                                 @endif
                                 <div class="absolute inset-x-0 bottom-0 px-5 pt-10 pb-4"
@@ -170,12 +216,58 @@
                                 {{ $principalGreeting?->title }}
                             </h2>
                         </div>
+
                         <div
-                            class="p-5 rounded-2xl bg-[#f8fdf9] border border-[#15803d]/10 border-l-4 border-l-[#15803d]">
-                            <p class="text-[15px] leading-[1.85] text-gray-600 italic">
-                                "{!! Str::limit(strip_tags($principalGreeting?->content ?? ''), 450) !!}"
-                            </p>
+                            class="p-4 rounded-2xl bg-[#f8fdf9] border border-[#15803d]/10 border-l-4 border-l-[#15803d]">
+                            @php
+                                $rawContent = $principalGreeting?->content ?? '';
+                                // Limit raw HTML string — HTML is ~3× longer than plain text
+                                // so 450 plain-text chars ≈ 1350 HTML chars
+                                $htmlLimit = 615;
+                                $isLong = mb_strlen($rawContent) > $htmlLimit;
+                                $truncated = $isLong ? mb_substr($rawContent, 0, $htmlLimit) . '…' : $rawContent;
+                            @endphp
+
+                            <div class="sambutan-content"
+                                style="font-size:15px;line-height:1.85;color:#4b5563;font-style:italic;">
+                                "{!! $truncated !!}"
+                            </div>
+
+                            {{--
+                                Scoped styles — applies spacing only inside .sambutan-content
+                                so TinyMCE <p> tags render with visible gaps between paragraphs.
+                                This replaces the @tailwindcss/typography prose plugin.
+                            --}}
+                            <style>
+                                .sambutan-content p {
+                                    margin-top: 0;
+                                    margin-bottom: 0.85em;
+                                }
+
+                                .sambutan-content p:last-child {
+                                    margin-bottom: 0;
+                                }
+
+                                .sambutan-content ul,
+                                .sambutan-content ol {
+                                    padding-left: 1.4em;
+                                    margin-bottom: 0.85em;
+                                }
+
+                                .sambutan-content strong {
+                                    font-weight: 700;
+                                    font-style: normal;
+                                    color: #14532d;
+                                }
+
+                                .sambutan-content br {
+                                    display: block;
+                                    margin-bottom: 0.4em;
+                                    content: '';
+                                }
+                            </style>
                         </div>
+
                         <div>
                             <a href="{{ route('about') }}"
                                 class="inline-flex items-center gap-2 px-6 py-3 text-sm font-bold text-white rounded-xl transition-all hover:-translate-y-0.5"
@@ -192,14 +284,16 @@
     @endif
 
     {{-- ═══════════ GURU ═══════════ --}}
-    <section id="guru" class="py-20 bg-[#F0F4ED]">
+    {{-- <section id="guru" class="py-20 bg-[#F0F4ED]">
         <div class="max-w-screen-xl px-6 mx-auto">
             <div class="max-w-xl mx-auto text-center mb-14">
                 <span class="text-[11px] font-extrabold uppercase tracking-[.18em] text-[#15803d]">Tim Kami</span>
-                <h2 class="mt-3 mb-3 text-[2rem] lg:text-[2.2rem] font-extrabold text-[#14532d] tracking-tight">Tenaga
-                    Pendidik & Pengajar</h2>
-                <p class="text-[15px] text-gray-500 leading-relaxed">Guru berpengalaman dan berdedikasi tinggi siap
-                    membimbing potensi setiap siswa.</p>
+                <h2 class="mt-3 mb-3 text-[2rem] lg:text-[2.2rem] font-extrabold text-[#14532d] tracking-tight">
+                    Tenaga Pendidik &amp; Pengajar
+                </h2>
+                <p class="text-[15px] text-gray-500 leading-relaxed">
+                    Guru berpengalaman dan berdedikasi tinggi siap membimbing potensi setiap siswa.
+                </p>
             </div>
 
             <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
@@ -222,7 +316,9 @@
                         </p>
                     </div>
                 @empty
-                    <div class="py-10 text-center text-gray-400 col-span-full">Profil guru sedang dipersiapkan</div>
+                    <div class="py-10 text-center text-gray-400 col-span-full">
+                        Profil guru sedang dipersiapkan
+                    </div>
                 @endforelse
             </div>
 
@@ -234,7 +330,7 @@
                 </a>
             </div>
         </div>
-    </section>
+    </section> --}}
 
     {{-- ═══════════ BERITA ═══════════ --}}
     <section id="berita" class="py-20 bg-white border-t border-[#e8f5e9]">
@@ -243,10 +339,11 @@
                 <div>
                     <span class="text-[11px] font-extrabold uppercase tracking-[.18em] text-[#15803d]">Berita
                         Terkini</span>
-                    <h2 class="mt-2 text-[2rem] lg:text-[2.2rem] font-extrabold text-[#14532d] tracking-tight">Berita &
-                        Pengumuman</h2>
+                    <h2 class="mt-2 text-[2rem] lg:text-[2.2rem] font-extrabold text-[#14532d] tracking-tight">
+                        Berita &amp; Pengumuman
+                    </h2>
                 </div>
-                <a href="{{ route('news') }}?tab=agenda"
+                <a href="{{ route('news') }}"
                     class="inline-flex items-center gap-1.5 text-[13px] font-bold text-[#15803d] px-4 py-2 rounded-lg border border-[#15803d]/18 hover:bg-[#15803d]/[.06] transition-colors flex-shrink-0">
                     Lihat Semua <i class="text-xs fas fa-arrow-right"></i>
                 </a>
@@ -274,7 +371,8 @@
                                 {{ $news->published_at?->format('d M Y') ?? 'Terbaru' }}
                             </span>
                             <h3 class="text-[15px] font-bold text-gray-900 leading-snug mb-2.5 line-clamp-2">
-                                {{ $news->title }}</h3>
+                                {{ $news->title }}
+                            </h3>
                             <p class="text-[13.5px] text-gray-400 leading-relaxed flex-1 mb-4 line-clamp-3">
                                 {{ $news->excerpt ?? Str::limit(strip_tags($news->content), 100) }}
                             </p>
@@ -287,12 +385,13 @@
                         </div>
                     </article>
                 @empty
-                    <div class="py-10 text-center text-gray-400 col-span-full">Belum ada berita terbaru</div>
+                    <div class="py-10 text-center text-gray-400 col-span-full">
+                        Belum ada berita terbaru
+                    </div>
                 @endforelse
             </div>
         </div>
     </section>
-
 
     {{-- ═══════════ PRESTASI ═══════════ --}}
     <section class="py-20 bg-[#F0F4ED]">
@@ -307,7 +406,8 @@
 
             <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
                 @if ($prestasis->isEmpty())
-                    <div class="py-10 text-center text-gray-400 col-span-full">Belum ada prestasi yang dipublikasikan
+                    <div class="py-10 text-center text-gray-400 col-span-full">
+                        Belum ada prestasi yang dipublikasikan
                     </div>
                 @else
                     @foreach ($prestasis as $prestasi)
@@ -322,7 +422,8 @@
                             </div>
                             <div class="flex flex-col flex-1 p-5">
                                 <h3 class="text-[15px] font-bold text-gray-900 leading-snug mb-1.5 line-clamp-2">
-                                    {{ $prestasi->title }}</h3>
+                                    {{ $prestasi->title }}
+                                </h3>
                                 @if ($prestasi->category)
                                     <div class="text-[10.5px] font-extrabold uppercase tracking-wide mb-2"
                                         style="{{ $award['textStyle'] }}">
@@ -330,7 +431,8 @@
                                     </div>
                                 @endif
                                 <p class="text-[13.5px] text-gray-400 leading-relaxed flex-1 mb-3 line-clamp-2">
-                                    {{ Str::limit(strip_tags($prestasi->description), 120) }}</p>
+                                    {{ Str::limit(strip_tags($prestasi->description), 120) }}
+                                </p>
                                 @if ($prestasi->achievement_date)
                                     <div class="flex items-center gap-1.5 text-xs text-gray-400 mb-4">
                                         <i class="fas fa-calendar-alt text-[10px]"></i>
@@ -362,16 +464,7 @@
         </div>
     </section>
 
-
     {{-- ═══════════ KONSULTASI ═══════════ --}}
-    {{--
-        KONSEP (dipertahankan & disempurnakan):
-        Kiri = marketing copy + trust signals
-        Kanan = preview card dekoratif (skeleton) — bukan form aktif
-        Semua CTA → /konsultasi (halaman form penuh)
-        Pola ini benar: "teaser di home, aksi di halaman dedicated"
-        Badge "Dijawab Tim" dipindah ke DALAM card supaya tidak terpotong
-    --}}
     <section id="konsultasi" class="relative py-20 overflow-hidden bg-white border-t border-[#e8f5e9]">
 
         <div class="absolute inset-0 overflow-hidden pointer-events-none">
@@ -384,7 +477,7 @@
         <div class="relative z-10 max-w-screen-xl px-6 mx-auto">
             <div class="grid items-center grid-cols-1 gap-12 lg:grid-cols-2 lg:gap-16">
 
-                {{-- LEFT — Info & Trust --}}
+                {{-- LEFT --}}
                 <div class="flex flex-col gap-6">
                     <div>
                         <span class="text-[11px] font-extrabold uppercase tracking-[.18em] text-[#15803d]">Tanya
@@ -415,25 +508,21 @@
                         @endforeach
                     </div>
 
-                    {{-- CTA --}}
                     <div class="flex flex-col gap-3 sm:flex-row">
                         <a href="{{ route('konsultasi') }}"
                             class="inline-flex items-center justify-center gap-2 px-6 py-3 text-sm font-bold text-white rounded-xl transition-all hover:-translate-y-0.5 active:scale-[.98]"
                             style="background:#15803d;box-shadow:0 4px 16px rgba(21,128,61,.3)">
-                            <i class="text-xs fas fa-comments"></i>
-                            Mulai Konsultasi
+                            <i class="text-xs fas fa-comments"></i> Mulai Konsultasi
                         </a>
-                        {{-- ✅ FIX: "Lihat FAQ" → /konsultasi#faq (bukan /konsultasi saja) --}}
                         <a href="{{ route('konsultasi') }}#faq"
                             class="inline-flex items-center justify-center gap-2 px-6 py-3 text-sm font-bold rounded-xl border transition-all hover:-translate-y-0.5 active:scale-[.98] bg-white"
                             style="color:#15803d;border-color:rgba(21,128,61,.2)">
-                            <i class="text-xs fas fa-question-circle"></i>
-                            Lihat FAQ
+                            <i class="text-xs fas fa-question-circle"></i> Lihat FAQ
                         </a>
                     </div>
                 </div>
 
-                {{-- RIGHT — Preview card dekoratif (skeleton, tidak interaktif) --}}
+                {{-- RIGHT — Preview card dekoratif --}}
                 <div class="relative">
                     <div class="hidden lg:block absolute rounded-[28px] border-2 border-dashed border-[#15803d]/14"
                         style="inset:-14px;transform:rotate(-1.5deg)"></div>
@@ -441,7 +530,6 @@
                     <div class="relative bg-white rounded-[22px] border border-[#15803d]/10 overflow-hidden"
                         style="box-shadow:0 12px 40px rgba(21,128,61,.10)">
 
-                        {{-- Header card --}}
                         <div class="py-5 px-7" style="background:linear-gradient(90deg,#15803d,#22c55e)">
                             <div class="flex items-center gap-3">
                                 <div class="flex items-center justify-center w-9 h-9 rounded-xl bg-white/20">
@@ -455,7 +543,6 @@
                             </div>
                         </div>
 
-                        {{-- Preview skeleton (dekoratif) --}}
                         <div class="py-6 space-y-4 px-7">
                             <div class="grid grid-cols-2 gap-3">
                                 <div>
@@ -498,10 +585,9 @@
                                 <i class="text-xs fas fa-paper-plane"></i> Kirim Pertanyaan
                             </a>
 
-                            {{-- ✅ FIX: Badge dipindah ke dalam card (tidak lagi floating -bottom-5 yang bisa terpotong) --}}
                             <div class="flex items-center justify-between pt-1">
                                 <p class="text-[11px] text-gray-400">
-                                    <i class="mr-1 fas fa-lock"></i> Data Anda aman & tidak disebarkan
+                                    <i class="mr-1 fas fa-lock"></i> Data Anda aman &amp; tidak disebarkan
                                 </p>
                                 <div class="flex items-center gap-1.5 px-3 py-1.5 rounded-full"
                                     style="background:rgba(21,128,61,.08)">

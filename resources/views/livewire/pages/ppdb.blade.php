@@ -149,12 +149,12 @@
             <div class="flex items-center gap-4 p-5 border rounded-2xl"
                 style="background: #dcfce7; border-color: #15803d26">
                 <div class="flex items-center justify-center w-12 h-12 rounded-xl shrink-0" style="background: #15803d">
-                    <i class="text-white fas fa-phone"></i>
+                    <i class="text-white fab fa-whatsapp"></i>
                 </div>
                 <div>
-                    <p class="mb-0.5 text-xs font-bold tracking-widest uppercase" style="color: #15803d">Humas</p>
-                    <a href="tel:085383102007"
-                        class="text-base font-bold text-gray-900 transition-colors hover:opacity-80">0853 8310 2007</a>
+                    <p class="mb-0.5 text-xs font-bold tracking-widest uppercase" style="color: #15803d">Admin</p>
+                    <a href="https://api.whatsapp.com/send/?phone=6282323561617&text&type=phone_number&app_absent=0"
+                        class="text-base font-bold text-gray-900 transition-colors hover:opacity-80">+62 823-2356-1617</a>
                     <p class="text-xs text-gray-500">Informasi & pertanyaan umum</p>
                 </div>
             </div>
@@ -166,9 +166,9 @@
                 <div>
                     <p class="mb-0.5 text-xs font-bold tracking-widest uppercase" style="color: #15803d">Konfirmasi
                         Pembayaran</p>
-                    <a href="https://wa.me/6285290191131" target="_blank"
-                        class="text-base font-bold text-gray-900 transition-colors hover:opacity-80">085 290 191 131</a>
-                    <p class="text-xs text-gray-500">Ustadz Rizka</p>
+                    <a href="https://api.whatsapp.com/send/?phone=%2B6285225549694&text&type=phone_number&app_absent=0" target="_blank"
+                        class="text-base font-bold text-gray-900 transition-colors hover:opacity-80">+62 852-2554-9694</a>
+                    <p class="text-xs text-gray-500">(Bendahara) Ustadz Zul</p>
                 </div>
             </div>
         </div>
@@ -233,7 +233,7 @@
                         Formulir pendaftaran online belum tersedia saat ini. Pantau terus halaman ini atau hubungi kami untuk informasi lebih lanjut.
                     </p>
                 </div>
-                <a href="https://wa.me/6285290191131" target="_blank"
+                <a href="https://api.whatsapp.com/send/?phone=6282323561617&text&type=phone_number&app_absent=0" target="_blank"
                     class="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold text-white rounded-xl transition hover:-translate-y-0.5"
                     style="background: #16a34a; box-shadow: 0 4px 12px #16a34a33">
                     <i class="fab fa-whatsapp"></i> Tanya via WhatsApp

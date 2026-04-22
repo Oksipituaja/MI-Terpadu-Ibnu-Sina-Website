@@ -1,4 +1,101 @@
 <div class="min-h-screen" style="background: #F0F4ED">
+
+    <style>
+        .tinymce-render p {
+            margin-bottom: 1rem;
+            line-height: 1.8;
+        }
+
+        .tinymce-render strong {
+            font-weight: 700;
+        }
+
+        .tinymce-render em {
+            font-style: italic;
+        }
+
+        .tinymce-render u {
+            text-decoration: underline;
+        }
+
+        .tinymce-render s {
+            text-decoration: line-through;
+        }
+
+        .tinymce-render ul {
+            list-style-type: disc !important;
+            padding-left: 1.5rem !important;
+            margin: 0.75rem 0 !important;
+        }
+
+        .tinymce-render ol {
+            list-style-type: decimal !important;
+            padding-left: 1.5rem !important;
+            margin: 0.75rem 0 !important;
+        }
+
+        .tinymce-render li {
+            margin-bottom: 0.5rem;
+            line-height: 1.7;
+        }
+
+        .tinymce-render blockquote {
+            border-left: 4px solid #15803d !important;
+            padding: 12px 16px !important;
+            margin: 16px 0 !important;
+            background: #f0fdf4 !important;
+            color: #166534 !important;
+            font-style: italic;
+            border-radius: 0 8px 8px 0;
+            display: block !important;
+        }
+
+        .tinymce-render a {
+            color: #15803d;
+            text-decoration: underline;
+        }
+
+        .tinymce-render h1 {
+            font-size: 1.875rem;
+            font-weight: 700;
+            color: #14532d;
+            margin: 1.5rem 0 0.75rem;
+        }
+
+        .tinymce-render h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #14532d;
+            margin: 1.5rem 0 0.75rem;
+        }
+
+        .tinymce-render h3 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #14532d;
+            margin: 1.5rem 0 0.75rem;
+        }
+
+        .tinymce-render h4 {
+            font-size: 1.125rem;
+            font-weight: 700;
+            color: #14532d;
+            margin: 1.5rem 0 0.75rem;
+        }
+
+        .tinymce-render [style*="text-align: center"] {
+            text-align: center !important;
+        }
+
+        .tinymce-render [style*="text-align: right"] {
+            text-align: right !important;
+        }
+
+        .tinymce-render [style*="text-align: justify"] {
+            text-align: justify !important;
+        }
+    </style>
+
     <div class="px-4 py-12 text-white" style="background: linear-gradient(to right, #15803d, #166534)">
         <div class="max-w-4xl mx-auto">
             <a href="{{ route('news') }}" class="inline-block mb-4 transition-colors hover:text-white"
@@ -29,10 +126,8 @@
             @endif
         </div>
 
-        <div class="prose max-w-none">
-            <div class="leading-relaxed text-gray-800">
-                {!! $news->content !!}
-            </div>
+        <div class="leading-relaxed text-gray-800 tinymce-render max-w-none">
+            {!! $news->content !!}
         </div>
 
         <div class="pt-8 mt-12 border-t" style="border-color: #15803d26">

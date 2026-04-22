@@ -14,7 +14,7 @@ class TeacherController extends Controller
 {
     public function index(): View
     {
-        $teachers = Teacher::latest()->paginate(15);
+        $teachers = Teacher::ordered()->paginate(15);
         return view('admin.teachers.index', compact('teachers'));
     }
 
@@ -33,6 +33,9 @@ class TeacherController extends Controller
             'subject'               => 'nullable|string',
             'featured_image_base64' => 'nullable|string',
         ]);
+
+        // Set sort_order otomatis: Kepala Sekolah = 0, lainnya = 99
+        $validated['sort_order'] = $this->resolveSortOrder($validated['subject'] ?? '');
 
         $newImage = $this->handleBase64Image($request->input('featured_image_base64'));
         if ($newImage) {
@@ -64,6 +67,9 @@ class TeacherController extends Controller
             'featured_image_base64' => 'nullable|string',
         ]);
 
+        // Update sort_order setiap kali jabatan diubah
+        $validated['sort_order'] = $this->resolveSortOrder($validated['subject'] ?? '');
+
         $newImage = $this->handleBase64Image(
             $request->input('featured_image_base64'),
             $teacher->featured_image
@@ -86,11 +92,33 @@ class TeacherController extends Controller
         if ($teacher->featured_image) {
             Storage::disk('public')->delete($teacher->featured_image);
         }
+
         $teacher->delete();
         Cache::forget('home.featured_teachers');
 
         return redirect()->route('admin.teachers.index')
             ->with('success', 'Guru berhasil dihapus!');
+    }
+
+    /**
+     * Tentukan sort_order berdasarkan jabatan.
+     * Kepala Sekolah = 0 (selalu paling atas),
+     * Wakil Kepala   = 1,
+     * lainnya        = 99.
+     */
+    private function resolveSortOrder(?string $subject): int
+    {
+        $subject = strtolower($subject ?? '');
+
+        if (str_contains($subject, 'kepala sekolah')) {
+            return 0;
+        }
+
+        if (str_contains($subject, 'wakil kepala') || str_contains($subject, 'waka')) {
+            return 1;
+        }
+
+        return 99;
     }
 
     private function handleBase64Image(?string $base64, ?string $oldImage = null): ?string

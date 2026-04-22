@@ -10,25 +10,19 @@
 
 @theme {
     --color-neutral-bg: #FAFAFA;
-
     --color-eduBlue-main: #1E40AF;
     --color-eduBlue-light: #3B82F6;
     --color-eduBlue-dark: #1E3A8A;
-
     --color-careGreen: #15803D;
     --color-careGreen-light: #22C55E;
     --color-careGreen-dark: #166534;
-
     --color-sunJoy: #FACC15;
     --color-sunJoy-light: #FCD34D;
     --color-sunJoy-dark: #EAB308;
-
     --color-softBlack: #1F2937;
     --color-softGray: #6B7280;
-
     --font-family-display: 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif;
     --font-family-body: 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif;
-
     --font-sans: 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif;
 }
 
@@ -117,6 +111,123 @@ body {
     overflow: hidden;
 }
 
+/* ── TinyMCE Content Styles ── */
+.prose-content {
+    line-height: 1.8;
+    color: #1f2937;
+}
+
+.prose-content p {
+    margin-bottom: 1rem;
+    line-height: 1.8;
+}
+
+.prose-content strong {
+    font-weight: 700;
+}
+
+.prose-content em {
+    font-style: italic;
+}
+
+.prose-content u {
+    text-decoration: underline;
+}
+
+.prose-content s {
+    text-decoration: line-through;
+}
+
+.prose-content ul {
+    list-style-type: disc;
+    padding-left: 1.5rem;
+    margin: 0.75rem 0;
+}
+
+.prose-content ol {
+    list-style-type: decimal;
+    padding-left: 1.5rem;
+    margin: 0.75rem 0;
+}
+
+.prose-content li {
+    margin-bottom: 0.5rem;
+    line-height: 1.7;
+}
+
+.prose-content blockquote {
+    border-left: 4px solid #15803d;
+    padding: 10px 16px;
+    margin: 16px 0;
+    background: #f0fdf4;
+    color: #166534;
+    font-style: italic;
+    border-radius: 0 8px 8px 0;
+}
+
+.prose-content a {
+    color: #15803d;
+    text-decoration: underline;
+}
+
+.prose-content a:hover {
+    color: #166534;
+}
+
+.prose-content h1 {
+    font-size: 1.875rem;
+    font-weight: 700;
+    color: #14532d;
+    margin-top: 1.5rem;
+    margin-bottom: 0.75rem;
+}
+
+.prose-content h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #14532d;
+    margin-top: 1.5rem;
+    margin-bottom: 0.75rem;
+}
+
+.prose-content h3 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #14532d;
+    margin-top: 1.5rem;
+    margin-bottom: 0.75rem;
+}
+
+.prose-content h4 {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: #14532d;
+    margin-top: 1.5rem;
+    margin-bottom: 0.75rem;
+}
+
+/* Text alignment dari TinyMCE */
+.prose-content p[style*="text-align: center"],
+.prose-content div[style*="text-align: center"] {
+    text-align: center;
+}
+
+.prose-content p[style*="text-align: right"],
+.prose-content div[style*="text-align: right"] {
+    text-align: right;
+}
+
+.prose-content p[style*="text-align: left"],
+.prose-content div[style*="text-align: left"] {
+    text-align: left;
+}
+
+.prose-content p[style*="text-align: justify"],
+.prose-content div[style*="text-align: justify"] {
+    text-align: justify;
+}
+
+/* Prose lama (tetap dipertahankan untuk kompatibilitas) */
 .prose ol {
     list-style-type: decimal;
     padding-left: 1.5rem;

@@ -32,7 +32,7 @@ class Home extends Component
 
     public function render()
     {
-        $latestNews = Cache::remember('home.latest_news', 1800, function () {
+        $latestNews = Cache::remember('home.latest_news', 60, function () {
             return News::where('status', 'published')
                 ->select(['id', 'title', 'slug', 'excerpt', 'published_at', 'featured_image'])
                 ->orderBy('published_at', 'desc')
@@ -40,26 +40,26 @@ class Home extends Component
                 ->get();
         });
 
-        $galleries = Cache::remember('home.random_galleries', 1800, function () {
+        $galleries = Cache::remember('home.random_galleries', 300, function () {
             return Gallery::select(['id', 'title', 'slug', 'featured_image', 'category'])
                 ->inRandomOrder()
                 ->limit(6)
                 ->get();
         });
 
-        $facilities = Cache::remember('home.all_facilities', 3600, function () {
+        $facilities = Cache::remember('home.all_facilities', 300, function () {
             return Facility::select(['id', 'name', 'slug', 'description', 'featured_image', 'icon'])
                 ->get();
         });
 
-        $teachers = Cache::remember('home.featured_teachers', 3600, function () {
+        $teachers = Cache::remember('home.featured_teachers', 300, function () {
             return Teacher::select(['id', 'name', 'subject', 'featured_image', 'slug'])
                 ->limit(3)
                 ->get();
         });
 
         $today = Carbon::today();
-        $agendas = Cache::remember('home.upcoming_agendas', 900, function () use ($today) {
+        $agendas = Cache::remember('home.upcoming_agendas', 300, function () use ($today) {
             return Agenda::select(['id', 'title', 'description', 'event_date', 'event_time', 'location', 'status', 'slug'])
                 ->whereIn('status', ['upcoming', 'ongoing'])
                 ->orderByRaw('CASE WHEN event_date >= ? THEN 0 ELSE 1 END, event_date ASC', [$today])
@@ -67,16 +67,16 @@ class Home extends Component
                 ->get();
         });
 
-        $principalGreeting = Cache::remember('about.principal_greeting', 86400, function () {
+        $principalGreeting = Cache::remember('about.principal_greeting', 60, function () {
             return About::where('key', 'principal_greeting')->first();
         });
 
         // KEY BENAR: 'home_hero_image' khusus untuk hero section di halaman Home
-        $heroImage = Cache::remember('about.home_hero_image', 86400, function () {
+        $heroImage = Cache::remember('about.home_hero_image', 300, function () {
             return About::where('key', 'home_hero_image')->first();
         });
 
-        $prestasis = Cache::remember('home.featured_prestasis', 1800, function () {
+        $prestasis = Cache::remember('home.featured_prestasis', 300, function () {
             return Prestasi::where('status', 'published')
                 ->orderBy('achievement_date', 'desc')
                 ->limit(3)
