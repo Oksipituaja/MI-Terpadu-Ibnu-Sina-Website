@@ -12,6 +12,7 @@ class AgendaController extends Controller
     public function index(): View
     {
         $agendas = Agenda::orderBy('event_date', 'desc')->paginate(15);
+
         return view('admin.agendas.index', compact('agendas'));
     }
 
@@ -26,12 +27,11 @@ class AgendaController extends Controller
             'title'       => 'required|string|max:255',
             'slug'        => 'required|string|unique:agendas,slug|max:255',
             'description' => 'nullable|string',
-            'event_date'  => 'required|string', // string karena flatpickr kirim "Y-m-d H:i"
+            'event_date'  => 'required|string',
             'location'    => 'nullable|string|max:255',
-            'status'      => 'required|in:upcoming,completed',
+            // 'status' tidak divalidasi — dihitung otomatis
         ]);
 
-        // Pisah date dan time dari input flatpickr "2026-05-02 07:00"
         $this->splitDateTime($validated);
 
         Agenda::create($validated);
@@ -53,7 +53,6 @@ class AgendaController extends Controller
             'description' => 'nullable|string',
             'event_date'  => 'required|string',
             'location'    => 'nullable|string|max:255',
-            'status'      => 'required|in:upcoming,completed',
         ]);
 
         $this->splitDateTime($validated);
@@ -67,6 +66,7 @@ class AgendaController extends Controller
     public function destroy(Agenda $agenda)
     {
         $agenda->delete();
+
         return redirect()->route('admin.agendas.index')
             ->with('success', 'Agenda berhasil dihapus.');
     }
@@ -84,7 +84,6 @@ class AgendaController extends Controller
             $validated['event_date'] = $date;
             $validated['event_time'] = $time . ':00'; // "07:00" → "07:00:00"
         } else {
-            // Hanya tanggal tanpa jam
             $validated['event_date'] = $raw;
             $validated['event_time'] = null;
         }

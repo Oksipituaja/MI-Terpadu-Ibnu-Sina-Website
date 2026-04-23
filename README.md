@@ -39,7 +39,7 @@ php artisan octane:start --server=frankenphp --watch
 | **Authentication** | Laravel Breeze |
 | **CSS Framework** | Tailwind CSS v4 |
 | **JavaScript** | Alpine.js + Livewire v3 |
-| **Database** | SQLite (Dev) / MySQL 8+ (Prod) |
+| **Database** | MySQL (Dev) / MySQL 8+ (Prod) |
 | **Caching** | Redis/Memcached |
 | **server** | Laravel Octane (Swoole/FrankenPHP) |
 | **Package Manager** | Composer (PHP), npm (Node.js) |
@@ -114,7 +114,7 @@ php artisan octane:start --server=frankenphp --watch
 - PHP 8.2+
 - Composer 2.0+
 - Node.js 18+ (npm 9+)
-- MySQL 8.0+ OR SQLite
+- MySQL 8.0+ OR MySQL
 - Redis 6.0+ (optional, for caching)
 ```
 
@@ -141,7 +141,7 @@ php artisan key:generate
 ### 4. Database Configuration
 Edit `.env` file:
 ```env
-DB_CONNECTION=sqlite
+DB_CONNECTION=MySQL
 # OR
 DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
@@ -200,7 +200,7 @@ php artisan octane:start --server=frankenphp --watch
 - 🏠 **Frontend**: http://localhost:8000
 - 🔐 **Login**: http://localhost:8000/login
 - 📋 **Admin Panel**: http://localhost:8000/admin
-- 📝 **Database**: `app_name.sqlite`
+- 📝 **Database**: `app_name.MySQL`
 
 ## 🔐 Default Credentials
 
@@ -385,7 +385,7 @@ Create `.env` from `.env.example` and configure:
 ```env
 APP_NAME="MI Terpadu Ibnu Sina"
 APP_DEBUG=false (production)
-DB_CONNECTION=sqlite (or mysql)
+DB_CONNECTION=MySQL (or mysql)
 CACHE_STORE=redis
 OCTANE_SERVER=frankenphp
 ```

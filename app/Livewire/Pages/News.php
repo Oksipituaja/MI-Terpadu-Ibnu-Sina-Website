@@ -49,10 +49,11 @@ class News extends Component
 
     public function render()
     {
-        $today = Carbon::today();
+        $todayStr = Carbon::now()->format('Y-m-d');
 
+        // ── BERITA ────────────────────────────────────────────────────
         $news = NewsModel::where('status', 'published')
-            ->when($this->search, fn($q) =>
+            ->when($this->search, fn ($q) =>
                 $q->where('title', 'like', "%{$this->search}%")
                   ->orWhere('content', 'like', "%{$this->search}%")
                   ->orWhere('excerpt', 'like', "%{$this->search}%")
@@ -60,19 +61,61 @@ class News extends Component
             ->orderBy('published_at', 'desc')
             ->paginate(9, pageName: 'newsPage');
 
-        $agendas = AgendaModel::when($this->filter !== 'all', fn($q) =>
-                $q->where('status', $this->filter)
-            )
-            ->orderByRaw("
-                CASE WHEN event_date >= ? THEN 0 ELSE 1 END,
-                CASE WHEN event_date >= ? THEN event_date ELSE '9999-12-31' END ASC,
-                event_date DESC
-            ", [$today, $today])
-            ->paginate(10, pageName: 'agendaPage');
+        // ── AGENDA — filter berdasarkan event_date vs hari ini ────────
+        // TIDAK pakai where('status', ...) karena kolom status sudah dihapus
+        // Status dihitung otomatis via Model accessor getStatusAttribute()
+        $agendaQuery = AgendaModel::query();
+
+        switch ($this->filter) {
+            case 'upcoming':
+                // Mendatang = event_date lebih besar dari hari ini
+                $agendaQuery->where('event_date', '>', $todayStr)
+                            ->orderBy('event_date', 'asc')
+                            ->orderBy('event_time', 'asc');
+                break;
+
+            case 'ongoing':
+                // Berlangsung = event_date sama dengan hari ini
+                $agendaQuery->where('event_date', '=', $todayStr)
+                            ->orderBy('event_time', 'asc');
+                break;
+
+            case 'completed':
+                // Selesai = event_date kurang dari hari ini
+                $agendaQuery->where('event_date', '<', $todayStr)
+                            ->orderBy('event_date', 'desc')
+                            ->orderBy('event_time', 'desc');
+                break;
+
+            case 'all':
+            default:
+                // Semua — ongoing dulu, lalu upcoming, lalu completed
+                $agendaQuery->orderByRaw("
+                    CASE
+                        WHEN event_date = ?  THEN 0
+                        WHEN event_date > ?  THEN 1
+                        ELSE 2
+                    END,
+                    event_date ASC,
+                    event_time ASC
+                ", [$todayStr, $todayStr]);
+                break;
+        }
+
+        $agendas = $agendaQuery->paginate(10, pageName: 'agendaPage');
+
+        // ── BADGE COUNT per filter tab ────────────────────────────────
+        $counts = [
+            'all'       => AgendaModel::count(),
+            'ongoing'   => AgendaModel::where('event_date', '=', $todayStr)->count(),
+            'upcoming'  => AgendaModel::where('event_date', '>', $todayStr)->count(),
+            'completed' => AgendaModel::where('event_date', '<', $todayStr)->count(),
+        ];
 
         return view('livewire.pages.news', [
             'news'    => $news,
             'agendas' => $agendas,
+            'counts'  => $counts,
         ]);
     }
 }
