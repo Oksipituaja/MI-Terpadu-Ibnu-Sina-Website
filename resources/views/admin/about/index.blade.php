@@ -17,17 +17,27 @@
             <table class="w-full">
                 <thead class="border-b border-gray-200 bg-gray-50">
                     <tr>
-                        <th class="px-6 py-3 text-xs font-semibold text-left text-gray-600 uppercase">Judul</th>
-                        <th class="px-6 py-3 text-xs font-semibold text-left text-gray-600 uppercase">Tipe Konten</th>
-                        <th class="px-6 py-3 text-xs font-semibold text-left text-gray-600 uppercase">Pratinjau</th>
-                        <th class="px-6 py-3 text-xs font-semibold text-left text-gray-600 uppercase">Aksi</th>
+                        <th class="w-1/4 px-6 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase">
+                            Judul</th>
+                        <th class="w-1/6 px-6 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase">
+                            Tipe Konten</th>
+                        <th class="px-6 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase">
+                            Pratinjau</th>
+                        <th class="px-6 py-3 text-xs font-semibold tracking-wider text-left text-gray-600 uppercase w-28">
+                            Aksi</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-200">
                     @forelse($abouts as $about)
-                        <tr class="hover:bg-gray-50">
-                            <td class="px-6 py-4 text-sm font-medium text-gray-900">{{ $about->title }}</td>
-                            <td class="px-6 py-4">
+                        <tr class="transition-colors duration-150 hover:bg-gray-50">
+
+                            {{-- JUDUL --}}
+                            <td class="px-6 py-4 text-sm font-semibold text-gray-900 align-middle">
+                                {{ $about->title }}
+                            </td>
+
+                            {{-- TIPE KONTEN --}}
+                            <td class="px-6 py-4 align-middle">
                                 @php
                                     $keyMap = [
                                         'home_hero_image' => [
@@ -58,42 +68,89 @@
                                         'class' => 'bg-gray-100 text-gray-600',
                                     ];
                                 @endphp
-                                <span class="px-2.5 py-1 rounded-full text-xs font-medium {{ $k['class'] }}">
+                                <span
+                                    class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium {{ $k['class'] }}">
                                     {{ $k['label'] }}
                                 </span>
                             </td>
-                            <td class="px-6 py-4 text-sm text-gray-600">
+
+                            {{-- PRATINJAU --}}
+                            <td class="px-6 py-4 align-middle">
                                 @if ($about->featured_image)
-                                    <img src="{{ asset('storage/' . $about->featured_image) }}"
-                                        onerror="this.onerror=null;this.src='/files/{{ $about->featured_image }}'"
-                                        alt="{{ $about->title }}" class="object-cover w-12 h-12 rounded-lg">
+                                    {{-- Konten dengan gambar --}}
+                                    <div class="flex items-center gap-3">
+                                        <img src="{{ asset('storage/' . $about->featured_image) }}"
+                                            onerror="this.onerror=null;this.src='/files/{{ $about->featured_image }}'"
+                                            alt="{{ $about->title }}"
+                                            class="flex-shrink-0 object-cover w-12 h-12 border border-gray-200 rounded-lg">
+                                        @if ($about->content)
+                                            @php
+                                                // Bersihkan HTML entities dan tag sekaligus
+                                                $preview = html_entity_decode(
+                                                    strip_tags($about->content),
+                                                    ENT_QUOTES | ENT_HTML5,
+                                                    'UTF-8',
+                                                );
+                                                $preview = preg_replace('/\s+/', ' ', trim($preview));
+                                            @endphp
+                                            <span class="text-xs leading-relaxed text-gray-500 line-clamp-2">
+                                                {{ Str::limit($preview, 80) }}
+                                            </span>
+                                        @endif
+                                    </div>
                                 @elseif ($about->key === 'school_info')
+                                    {{-- Konten JSON Informasi Sekolah --}}
                                     @php $info = json_decode($about->content, true) ?: []; @endphp
-                                    <span class="text-xs text-gray-500">
-                                        {{ $info['nama_sekolah'] ?? '—' }} · NPSN: {{ $info['npsn'] ?? '—' }}
-                                    </span>
+                                    <div class="flex flex-col gap-1">
+                                        <span class="text-xs font-medium text-gray-700">
+                                            {{ $info['nama_sekolah'] ?? '—' }}
+                                        </span>
+                                        <span class="text-xs text-gray-400">
+                                            NPSN: {{ $info['npsn'] ?? '—' }}
+                                            @if (!empty($info['alamat']))
+                                                &bull; {{ Str::limit($info['alamat'], 40) }}
+                                            @endif
+                                        </span>
+                                    </div>
                                 @else
-                                    <span class="text-xs text-gray-500">
-                                        {{ Str::limit(strip_tags($about->content), 60) ?: '—' }}
-                                    </span>
+                                    {{-- Konten teks biasa (visi, misi, profil, dll) --}}
+                                    @php
+                                        $preview = html_entity_decode(
+                                            strip_tags($about->content ?? ''),
+                                            ENT_QUOTES | ENT_HTML5,
+                                            'UTF-8',
+                                        );
+                                        $preview = preg_replace('/\s+/', ' ', trim($preview));
+                                    @endphp
+                                    @if ($preview)
+                                        <p class="max-w-md text-xs leading-relaxed text-gray-600 line-clamp-2">
+                                            {{ Str::limit($preview, 120) }}
+                                        </p>
+                                    @else
+                                        <span class="text-xs italic text-gray-400">— Belum ada konten —</span>
+                                    @endif
                                 @endif
                             </td>
-                            <td class="px-6 py-4">
+
+                            {{-- AKSI --}}
+                            <td class="px-6 py-4 align-middle">
                                 <div class="flex items-center gap-3">
                                     <a href="{{ route('admin.about.edit', $about) }}"
-                                        class="flex items-center gap-1 text-sm text-blue-600 hover:text-blue-800">
-                                        <i class="fas fa-edit"></i> Edit
+                                        class="inline-flex items-center gap-1 text-sm font-medium text-blue-600 transition-colors hover:text-blue-800">
+                                        <i class="text-xs fas fa-edit"></i> Edit
                                     </a>
                                     <form action="{{ route('admin.about.destroy', $about) }}" method="POST"
                                         onsubmit="return confirm('Hapus konten \'{{ addslashes($about->title) }}\'?\n\nData yang dihapus tidak dapat dikembalikan.')">
-                                        @csrf @method('DELETE')
+                                        @csrf
+                                        @method('DELETE')
                                         <button type="submit"
-                                            class="flex items-center gap-1 text-sm text-red-500 hover:text-red-700">
-                                            <i class="fas fa-trash"></i> Hapus
+                                            class="inline-flex items-center gap-1 text-sm font-medium text-red-500 transition-colors hover:text-red-700">
+                                            <i class="text-xs fas fa-trash"></i> Hapus
                                         </button>
                                     </form>
                                 </div>
                             </td>
+
                         </tr>
                     @empty
                         <tr>

@@ -11,23 +11,35 @@ use Illuminate\View\View;
 
 class PrestasiController extends Controller
 {
-    public function index(): View
+    public function index(Request $request): View
     {
-        $prestasis = Prestasi::orderByRaw("
-            CASE 
-                WHEN category LIKE '%Juara 1%' THEN 1
-                WHEN category LIKE '%Juara 2%' THEN 2
-                WHEN category LIKE '%Juara 3%' THEN 3
-                WHEN category LIKE '%Harapan 1%' THEN 4
-                WHEN category LIKE '%Harapan 2%' THEN 5
-                WHEN category LIKE '%Harapan 3%' THEN 6
-                WHEN category LIKE '%Harapan%' THEN 7
-                ELSE 99
-            END,
-            achievement_date DESC
-        ")->paginate(15);
+        $search = $request->get('search');
 
-        return view('admin.prestasi.index', compact('prestasis'));
+        $prestasis = Prestasi::query()
+            ->when($search, function ($query, $search) {
+                $query->where(function ($q) use ($search) {
+                    $q->where('title', 'LIKE', '%' . $search . '%')
+                        ->orWhere('category', 'LIKE', '%' . $search . '%')
+                        ->orWhere('description', 'LIKE', '%' . $search . '%');
+                });
+            })
+            ->orderByRaw("
+                CASE
+                    WHEN category LIKE '%Juara 1%' THEN 1
+                    WHEN category LIKE '%Juara 2%' THEN 2
+                    WHEN category LIKE '%Juara 3%' THEN 3
+                    WHEN category LIKE '%Harapan 1%' THEN 4
+                    WHEN category LIKE '%Harapan 2%' THEN 5
+                    WHEN category LIKE '%Harapan 3%' THEN 6
+                    WHEN category LIKE '%Harapan%' THEN 7
+                    ELSE 99
+                END,
+                achievement_date DESC
+            ")
+            ->paginate(15)
+            ->withQueryString();
+
+        return view('admin.prestasi.index', compact('prestasis', 'search'));
     }
 
     public function create(): View

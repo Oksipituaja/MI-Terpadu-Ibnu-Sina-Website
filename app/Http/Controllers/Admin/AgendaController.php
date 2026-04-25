@@ -9,11 +9,23 @@ use Illuminate\View\View;
 
 class AgendaController extends Controller
 {
-    public function index(): View
+    public function index(Request $request): View
     {
-        $agendas = Agenda::orderBy('event_date', 'desc')->paginate(15);
+        $search = $request->get('search');
 
-        return view('admin.agendas.index', compact('agendas'));
+        $agendas = Agenda::query()
+            ->when($search, function ($query, $search) {
+                $query->where(function ($q) use ($search) {
+                    $q->where('title', 'LIKE', '%' . $search . '%')
+                        ->orWhere('location', 'LIKE', '%' . $search . '%')
+                        ->orWhere('description', 'LIKE', '%' . $search . '%');
+                });
+            })
+            ->orderBy('event_date', 'desc')
+            ->paginate(5)
+            ->withQueryString();
+
+        return view('admin.agendas.index', compact('agendas', 'search'));
     }
 
     public function create(): View
@@ -29,7 +41,6 @@ class AgendaController extends Controller
             'description' => 'nullable|string',
             'event_date'  => 'required|string',
             'location'    => 'nullable|string|max:255',
-            // 'status' tidak divalidasi — dihitung otomatis
         ]);
 
         $this->splitDateTime($validated);
@@ -82,7 +93,7 @@ class AgendaController extends Controller
         if (str_contains($raw, ' ')) {
             [$date, $time]           = explode(' ', $raw, 2);
             $validated['event_date'] = $date;
-            $validated['event_time'] = $time . ':00'; // "07:00" → "07:00:00"
+            $validated['event_time'] = $time . ':00';
         } else {
             $validated['event_date'] = $raw;
             $validated['event_time'] = null;

@@ -12,10 +12,23 @@ use Illuminate\View\View;
 
 class TeacherController extends Controller
 {
-    public function index(): View
+    public function index(Request $request): View
     {
-        $teachers = Teacher::ordered()->paginate(15);
-        return view('admin.teachers.index', compact('teachers'));
+        $search = $request->get('search');
+
+        $teachers = Teacher::query()
+            ->when($search, function ($query, $search) {
+                $query->where(function ($q) use ($search) {
+                    $q->where('name', 'LIKE', '%' . $search . '%')
+                      ->orWhere('email', 'LIKE', '%' . $search . '%')
+                      ->orWhere('subject', 'LIKE', '%' . $search . '%');
+                });
+            })
+            ->ordered()
+            ->paginate(15)
+            ->withQueryString();
+
+        return view('admin.teachers.index', compact('teachers', 'search'));
     }
 
     public function create(): View
@@ -34,7 +47,6 @@ class TeacherController extends Controller
             'featured_image_base64' => 'nullable|string',
         ]);
 
-        // Set sort_order otomatis: Kepala Sekolah = 0, lainnya = 99
         $validated['sort_order'] = $this->resolveSortOrder($validated['subject'] ?? '');
 
         $newImage = $this->handleBase64Image($request->input('featured_image_base64'));
@@ -67,7 +79,6 @@ class TeacherController extends Controller
             'featured_image_base64' => 'nullable|string',
         ]);
 
-        // Update sort_order setiap kali jabatan diubah
         $validated['sort_order'] = $this->resolveSortOrder($validated['subject'] ?? '');
 
         $newImage = $this->handleBase64Image(
@@ -100,43 +111,26 @@ class TeacherController extends Controller
             ->with('success', 'Guru berhasil dihapus!');
     }
 
-    /**
-     * Tentukan sort_order berdasarkan jabatan.
-     * Kepala Sekolah = 0 (selalu paling atas),
-     * Wakil Kepala   = 1,
-     * lainnya        = 99.
-     */
     private function resolveSortOrder(?string $subject): int
     {
         $subject = strtolower($subject ?? '');
 
-        if (str_contains($subject, 'kepala sekolah')) {
-            return 0;
-        }
-
-        if (str_contains($subject, 'wakil kepala') || str_contains($subject, 'waka')) {
-            return 1;
-        }
+        if (str_contains($subject, 'kepala sekolah')) return 0;
+        if (str_contains($subject, 'wakil kepala') || str_contains($subject, 'waka')) return 1;
 
         return 99;
     }
 
     private function handleBase64Image(?string $base64, ?string $oldImage = null): ?string
     {
-        if (empty($base64)) {
-            return null;
-        }
+        if (empty($base64)) return null;
 
-        if (!preg_match('/^data:image\/(jpeg|jpg|png|webp|gif);base64,/i', $base64)) {
-            return null;
-        }
+        if (!preg_match('/^data:image\/(jpeg|jpg|png|webp|gif);base64,/i', $base64)) return null;
 
         $imageData = substr($base64, strpos($base64, ',') + 1);
         $decoded   = base64_decode($imageData, true);
 
-        if ($decoded === false || strlen($decoded) < 100) {
-            return null;
-        }
+        if ($decoded === false || strlen($decoded) < 100) return null;
 
         if ($oldImage) {
             Storage::disk('public')->delete($oldImage);

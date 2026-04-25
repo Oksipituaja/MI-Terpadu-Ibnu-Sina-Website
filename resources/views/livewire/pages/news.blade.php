@@ -39,7 +39,7 @@
                     <div class="relative">
                         <i class="absolute text-sm -translate-y-1/2 fas fa-search left-4 top-1/2"
                             style="color: #15803d80"></i>
-                        <input type="text" wire:model.live.debounce.300ms="search"
+                        <input type="text" wire:model.live.debounce.1ms="search"
                             placeholder="Cari berita atau pengumuman..."
                             class="w-full py-3 pr-5 text-sm transition bg-white border-2 pl-11 rounded-xl focus:outline-none"
                             style="border-color: #15803d26;">

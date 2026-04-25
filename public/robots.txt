@@ -1,2 +1,8 @@
 User-agent: *
-Disallow:
+Allow: /
+
+Sitemap: https://mitisjepara.com/sitemap.xml
+
+# Block admin
+Disallow: /admin-panel/
+Disallow: /admin-panel/*

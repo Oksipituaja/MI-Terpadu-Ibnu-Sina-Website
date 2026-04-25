@@ -11,11 +11,27 @@ use Illuminate\View\View;
 
 class NewsController extends Controller
 {
-    public function index(): View
+    public function index(Request $request): View
     {
-        $news = News::with('user')->latest()->paginate(15);
-        return view('admin.news.index', compact('news'));
+        $search = $request->get('search');
+
+        $news = News::with('user')
+            ->when($search, function ($query, $search) {
+                $query->where(function ($q) use ($search) {
+                    $q->where('title', 'LIKE', '%' . $search . '%')
+                        ->orWhere('excerpt', 'LIKE', '%' . $search . '%')
+                        ->orWhereHas('user', function ($u) use ($search) {
+                            $u->where('name', 'LIKE', '%' . $search . '%');
+                        });
+                });
+            })
+            ->latest()
+            ->paginate(15)
+            ->withQueryString();
+
+        return view('admin.news.index', compact('news', 'search'));
     }
+
 
     public function create(): View
     {

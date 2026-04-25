@@ -12,10 +12,23 @@ use Illuminate\View\View;
 
 class GalleryController extends Controller
 {
-    public function index(): View
+    public function index(Request $request): View
     {
-        $galleries = Gallery::latest()->paginate(15);
-        return view('admin.galleries.index', compact('galleries'));
+        $search = $request->get('search');
+
+        $galleries = Gallery::query()
+            ->when($search, function ($query, $search) {
+                $query->where(function ($q) use ($search) {
+                    $q->where('title', 'LIKE', '%' . $search . '%')
+                        ->orWhere('category', 'LIKE', '%' . $search . '%')
+                        ->orWhere('description', 'LIKE', '%' . $search . '%');
+                });
+            })
+            ->latest()
+            ->paginate(15)
+            ->withQueryString();
+
+        return view('admin.galleries.index', compact('galleries', 'search'));
     }
 
     public function create(): View

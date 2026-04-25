@@ -4,12 +4,12 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="csrf-token" content="<?php echo e(csrf_token()); ?>">
 
-    {{-- Bing Webmaster Verification --}}
+    
     <meta name="msvalidate.01" content="57E396782F5310A077DE63E802D88C37">
 
-    {{-- PRIMARY SEO META --}}
+    
     <title>MI Terpadu Ibnu Sina Jepara | Madrasah Ibtidaiyah Terpadu Kembang Jepara</title>
     <meta name="description"
         content="MI Terpadu Ibnu Sina Kembang Jepara – Madrasah Ibtidaiyah Terpadu unggulan di Jepara. Pendaftaran siswa baru (SPMB), profil sekolah, prestasi siswa, dan informasi PPDB 2025/2026.">
@@ -20,43 +20,46 @@
     <meta name="googlebot" content="index, follow">
     <meta name="bingbot" content="index, follow">
     <meta name="theme-color" content="#15803d">
-    <link rel="canonical" href="{{ url()->current() }}">
+    <link rel="canonical" href="<?php echo e(url()->current()); ?>">
 
-    {{-- OPEN GRAPH --}}
+    
     <meta property="og:type" content="website">
     <meta property="og:locale" content="id_ID">
     <meta property="og:site_name" content="MI Terpadu Ibnu Sina Jepara">
     <meta property="og:title" content="MI Terpadu Ibnu Sina Jepara | Madrasah Ibtidaiyah Terpadu Kembang Jepara">
     <meta property="og:description"
         content="Madrasah Ibtidaiyah Terpadu Ibnu Sina Kembang Jepara – sekolah Islam unggulan di Jepara. Informasi SPMB/PPDB, prestasi siswa, profil guru, dan kegiatan sekolah.">
-    <meta property="og:url" content="{{ url()->current() }}">
-    <meta property="og:image" content="{{ asset('MI-Terpadu-Ibnu-Sina-Kembang-Jepara-Logo.png') }}">
-    <meta property="og:image:secure_url" content="{{ asset('MI-Terpadu-Ibnu-Sina-Kembang-Jepara-Logo.png') }}">
+    <meta property="og:url" content="<?php echo e(url()->current()); ?>">
+    <meta property="og:image" content="<?php echo e(asset('MI-Terpadu-Ibnu-Sina-Kembang-Jepara-Logo.png')); ?>">
+    <meta property="og:image:secure_url" content="<?php echo e(asset('MI-Terpadu-Ibnu-Sina-Kembang-Jepara-Logo.png')); ?>">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
     <meta property="og:image:alt" content="Logo MI Terpadu Ibnu Sina Jepara">
 
-    {{-- TWITTER CARD --}}
+    
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="MI Terpadu Ibnu Sina Jepara">
     <meta name="twitter:description"
         content="Madrasah Ibtidaiyah Terpadu Ibnu Sina Kembang Jepara – sekolah Islam unggulan di Jepara.">
-    <meta name="twitter:image" content="{{ asset('MI-Terpadu-Ibnu-Sina-Kembang-Jepara-Logo.png') }}">
+    <meta name="twitter:image" content="<?php echo e(asset('MI-Terpadu-Ibnu-Sina-Kembang-Jepara-Logo.png')); ?>">
 
-    {{-- FAVICON --}}
-    <link rel="icon" href="{{ asset('MI-Terpadu-Ibnu-Sina-Kembang-Jepara-Logo.png') }}" type="image/png"
+    
+    <link rel="icon" href="<?php echo e(asset('MI-Terpadu-Ibnu-Sina-Kembang-Jepara-Logo.png')); ?>" type="image/png"
         sizes="96x96">
-    <link rel="apple-touch-icon" href="{{ asset('MI-Terpadu-Ibnu-Sina-Kembang-Jepara-Logo.png') }}" sizes="180x180">
-    <link rel="shortcut icon" href="{{ asset('MI-Terpadu-Ibnu-Sina-Kembang-Jepara-Logo.png') }}" type="image/x-icon">
+    <link rel="apple-touch-icon" href="<?php echo e(asset('MI-Terpadu-Ibnu-Sina-Kembang-Jepara-Logo.png')); ?>" sizes="180x180">
+    <link rel="shortcut icon" href="<?php echo e(asset('MI-Terpadu-Ibnu-Sina-Kembang-Jepara-Logo.png')); ?>" type="image/x-icon">
 
-    {{-- JSON-LD STRUCTURED DATA --}}
+    
     <script type="application/ld+json">
     {
-      "@@context": "https://schema.org",
-      "@@graph": [
+      "<?php $__contextArgs = [];
+if (context()->has($__contextArgs[0])) :
+if (isset($value)) { $__contextPrevious[] = $value; }
+$value = context()->get($__contextArgs[0]); ?>": "https://schema.org",
+      "@graph": [
         {
-          "@@type": "EducationalOrganization",
-          "@@id": "https://mitisjepara.com/#organization",
+          "@type": "EducationalOrganization",
+          "@id": "https://mitisjepara.com/#organization",
           "name": "MI Terpadu Ibnu Sina Jepara",
           "alternateName": [
             "MITIS Jepara",
@@ -70,7 +73,7 @@
           ],
           "url": "https://mitisjepara.com",
           "logo": {
-            "@@type": "ImageObject",
+            "@type": "ImageObject",
             "url": "https://mitisjepara.com/MI-Terpadu-Ibnu-Sina-Kembang-Jepara-Logo.png",
             "width": 512,
             "height": 512
@@ -78,7 +81,7 @@
           "image": "https://mitisjepara.com/MI-Terpadu-Ibnu-Sina-Kembang-Jepara-Logo.png",
           "description": "MI Terpadu Ibnu Sina adalah Madrasah Ibtidaiyah unggulan di Kembang, Jepara, Jawa Tengah yang berkomitmen mencetak generasi muslim berilmu dan berakhlak mulia.",
           "address": {
-            "@@type": "PostalAddress",
+            "@type": "PostalAddress",
             "streetAddress": "Jl. Raya Bangsri - Keling KM.4, Dukuh Segawe, Desa Jinggotan, Kec. Kembang",
             "addressLocality": "Jepara",
             "addressRegion": "Jawa Tengah",
@@ -86,7 +89,7 @@
             "addressCountry": "ID"
           },
           "geo": {
-            "@@type": "GeoCoordinates",
+            "@type": "GeoCoordinates",
             "latitude": "-6.507694",
             "longitude": "110.794806"
           },
@@ -95,7 +98,7 @@
           "hasMap": "https://maps.app.goo.gl/D3CUGH9acTNJZzaH7",
           "openingHoursSpecification": [
             {
-              "@@type": "OpeningHoursSpecification",
+              "@type": "OpeningHoursSpecification",
               "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"],
               "opens": "08:00",
               "closes": "12:00"
@@ -109,17 +112,17 @@
           ]
         },
         {
-          "@@type": "WebSite",
-          "@@id": "https://mitisjepara.com/#website",
+          "@type": "WebSite",
+          "@id": "https://mitisjepara.com/#website",
           "url": "https://mitisjepara.com",
           "name": "MI Terpadu Ibnu Sina Jepara",
           "description": "Website resmi MI Terpadu Ibnu Sina Kembang Jepara",
-          "publisher": { "@@id": "https://mitisjepara.com/#organization" },
+          "publisher": { "@id": "https://mitisjepara.com/#organization" },
           "inLanguage": "id-ID",
           "potentialAction": {
-            "@@type": "SearchAction",
+            "@type": "SearchAction",
             "target": {
-              "@@type": "EntryPoint",
+              "@type": "EntryPoint",
               "urlTemplate": "https://mitisjepara.com/news?q={search_term_string}"
             },
             "query-input": "required name=search_term_string"
@@ -129,8 +132,9 @@
     }
     </script>
 
-    @livewireStyles
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <?php echo \Livewire\Mechanisms\FrontendAssets\FrontendAssets::styles(); ?>
+
+    <?php echo app('Illuminate\Foundation\Vite')(['resources/css/app.css', 'resources/js/app.js']); ?>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -347,7 +351,7 @@
 
     <header class="fixed top-0 left-0 right-0 z-50">
 
-        {{-- Topbar --}}
+        
         <div class="topbar">
             <div class="flex items-center justify-between w-full max-w-screen-xl gap-4 px-6 mx-auto">
                 <div class="flex items-center flex-1 min-w-0 gap-2 overflow-hidden text-xs text-white/70">
@@ -385,15 +389,15 @@
             </div>
         </div>
 
-        {{-- Main nav --}}
+        
         <nav class="h-[68px] bg-white border-b border-[#15803d]/10 shadow-sm" role="navigation"
             aria-label="Menu Utama">
             <div class="flex items-center justify-between h-full max-w-screen-xl gap-4 px-6 mx-auto">
 
-                {{-- Logo --}}
-                <a href="{{ route('home') }}" class="flex items-center gap-2.5 flex-shrink-0"
+                
+                <a href="<?php echo e(route('home')); ?>" class="flex items-center gap-2.5 flex-shrink-0"
                     aria-label="Beranda MI Terpadu Ibnu Sina">
-                    <img src="{{ asset('MI-Terpadu-Ibnu-Sina-Kembang-Jepara-Logo.png') }}"
+                    <img src="<?php echo e(asset('MI-Terpadu-Ibnu-Sina-Kembang-Jepara-Logo.png')); ?>"
                         alt="Logo MI Terpadu Ibnu Sina Jepara" class="object-contain w-10 h-10" width="40"
                         height="40" loading="eager">
                     <div class="hidden sm:block">
@@ -404,10 +408,10 @@
                     </div>
                 </a>
 
-                {{-- Desktop menu --}}
+                
                 <ul class="items-center hidden h-full gap-1 p-0 m-0 list-none lg:flex">
                     <li class="flex items-center h-full">
-                        <a href="{{ route('home') }}"
+                        <a href="<?php echo e(route('home')); ?>"
                             class="flex items-center gap-1.5 px-3 py-1.5 text-[13.5px] font-semibold text-gray-600 hover:text-[#15803d] hover:bg-[#15803d]/[.07] rounded-lg transition-all">
                             <i class="fas fa-home text-[11px] opacity-55"></i> Beranda
                         </a>
@@ -420,13 +424,13 @@
                                 class="fas fa-chevron-down ch"></i>
                         </span>
                         <div class="dd-menu">
-                            <a href="{{ route('about') }}?section=sambutan" class="dd-item"><span class="dd-ic"><i
+                            <a href="<?php echo e(route('about')); ?>?section=sambutan" class="dd-item"><span class="dd-ic"><i
                                         class="fas fa-user-tie"></i></span> Sambutan Kepala Sekolah</a>
-                            <a href="{{ route('about') }}?section=visi-misi&expanded=1" class="dd-item"><span
+                            <a href="<?php echo e(route('about')); ?>?section=visi-misi&expanded=1" class="dd-item"><span
                                     class="dd-ic"><i class="fas fa-bullseye"></i></span> Visi &amp; Misi</a>
-                            <a href="{{ route('about') }}?section=tentang&expanded=1" class="dd-item"><span
+                            <a href="<?php echo e(route('about')); ?>?section=tentang&expanded=1" class="dd-item"><span
                                     class="dd-ic"><i class="fas fa-info-circle"></i></span> Tentang Kami</a>
-                            <a href="{{ route('teachers') }}" class="dd-item"><span class="dd-ic"><i
+                            <a href="<?php echo e(route('teachers')); ?>" class="dd-item"><span class="dd-ic"><i
                                         class="fas fa-chalkboard-teacher"></i></span> Tendik &amp; Staff</a>
                         </div>
                     </li>
@@ -438,15 +442,15 @@
                                 class="fas fa-chevron-down ch"></i>
                         </span>
                         <div class="dd-menu">
-                            <a href="{{ route('mata-pelajaran') }}" class="dd-item"><span class="dd-ic"><i
+                            <a href="<?php echo e(route('mata-pelajaran')); ?>" class="dd-item"><span class="dd-ic"><i
                                         class="fas fa-book"></i></span> Mata Pelajaran</a>
-                            <a href="{{ route('peraturan') }}" class="dd-item"><span class="dd-ic"><i
+                            <a href="<?php echo e(route('peraturan')); ?>" class="dd-item"><span class="dd-ic"><i
                                         class="fas fa-gavel"></i></span> Peraturan Sekolah</a>
-                            <a href="{{ route('news') }}" class="dd-item"><span class="dd-ic"><i
+                            <a href="<?php echo e(route('news')); ?>" class="dd-item"><span class="dd-ic"><i
                                         class="fas fa-newspaper"></i></span> Berita &amp; Pengumuman</a>
-                            <a href="{{ route('prestasi.index') }}" class="dd-item"><span class="dd-ic"><i
+                            <a href="<?php echo e(route('prestasi.index')); ?>" class="dd-item"><span class="dd-ic"><i
                                         class="fas fa-trophy"></i></span> Prestasi</a>
-                            <a href="{{ route('facilities') }}" class="dd-item"><span class="dd-ic"><i
+                            <a href="<?php echo e(route('facilities')); ?>" class="dd-item"><span class="dd-ic"><i
                                         class="fas fa-building"></i></span> Fasilitas</a>
                         </div>
                     </li>
@@ -458,23 +462,23 @@
                                 class="fas fa-chevron-down ch"></i>
                         </span>
                         <div class="dd-menu">
-                            <a href="{{ route('news') }}?tab=agenda" class="dd-item"><span class="dd-ic"><i
+                            <a href="<?php echo e(route('news')); ?>?tab=agenda" class="dd-item"><span class="dd-ic"><i
                                         class="fas fa-calendar-check"></i></span> Agenda Kegiatan</a>
-                            <a href="{{ route('gallery') }}" class="dd-item"><span class="dd-ic"><i
+                            <a href="<?php echo e(route('gallery')); ?>" class="dd-item"><span class="dd-ic"><i
                                         class="fas fa-images"></i></span> Galeri</a>
                         </div>
                     </li>
                 </ul>
 
-                {{-- CTA + Burger --}}
+                
                 <div class="flex items-center flex-shrink-0 gap-2">
                     <div class="items-center hidden gap-2 lg:flex">
-                        <a href="{{ route('ppdb') }}"
+                        <a href="<?php echo e(route('ppdb')); ?>"
                             class="inline-flex items-center gap-1.5 px-4 py-2.5 text-sm font-bold text-white rounded-xl transition-all hover:-translate-y-0.5"
                             style="background:#15803d;box-shadow:0 3px 12px rgba(21,128,61,.32)">
                             <i class="text-xs fas fa-graduation-cap"></i> SPMB
                         </a>
-                        <a href="{{ route('konsultasi') }}"
+                        <a href="<?php echo e(route('konsultasi')); ?>"
                             class="inline-flex items-center gap-1.5 px-4 py-2.5 text-sm font-bold rounded-xl transition-all hover:-translate-y-0.5"
                             style="background:#EAB308;color:#14532d;box-shadow:0 3px 12px rgba(234,179,8,.28)">
                             <i class="text-xs fas fa-comments"></i>
@@ -482,7 +486,7 @@
                         </a>
                     </div>
 
-                    <a href="{{ route('ppdb') }}"
+                    <a href="<?php echo e(route('ppdb')); ?>"
                         class="flex lg:hidden items-center gap-1.5 px-3 py-2 text-xs font-bold text-white rounded-lg"
                         style="background:#15803d">
                         <i class="fas fa-graduation-cap"></i> SPMB
@@ -501,55 +505,55 @@
         </nav>
     </header>
 
-    {{-- Overlay & Drawer --}}
+    
     <div id="overlay" aria-hidden="true"></div>
     <div id="drawer" role="dialog" aria-label="Menu Navigasi Mobile">
         <div class="flex items-center justify-between px-5 py-4 border-b border-[#15803d]/10">
-            <a href="{{ route('home') }}" class="flex items-center gap-2.5 no-underline">
-                <img src="{{ asset('MI-Terpadu-Ibnu-Sina-Kembang-Jepara-Logo.png') }}"
+            <a href="<?php echo e(route('home')); ?>" class="flex items-center gap-2.5 no-underline">
+                <img src="<?php echo e(asset('MI-Terpadu-Ibnu-Sina-Kembang-Jepara-Logo.png')); ?>"
                     alt="Logo MI Terpadu Ibnu Sina" class="object-contain w-8 h-8" width="32" height="32">
-                <span class="text-sm font-extrabold text-[#15803d]">{{ config('app.name') }}</span>
+                <span class="text-sm font-extrabold text-[#15803d]"><?php echo e(config('app.name')); ?></span>
             </a>
             <button id="drawerClose"
                 class="flex items-center justify-center w-8 h-8 text-lg text-gray-500 transition-colors bg-gray-100 rounded-lg hover:bg-red-100 hover:text-red-500"
                 aria-label="Tutup Menu">x</button>
         </div>
         <div class="p-3">
-            <a href="{{ route('home') }}" class="drw-link"><i class="fas fa-home"></i> Beranda</a>
+            <a href="<?php echo e(route('home')); ?>" class="drw-link"><i class="fas fa-home"></i> Beranda</a>
 
             <p class="drw-sec">Profil</p>
-            <a href="{{ route('about') }}?section=sambutan" class="drw-link"><i class="fas fa-user-tie"></i>
+            <a href="<?php echo e(route('about')); ?>?section=sambutan" class="drw-link"><i class="fas fa-user-tie"></i>
                 Sambutan Kepala Sekolah</a>
-            <a href="{{ route('about') }}?section=visi-misi&expanded=1" class="drw-link"><i
+            <a href="<?php echo e(route('about')); ?>?section=visi-misi&expanded=1" class="drw-link"><i
                     class="fas fa-bullseye"></i> Visi &amp; Misi</a>
-            <a href="{{ route('about') }}?section=tentang&expanded=1" class="drw-link"><i
+            <a href="<?php echo e(route('about')); ?>?section=tentang&expanded=1" class="drw-link"><i
                     class="fas fa-info-circle"></i> Tentang Kami</a>
-            <a href="{{ route('teachers') }}" class="drw-link"><i class="fas fa-chalkboard-teacher"></i> Tenaga
+            <a href="<?php echo e(route('teachers')); ?>" class="drw-link"><i class="fas fa-chalkboard-teacher"></i> Tenaga
                 Pendidik</a>
 
             <p class="drw-sec">Akademik</p>
-            <a href="{{ route('mata-pelajaran') }}" class="drw-link"><i class="fas fa-book"></i> Mata Pelajaran</a>
-            <a href="{{ route('peraturan') }}" class="drw-link"><i class="fas fa-gavel"></i> Peraturan Sekolah</a>
-            <a href="{{ route('news') }}" class="drw-link"><i class="fas fa-newspaper"></i> Berita &amp;
+            <a href="<?php echo e(route('mata-pelajaran')); ?>" class="drw-link"><i class="fas fa-book"></i> Mata Pelajaran</a>
+            <a href="<?php echo e(route('peraturan')); ?>" class="drw-link"><i class="fas fa-gavel"></i> Peraturan Sekolah</a>
+            <a href="<?php echo e(route('news')); ?>" class="drw-link"><i class="fas fa-newspaper"></i> Berita &amp;
                 Pengumuman</a>
-            <a href="{{ route('prestasi.index') }}" class="drw-link"><i class="fas fa-trophy"></i> Prestasi</a>
-            <a href="{{ route('facilities') }}" class="drw-link"><i class="fas fa-building"></i> Fasilitas</a>
+            <a href="<?php echo e(route('prestasi.index')); ?>" class="drw-link"><i class="fas fa-trophy"></i> Prestasi</a>
+            <a href="<?php echo e(route('facilities')); ?>" class="drw-link"><i class="fas fa-building"></i> Fasilitas</a>
 
             <p class="drw-sec">Kegiatan</p>
-            <a href="{{ route('news') }}?tab=agenda" class="drw-link"><i class="fas fa-calendar-check"></i> Agenda
+            <a href="<?php echo e(route('news')); ?>?tab=agenda" class="drw-link"><i class="fas fa-calendar-check"></i> Agenda
                 Kegiatan</a>
-            <a href="{{ route('gallery') }}" class="drw-link"><i class="fas fa-images"></i> Galeri</a>
+            <a href="<?php echo e(route('gallery')); ?>" class="drw-link"><i class="fas fa-images"></i> Galeri</a>
 
             <p class="drw-sec">Lainnya</p>
-            <a href="{{ route('konsultasi') }}" class="drw-link"><i class="fas fa-comments"></i> Konsultasi</a>
+            <a href="<?php echo e(route('konsultasi')); ?>" class="drw-link"><i class="fas fa-comments"></i> Konsultasi</a>
 
             <div class="flex flex-col gap-3 pt-4 mt-3 border-t border-[#15803d]/10">
-                <a href="{{ route('ppdb') }}"
+                <a href="<?php echo e(route('ppdb')); ?>"
                     class="flex items-center justify-center gap-2 py-3 text-sm font-bold text-white rounded-xl"
                     style="background:#15803d">
                     <i class="fas fa-graduation-cap"></i> SPMB / PPDB
                 </a>
-                <a href="{{ route('konsultasi') }}"
+                <a href="<?php echo e(route('konsultasi')); ?>"
                     class="flex items-center justify-center gap-2 py-3 text-sm font-bold rounded-xl"
                     style="background:#EAB308;color:#14532d">
                     <i class="fas fa-comments"></i> Hubungi Kami
@@ -558,26 +562,27 @@
         </div>
     </div>
 
-    {{-- pt: mobile=68px, desktop=topbar(38px)+nav(68px)=106px --}}
+    
     <main class="pt-[68px] md:pt-[106px]">
-        {{ $slot }}
+        <?php echo e($slot); ?>
+
     </main>
 
-    {{-- Footer --}}
+    
     <footer id="kontak" class="bg-[#0c2318] text-gray-400" aria-label="Footer MI Terpadu Ibnu Sina">
         <div class="max-w-screen-xl px-6 pb-10 mx-auto pt-14">
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 pb-12 border-b border-white/[.05]">
 
-                {{-- Brand --}}
+                
                 <div>
                     <div class="flex items-center gap-3 mb-5">
                         <div class="flex items-center justify-center flex-shrink-0 w-11 h-11 rounded-xl">
-                            <img src="{{ asset('MI-Terpadu-Ibnu-Sina-Kembang-Jepara-Logo.png') }}"
+                            <img src="<?php echo e(asset('MI-Terpadu-Ibnu-Sina-Kembang-Jepara-Logo.png')); ?>"
                                 alt="Logo MI Terpadu Ibnu Sina" class="object-contain w-10 h-10" width="40"
                                 height="40" loading="lazy">
                         </div>
                         <div>
-                            <div class="text-sm font-bold leading-tight text-white">{{ config('app.name') }}</div>
+                            <div class="text-sm font-bold leading-tight text-white"><?php echo e(config('app.name')); ?></div>
                             <div class="text-[10px] font-bold text-[#4ade80] tracking-wide">Madrasah Ibtidaiyah</div>
                         </div>
                     </div>
@@ -585,7 +590,7 @@
                         generasi unggul, berakhlak mulia, dan berdaya saing melalui pendidikan Islami yang berkualitas.
                     </p>
 
-                    {{-- Social Links - FIXED: no inline array in @foreach --}}
+                    
                     <div class="flex gap-2">
                         <a href="https://www.facebook.com/profile.php?id=61552982001569" target="_blank"
                             rel="noopener" aria-label="Facebook MI Terpadu Ibnu Sina"
@@ -608,45 +613,45 @@
                     </div>
                 </div>
 
-                {{-- Halaman - FIXED: no inline array in @foreach --}}
+                
                 <div>
                     <h4 class="text-[10px] font-extrabold uppercase tracking-[.14em] text-[#4ade80]/50 mb-5">Halaman
                     </h4>
                     <ul class="space-y-2.5 list-none p-0">
-                        <li><a href="{{ route('home') }}"
+                        <li><a href="<?php echo e(route('home')); ?>"
                                 class="flex items-center gap-2 text-sm text-gray-400 no-underline transition-colors hover:text-white"><i
                                     class="fas fa-chevron-right text-[9px] text-[#15803d]/50"></i>Beranda</a></li>
-                        <li><a href="{{ route('about') }}"
+                        <li><a href="<?php echo e(route('about')); ?>"
                                 class="flex items-center gap-2 text-sm text-gray-400 no-underline transition-colors hover:text-white"><i
                                     class="fas fa-chevron-right text-[9px] text-[#15803d]/50"></i>Tentang Kami</a></li>
-                        <li><a href="{{ route('teachers') }}"
+                        <li><a href="<?php echo e(route('teachers')); ?>"
                                 class="flex items-center gap-2 text-sm text-gray-400 no-underline transition-colors hover:text-white"><i
                                     class="fas fa-chevron-right text-[9px] text-[#15803d]/50"></i>Tenaga Pendidik</a>
                         </li>
-                        <li><a href="{{ route('mata-pelajaran') }}"
+                        <li><a href="<?php echo e(route('mata-pelajaran')); ?>"
                                 class="flex items-center gap-2 text-sm text-gray-400 no-underline transition-colors hover:text-white"><i
                                     class="fas fa-chevron-right text-[9px] text-[#15803d]/50"></i>Mata Pelajaran</a>
                         </li>
-                        <li><a href="{{ route('peraturan') }}"
+                        <li><a href="<?php echo e(route('peraturan')); ?>"
                                 class="flex items-center gap-2 text-sm text-gray-400 no-underline transition-colors hover:text-white"><i
                                     class="fas fa-chevron-right text-[9px] text-[#15803d]/50"></i>Peraturan Sekolah</a>
                         </li>
-                        <li><a href="{{ route('prestasi.index') }}"
+                        <li><a href="<?php echo e(route('prestasi.index')); ?>"
                                 class="flex items-center gap-2 text-sm text-gray-400 no-underline transition-colors hover:text-white"><i
                                     class="fas fa-chevron-right text-[9px] text-[#15803d]/50"></i>Prestasi</a></li>
-                        <li><a href="{{ route('facilities') }}"
+                        <li><a href="<?php echo e(route('facilities')); ?>"
                                 class="flex items-center gap-2 text-sm text-gray-400 no-underline transition-colors hover:text-white"><i
                                     class="fas fa-chevron-right text-[9px] text-[#15803d]/50"></i>Fasilitas</a></li>
-                        <li><a href="{{ route('gallery') }}"
+                        <li><a href="<?php echo e(route('gallery')); ?>"
                                 class="flex items-center gap-2 text-sm text-gray-400 no-underline transition-colors hover:text-white"><i
                                     class="fas fa-chevron-right text-[9px] text-[#15803d]/50"></i>Galeri</a></li>
-                        <li><a href="{{ route('konsultasi') }}"
+                        <li><a href="<?php echo e(route('konsultasi')); ?>"
                                 class="flex items-center gap-2 text-sm text-gray-400 no-underline transition-colors hover:text-white"><i
                                     class="fas fa-chevron-right text-[9px] text-[#15803d]/50"></i>Konsultasi</a></li>
                     </ul>
                 </div>
 
-                {{-- Kontak - FIXED: no inline array in @foreach --}}
+                
                 <div>
                     <h4 class="text-[10px] font-extrabold uppercase tracking-[.14em] text-[#4ade80]/50 mb-5">Kontak
                     </h4>
@@ -690,7 +695,7 @@
                         </div>
 
                     </div>
-                    <a href="{{ route('konsultasi') }}"
+                    <a href="<?php echo e(route('konsultasi')); ?>"
                         class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-bold transition-all hover:-translate-y-0.5"
                         style="background:rgba(21,128,61,.17);color:#4ade80">
                         <i class="text-xs fas fa-comments"></i> Kirim Pertanyaan
@@ -707,7 +712,7 @@
                     </a>
                 </div>
 
-                {{-- Jam Operasional - FIXED: no inline array in @foreach --}}
+                
                 <div>
                     <h4 class="text-[10px] font-extrabold uppercase tracking-[.14em] text-[#4ade80]/50 mb-5">Jam
                         Operasional</h4>
@@ -731,7 +736,7 @@
                         </div>
                         <p class="mb-2 text-xs leading-relaxed text-gray-500">Pendaftaran peserta didik baru dibuka
                             setiap awal tahun ajaran.</p>
-                        <a href="{{ route('ppdb') }}"
+                        <a href="<?php echo e(route('ppdb')); ?>"
                             class="text-xs font-bold text-[#EAB308] hover:text-yellow-300 inline-flex items-center gap-1 no-underline transition-colors">
                             Lihat info SPMB <i class="fas fa-arrow-right text-[10px]"></i>
                         </a>
@@ -742,8 +747,8 @@
 
             <div class="flex flex-col items-center justify-between gap-3 md:flex-row pt-7">
                 <p class="text-xs text-gray-600">
-                    &copy; {{ date('Y') }} <span
-                        class="font-semibold text-gray-500">{{ config('app.name') }}</span>. Semua hak dilindungi.
+                    &copy; <?php echo e(date('Y')); ?> <span
+                        class="font-semibold text-gray-500"><?php echo e(config('app.name')); ?></span>. Semua hak dilindungi.
                 </p>
                 <div class="flex items-center gap-1 text-xs">
                     <a href="#"
@@ -799,8 +804,9 @@
         })();
     </script>
 
-    @stack('scripts')
-    @livewireScripts
+    <?php echo $__env->yieldPushContent('scripts'); ?>
+    <?php echo \Livewire\Mechanisms\FrontendAssets\FrontendAssets::scripts(); ?>
+
 </body>
 
 </html>
