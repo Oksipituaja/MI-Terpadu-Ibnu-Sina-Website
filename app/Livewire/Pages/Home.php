@@ -29,7 +29,6 @@ class Home extends Component
         }
         return ['icon' => 'fas fa-star', 'bgStyle' => 'background:linear-gradient(135deg,#10b981,#059669)', 'textStyle' => 'color:#059669'];
     }
-
     public function render()
     {
         $latestNews = Cache::remember('home.latest_news', 60, function () {
@@ -39,50 +38,45 @@ class Home extends Component
                 ->limit(3)
                 ->get();
         });
-
         $galleries = Cache::remember('home.random_galleries', 300, function () {
             return Gallery::select(['id', 'title', 'slug', 'featured_image', 'category'])
                 ->inRandomOrder()
                 ->limit(6)
                 ->get();
         });
-
         $facilities = Cache::remember('home.all_facilities', 300, function () {
             return Facility::select(['id', 'name', 'slug', 'description', 'featured_image', 'icon'])
                 ->get();
         });
-
         $teachers = Cache::remember('home.featured_teachers', 300, function () {
             return Teacher::select(['id', 'name', 'subject', 'featured_image', 'slug'])
                 ->limit(3)
                 ->get();
         });
-
-        $today = Carbon::today();
-        $agendas = Cache::remember('home.upcoming_agendas', 300, function () use ($today) {
-            return Agenda::select(['id', 'title', 'description', 'event_date', 'event_time', 'location', 'status', 'slug'])
-                ->whereIn('status', ['upcoming', 'ongoing'])
-                ->orderByRaw('CASE WHEN event_date >= ? THEN 0 ELSE 1 END, event_date ASC', [$today])
+        $todayStr = Carbon::today()->format('Y-m-d');
+        $agendas = Cache::remember('home.upcoming_agendas', 300, function () use ($todayStr) {
+            return Agenda::select(['id', 'title', 'description', 'event_date', 'event_time', 'location', 'slug'])
+                ->where('event_date', '>=', $todayStr)
+                ->orderByRaw("
+                    CASE WHEN event_date = '{$todayStr}' THEN 0 ELSE 1 END,
+                    event_date ASC,
+                    event_time ASC
+                ")
                 ->limit(4)
                 ->get();
         });
-
         $principalGreeting = Cache::remember('about.principal_greeting', 60, function () {
             return About::where('key', 'principal_greeting')->first();
         });
-
-        // KEY BENAR: 'home_hero_image' khusus untuk hero section di halaman Home
         $heroImage = Cache::remember('about.home_hero_image', 300, function () {
             return About::where('key', 'home_hero_image')->first();
         });
-
         $prestasis = Cache::remember('home.featured_prestasis', 300, function () {
             return Prestasi::where('status', 'published')
                 ->orderBy('achievement_date', 'desc')
                 ->limit(3)
                 ->get();
         });
-
         return view('livewire.pages.home', [
             'latestNews'        => $latestNews,
             'galleries'         => $galleries,
